@@ -1,0 +1,96 @@
+<style>
+.ng-table-pager {
+    display: none;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Admin</a></li>
+    <li><a href="#">Store Creation</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong>Store Creation</strong> </h3> </div>
+                <div class="panel-body">
+                    <form name="addstoreForm" novalidate>
+                        <div class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Store Name</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control " name="StoreName" ng-model="store.StoreName" required>
+                                    <span ng-show="addstoreForm.$submitted && addstoreForm.StoreName.$error.required">
+                                        Store Name is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left ">Address</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="StoreAddress1" ng-model="store.StoreAddress1" required></textarea>
+                                    <span ng-show="addstoreForm.$submitted && addstoreForm.StoreAddress1.$error.required">
+                                        Address is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">City</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control" name="StoreAddress2" ng-model="store.StoreAddress2" required>
+                                    <span ng-show="addstoreForm.$submitted && addstoreForm.StoreAddress2.$error.required">
+                                        City is required.
+                                    </span>
+                                </div>                                
+                            </div>
+                             <div class="form-group">
+                                <label class="control-label col-md-6 text-left">No. of Shifts</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="NoOfShifts" ng-model="store.NoOfShifts" required>
+                                    <span ng-show="addstoreForm.$submitted && addstoreForm.NoOfShifts.$error.required">
+                                        No of Shifts is required.
+                                    </span>
+                                </div>                                
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">State</label>
+                                <div class="col-md-6 ">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="State" id="State" ng-model="store.State">
+                                        <!-- ngRepeat: shift in shifts -->
+                                        <option value="" selected="selected">Select State</option>
+                                        <option value="TN">TN</option>
+                                        <option value="AL">AL</option>
+                                        <option value="TX">TX</option>
+                                        <option value="CA">CA</option>
+                                        <option value="NY">NY</option>
+                                        <!-- end ngRepeat: shift in shifts -->
+                                    </select>
+                                    <span ng-show="addstoreForm.$submitted && addstoreForm.State.$error.required">
+                                        State is required.
+                                    </span>
+                                </div>
+                            </div>   
+                                             
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="addNewStore();"  >
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                            <button class="col-md-3 btn btn-default" type="reset" ng-click="storereset(store);">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+            </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">                    
+                    <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'StoreName'" filter="{ StoreName: 'text'}" sortable="'StoreName'">{{row.StoreName}}</td>
+                            <td class="text-center" title="'State'" filter="{ State: 'text'}" sortable="'State'">{{row.State}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>  

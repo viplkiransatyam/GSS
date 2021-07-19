@@ -1,0 +1,181 @@
+﻿<html>
+<head>
+    <title>GSS</title>
+</head>
+<body ng-controller="ReportLedgerController" class="col-lg-12" style="margin-top: 20px;">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1> <a class="navbar-brand" href="index.html">GSS</a></h1>
+            </div>
+            <div class="border-bottom">
+                <div class="drop-men">
+                    <ul class="nav_1">
+                        <li class="dropdown" style="margin-right: 28px;margin-top: 14px;">
+                            <a class="dropdown-toggle dropdown-at" data-toggle="dropdown" style="cursor:pointer"><span class="name-caret">{{username}}<i class="caret"></i></span><i class="fa fa-user"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#/"><i class="fa fa-user"></i>Profile</a></li>
+                                <li><a ng-click="logout()" style="cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#/dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/stores" class="hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Store Configuration</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/dailystorebasis" class="hvr-bounce-to-right"><i class="fa fa-building-o nav_icon"></i> <span class="nav-label">Store Management</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()" ng-show="storeType">
+                            <a href="#/openingbalanceupdate" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Opening Balance</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/accountcreationstore" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Account Creation</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/unlockDay" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Unlock Day</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/ReportLedger" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Report Ledger</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/monthlyreport" class="hvr-bounce-to-right"><i class="fa fa-list nav_icon"></i> <span class="nav-label">Reports</span></a>
+                        </li>
+                        <li>
+                            <a href="#/BalanceSheet" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Profit and Loss Account</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/creategroups" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Reports Configuration</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="content-main">
+                <!--banner-->
+                <!--   <div class="banner">
+                      <h2>
+                      <a href="index.html">home</a>
+                      <i class="fa fa-angle-right"></i>
+                      <span>dashboard</span>
+                      </h2>
+                  </div> -->
+                <!--//banner-->
+                <!--content-->
+                <div class="content-top">
+                    <div id="processing" ng-show="loading"><center><img src="/App/img/loading2.gif" style="margin-top: 107px;" /></center></div>
+                    <div id="wrapper">
+                        <div class="pull-right">
+                            <span>Today's Date: {{date | date:'dd-MM-yyyy'}}</span>
+                        </div>
+                        <!--<span class="fa fa-calendar pull-left" style="font-size:20px;"></span>
+                        <div class="col-sm-3">
+                            <input type="date" id="datepicker" class="datepicker form-control" ng-model="myDate" ng-change="getDaySaleDetails(myDate);" />
+                        </div>
+                        <span class="pull-left" style="font-size:15px;">{{myDate | date:'dd-MMM-yyyy'}}</span>-->
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <br />
+            <div class="content-mid">
+                <h4 ng-model="StoreName" style="color: #d95459;"><b>{{StoreName.StoreName}}</b></h4><br />
+                <div class="panel panel-default">
+                    <div class="panel-heading">Ledger View</div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form name="ReportLedgerForm" class="form-horizontal">
+                                <div class="form-group" >
+
+                                    <div ng-if="IsAdmin()" class="form-group" ng-class="{ 'has-error' : (accountForm.StoreID.$touched && accountForm.StoreID.$invalid ) }">
+                                        <label for="StoreID" class="col-md-3 form-control-label">Store Name</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" name="StoreID" ng-model="accountcreation.StoreID" ng-options="item.StoreID as item.StoreName for item in stores" required ng-change="getAccounts(accountcreation.StoreID);">
+                                                <option value="">Select Store</option>
+                                            </select>
+                                        </div>
+                                        <div class="help-block" ng-show="accountForm.StoreID.$touched && accountForm.StoreID.$invalid">*This field is required</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="LedgerID" class="col-md-3 form-control-label">Account Name</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" name="LedgerID" ng-model="LedgerID" required ng-options="item.LedgerID as item.LedgerName for item in accounts" ng-change="GetValue();">
+                                                <option value="">Select Account</option>
+                                            </select>
+                                        </div>
+                                        <div class="help-block" ng-show="ReportLedgerForm.LedgerID.$touched && ReportLedgerForm.LedgerID.$invalid">*This field is required</div>
+                                    </div>   
+
+                                    <div class="form-group">
+                                        <label for="FromDate" class="col-md-3 form-control-label">From-Date</label>
+                                        <div class="col-md-4">
+                                            <input type="date" id="fromdatepicker" class="datepicker form-control" ng-model="FromDate" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ToDate" class="col-md-3 form-control-label">To-Date</label>
+                                        <div class="col-md-4">
+                                            <input type="date" id="todatepicker" class="datepicker form-control" ng-model="ToDate" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary pull-right" ng-click="displayLedger()">Display</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="width:auto">
+                                    <table border="1" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Particulars</th>
+                                                <th>Debit</th>
+                                                <th>Credit</th>
+                                                <th>Balance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="r in reportData">
+                                                <td>{{ r.Date  | date:'MM-dd-yyyy' }}</td>
+                                                <td align="left">{{ r.LedgerName }}</td>
+                                                <td align="right">
+                                                    {{ r.Debit | currency : "" }}
+
+                                                </td>
+                                                <td align="right">{{ r.Credit | currency : "" }}</td>
+                                                <td align="right">{{ r.Balance | currency : "" }} {{ r.BalanceType }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

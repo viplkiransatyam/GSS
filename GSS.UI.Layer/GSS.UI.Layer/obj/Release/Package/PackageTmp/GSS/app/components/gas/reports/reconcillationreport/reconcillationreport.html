@@ -1,0 +1,65 @@
+﻿<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">GasReports</a></li>
+    <li><a href="#">Gas Reconcillation Statement</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Gas Reconcillation Statement</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                           
+                            <div class="form-group">
+                                <label for="InputFieldA">From</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="InputFieldB">To</label>
+                                <input type="date" ng-model="toDate" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="getReconcillationReport(fromDate, toDate)">Show</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                        <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+
+                            <tr ng-repeat="row in $data">
+                                <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date }}</td>
+                                <td class="text-center" title="'Card Amount'" filter="{ CardAmount: 'number'}" sortable="'CardAmount'">{{row.CardAmount | currency}}</td>
+                                <td class="text-right" title="'Paid Amount'" filter="{ PaidAmount: 'number'}" sortable="'PaidAmount'">{{row.PaidAmount| currency}}</td>
+                                <td class="text-right" title="'GSS Invoice Amount'" filter="{ GSSInvoiceAmount: 'number'}" sortable="'GSSInvoiceAmount'">{{row.GSSInvoiceAmount| currency}}</td>
+                                <td class="text-right" title="'Credit Transaction'" filter="{ CreditTransaction: 'number'}" sortable="'CreditTransaction'">{{row.CreditTransaction | currency}}</td>
+                                <td class="text-right" title="'Discount'" filter="{ Discount: 'number'}" sortable="'Discount'">{{row.Discount | currency}}</td>
+                                <td class="text-right" title="'Fee'" filter="{ Fee: 'number'}" sortable="'Fee'">{{row.Fee| currency}}</td>
+                                <td class="text-right" title="'Vendor Invoice Amount'" filter="{ VendorInvoiceAmount: 'number'}" sortable="'VendorInvoiceAmount'">{{row.VendorInvoiceAmount| currency}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row" ng-if="reconcillationReportData.length">
+                        <div class="col-md-5">
+                            Difference in Card Amount payments from GSS to Vendor System
+                        </div>
+                        <div class="col-md-1"> {{ DiffcardAmount | currency}}</div>
+                        <div class="clearfix"> </div>
+                        <div class="col-md-5">
+                            Bank Fee charges notified by Vendor
+                        </div>
+                        <div class="col-md-1"> {{bankFeeChargeVendor | currency}} </div>
+                        <div class="clearfix"> </div>
+                        <div class="col-md-5">
+                            Difference in purchase invoice
+                        </div>
+                        <div class="col-md-1">{{purchaseDif | currency}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

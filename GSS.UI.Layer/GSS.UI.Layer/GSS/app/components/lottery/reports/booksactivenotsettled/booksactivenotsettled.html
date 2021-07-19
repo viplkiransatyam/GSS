@@ -1,0 +1,34 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery - Reports</a></li>
+    <li><a href="#">Books Active Not Settled</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Books Active Not Settled</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <!-- <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span> -->
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                          <tr ng-repeat="row in $data">
+                            <td class="text-center" title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID}}</td>
+                            <td class="text-center" title="'PackNo'" filter="{ PackNo: 'number'}" sortable="'PackNo'">{{row.PackNo}}</td>
+                            <td class="text-right" title="'BookAmount'" filter="{ BookAmount: 'number'}" sortable="'BookAmount'">{{row.BookAmount| currency}}</td>
+                            <td class="text-right" title="'SettleAmount'" filter="{ SettleAmount: 'number'}" sortable="'SettleAmount'">{{row.SettleAmount| currency}}</td>                            
+                        </tr> 
+                        <tr>
+                            <td></td>
+                            <td colspan="2"><strong class="pull-right">Total</strong></td>                            
+                            <td><strong class="pull-right">${{BookAmountTotal}}</strong></td>
+                            <td><strong class="pull-right">${{SettleAmountTotal}}</strong></td>
+                        </tr>                   
+                    </table>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

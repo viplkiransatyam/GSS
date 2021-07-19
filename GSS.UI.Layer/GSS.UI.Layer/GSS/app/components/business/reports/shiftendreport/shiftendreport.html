@@ -1,0 +1,218 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">ShiftEnd</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Shift End Report</a></strong></h3>
+                    <div class="pull-right">                           
+                        <div class="form-inline">
+                             <form name="shiftendform" novalidate>
+                                <div class="form-group">
+                                    <label class="control-label">Select Date</label>
+                                    <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Select Shift</label>
+                                    <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                        <option value="">Please Select</option>
+                                        <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                                    </select>
+                                </div>
+                                 <button type="submit" class="btn btn-primary" ng-click="getCashFlow(myDate,ShiftCode)">Show</button>
+                            </form>
+                        </div>                            
+                    </div>
+                </div>
+                <div id="cashentry" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form name="CashEntryForm" class="form-horizontal" novalidate >
+                            <div class="row">                            
+                               <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead><th class="text-center" colspan="2">Cash Inflow</th></thead>
+                                            <tbody>
+                                                <tr ng-repeat="bs in CashEntryDetails | filter: { DisplaySide: 'BS' }">
+                                                    <td ng-if="bs.LedgerName == 'Gas Sale' || bs.LedgerName == 'Lottery Sale'"><a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" ng-click="getDetailedReport(bs.LedgerName)"><strong>{{bs.LedgerName}}</strong></a></td>
+                                                    <td ng-if="bs.LedgerName != 'Gas Sale' && bs.LedgerName != 'Lottery Sale'">{{bs.LedgerName}}</td>
+                                                    <td><input type="text" style="text-align:right;" class="form-control" ng-model="bs.Amount" ng-readonly="true" step="0.001"></td>
+                                                </tr>  
+                                                <tr ng-repeat="bs in CashEntryDetails | filter: { DisplaySide: 'CP' }">
+                                                    <td>{{bs.LedgerName}}</td>
+                                                    <td><input type="text" style="text-align:right;" class="form-control" ng-model="bs.Amount" ng-readonly="true" step="0.001"></td>
+                                                </tr>                                                                                             
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead><th class="text-center" colspan="2">Cash Outflow</th></thead>
+                                            <tbody>
+                                                <tr ng-repeat="bp in CashEntryDetails | filter: { DisplaySide: 'BP' }">
+                                                    <td ng-if="bp.LedgerName == 'Total Bank Deposit' || bp.LedgerName == 'Card Receipt'  || bp.LedgerName == 'Cash Paid'"><a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" ng-click="getDetailedReport(bp.LedgerName)"><strong>{{bp.LedgerName}}</strong></a></td>
+                                                    <td ng-if="bp.LedgerName != 'Total Bank Deposit' && bp.LedgerName != 'Card Receipt' && bp.LedgerName != 'Cash Paid'">{{bp.LedgerName}}</td>
+                                                    <td><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.001" ng-readonly="true"></td>
+                                                </tr>
+                                                <tr ng-repeat="bp in CashEntryDetails | filter: { DisplaySide: 'CB' }">
+                                                    <td ng-if="bp.LedgerName != 'Cash at Store'">{{bp.LedgerName}}</td>
+                                                    <td ng-if="bp.LedgerName != 'Cash at Store'"><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.001" ng-readonly="true"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <table class="table table-condensed table-bordered table-striped" >
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>Total</b></td>
+                                                    <td><b>$ {{bsTotal}}</b></td>
+                                                </tr>
+                                                <tr><td style="height: 29px;"></td><td></td></tr>
+                                                <tr><td style="height: 29px;"></td><td></td></tr>
+                                                <tr><td style="height: 26px;"></td><td></td></tr>
+                                                <tr>
+                                                    <td><b>Grand Total</b></td>
+                                                    <td><b>{{bsGrandTotal | currency}}</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>Total</b></td>
+                                                    <td><b>{{bpTotal | currency}}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>System Closing Balance</td>
+                                                    <td><b>{{cashentry.CashClosingBalance | currency}}</b></td>
+                                                </tr>                                               
+                                                <tr>
+                                                    <td>Short / Over</td>
+                                                    <td><b>{{shortorover | currency}}</b></td>
+                                                </tr>
+                                                <tr ng-repeat="cb in CashEntryDetails | filter: { DisplaySide: 'CB' }">
+                                                    <td>Cash On Hand</td>
+                                                    <td class="col-sm-6" style="right: 15px;"><b>{{cb.Amount | currency}}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Grand Total</b></td>
+                                                    <td><b>{{bpGrandTotal | currency}}</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>                       
+                            </div>
+                        </form >
+                    </div>
+                </div>
+            </div> 
+        </div>           
+    </div>
+    <!-- Modal -->
+      <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">{{headerTitle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="headerTitle == 'Gas Sale'">
+                   <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'ShiftCode'" filter="{ ShiftCode: 'number'}" sortable="'ShiftCode'">{{row.ShiftCode}}</td>
+                            <td class="text-right" title="'Unlead'" filter="{ Unlead: 'number'}" sortable="'Unlead'">{{row.Unlead| currency}}</td>
+                            <td class="text-right" title="'Premium'" filter="{ Premium: 'number'}" sortable="'Premium'">{{row.Premium| currency}}</td>
+                            <td class="text-right" title="'MidGrade'" filter="{ MidGrade: 'number'}" sortable="'MidGrade'">{{row.MidGrade| currency}}</td>
+                            <td class="text-right" title="'Kirosene'" filter="{ Kirosene: 'number'}" sortable="'Kirosene'">{{row.Kirosene| currency}}</td>
+                            <td class="text-right" title="'Diesel'" filter="{ Diesel: 'number'}" sortable="'Diesel'">{{row.Diesel| currency}}</td>
+                            <td class="text-right" title="'NonEthnol'" filter="{ NonEthnol: 'number'}" sortable="'NonEthnol'">{{row.NonEthnol| currency}}</td>
+                            <td class="text-right" title="'Total'" filter="{ Total: 'number'}" sortable="'Total'">{{row.Total | currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="headerTitle == 'Lottery Sale'">
+                     <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel1('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'ShiftCode'" filter="{ ShiftCode: 'number'}" sortable="'ShiftCode'">{{row.ShiftCode}}</td>
+                            <td class="text-right" title="'InstantSale'" filter="{ InstantSale: 'number'}" sortable="'InstantSale'">{{row.InstantSale| currency}}</td>
+                            <td class="text-right" title="'OnlineSale'" filter="{ OnlineSale: 'number'}" sortable="'OnlineSale'">{{row.OnlineSale| currency}}</td>
+                            <td class="text-right" title="'BookActive'" filter="{ BookActive: 'number'}" sortable="'BookActive'">{{row.BookActive| currency}}</td>
+                            <td class="text-right" title="'CashPaid'" filter="{ CashPaid: 'number'}" sortable="'CashPaid'">{{row.CashPaid| currency}}</td>
+                            <td class="text-right" title="'TotalSale'" filter="{ TotalSale: 'number'}" sortable="'TotalSale'">{{row.TotalSale| currency}}</td>
+                        </tr>
+                        <tr ng-if="$data.length">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right"><strong>{{grandTotal | currency}}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="headerTitle == 'Total Bank Deposit'">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel2('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td class="text-center" title="'LedgerName'" filter="{ LedgerName: 'text'}" sortable="'LedgerName'">{{row.LedgerName}}</td>
+                            <td class="text-right" title="'LedgerSale'" filter="{ LedgerSale: 'number'}" sortable="'LedgerSale'">{{row.LedgerSale| currency}}</td>
+                            <td class="text-right" title="'LedgerPaid'" filter="{ LedgerPaid: 'number'}" sortable="'LedgerPaid'">{{row.LedgerPaid| currency}}</td>
+                            <td class="text-right" title="'Balance'" filter="{ Balance: 'number'}" sortable="'Balance'">{{row.Balance| currency}}</td>
+                            <td class="text-right" title="'Deposit'" filter="{ Deposit: 'number'}" sortable="'Deposit'">{{row.Deposit| currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="headerTitle == 'Card Receipt'">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel3('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td class="text-center" title="'CardName'" filter="{ CardName: 'text'}" sortable="'CardName'">{{row.CardName}}</td>
+                            <td class="text-right" title="'CardAmount'" filter="{ CardAmount: 'number'}" sortable="'CardAmount'">{{row.CardAmount| currency}}</td>
+                        </tr>
+                         <tr ng-if="$data.length">
+                            <td class="text-right"><label><strong>Grand Total</strong></label></td>
+                            <td class="text-right"><label>$ {{CardTotal}}</label></td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="headerTitle == 'Cash Paid'">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel4('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td class="text-center" title="'PaymentRemarks'" filter="{ PaymentRemarks: 'text'}" sortable="'PaymentRemarks'">{{row.PaymentRemarks}}</td>
+                            <td class="text-right" title="'AccountTranType'" filter="{ AccountTranType: 'text'}" sortable="'AccountTranType'">{{row.AccountTranType}}</td>
+                            <td class="text-right" title="'Amount'" filter="{ Amount: 'number'}" sortable="'Amount'">{{row.Amount| currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>          
+        </div>
+      </div>
+</div>

@@ -1,0 +1,267 @@
+﻿<html>
+<head>
+    <title>GSS</title>
+    <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            .scroll {
+                height:590px;
+                overflow-x:scroll; 
+                overflow-y:visible;
+                padding-bottom:1px;       
+            } 
+            .tblTitle{      
+                top:0px;
+                margin-bottom:30px;
+                background:lightblue;
+            }   
+
+            #vertical_scrolling_div{
+                display:inline-block;        
+                *display:inline;
+                height:590px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+               width:89%;
+                margin-left: 61px;
+            }
+
+            #freeze_container{
+                display:inline-block;
+                zoom: 1;
+                *display:inline;
+                vertical-align:top;      
+            }
+            #horizontal_scrolling_div{
+                display: inline-block;
+                zoom: 1;
+                width: 944px;
+                overflow-x: hidden;
+                vertical-align: top;
+            }
+
+            .freeze_table{   
+                background-color: #0099dd;
+                z-index:2;
+            }
+
+            #left_table{
+                width:100px;
+                border:1px solid black;
+            }
+
+            #inner_table{
+                width:400px;
+                overflow:hidden;
+                border:1px solid black;                
+            }
+           @media only screen and (max-width: 500px) {
+            #horizontal_scrolling_div {
+                width: 230px;
+            }
+            #vertical_scrolling_div {
+                width:100%;
+                margin-left: 0px;
+            }
+
+            #inner_table {
+                margin-top: 8px;
+            }
+
+            #left_table {
+                margin-top: 5px;
+            }
+        }   
+    </style>
+</head>
+<body ng-controller="MonthlyReportController" class="col-lg-12" style="margin-top: 20px;">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1> <a class="navbar-brand" href="index.html">GSS</a></h1>
+            </div>
+            <div class="border-bottom">
+                <div class="drop-men">
+                    <ul class="nav_1">
+                        <li class="dropdown" style="margin-right: 28px;margin-top: 14px;">
+                            <a class="dropdown-toggle dropdown-at" data-toggle="dropdown" style="cursor:pointer"><span class="name-caret">{{username}}<i class="caret"></i></span><i class="fa fa-user"></i></a>
+                            <ul class="dropdown-menu" role="menu" style="left: -8em;">
+                                <li><a href="#/changepassword"><i class="fa fa-key"></i>Change Password</a></li>
+                                <li><a ng-click="logout()" style="cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#/dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/stores" class="hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Store Configuration</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/dailystorebasis" class="hvr-bounce-to-right"><i class="fa fa-building-o nav_icon"></i> <span class="nav-label">Store Management</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()" ng-show="storeType">
+                            <a href="#/openingbalanceupdate" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Opening Balance</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/accountcreationstore" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Account Creation</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/unlockDay" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Unlock Day</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/ReportLedger" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Report Ledger</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/monthlyreport" class="hvr-bounce-to-right"><i class="fa fa-list nav_icon"></i> <span class="nav-label">Reports</span></a>
+                        </li>
+                        <li>
+                            <a href="#/BalanceSheet" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Profit and Loss Account</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/creategroups" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Reports Configuration</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="content-main">
+                <!--banner-->
+                <!--   <div class="banner">
+                      <h2>
+                      <a href="index.html">home</a>
+                      <i class="fa fa-angle-right"></i>
+                      <span>dashboard</span>
+                      </h2>
+                  </div> -->
+                <!--//banner-->
+                <!--content-->
+                <div class="content-top">
+                    <div id="processing" ng-show="loading"><center><img src="/App/img/loading2.gif" style="margin-top: 107px;" /></center></div>
+                    <div id="wrapper">
+                        <div class="pull-right">
+                            <span>Today's Date: {{date | date:'dd-MM-yyyy'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+                <div style="background-color: #d95459;padding: 0.8em; color:#fff;">
+                    <h4>Reports</h4>
+                </div>
+            </div>
+            <br />
+            <div class="content-mid">
+                <h4 ng-model="StoreName" style="color: #d95459;"><b>{{StoreName.StoreName}}</b></h4><br />
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#/monthlyreport">Monthly Total</a></li>
+                    <li><a href="#/gasmonthlyreport">Gas Monthly Statement</a></li>
+                    <li><a href="#/groupcustomreport">Group Custom Report</a></li>
+                </ul>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="MonthReportForm" class="form-horizontal">
+                            <div ng-if="IsAdmin()" class="form-group" ng-class="{ 'has-error' : (MonthReportForm.StoreID.$touched && MonthReportForm.StoreID.$invalid ) }">
+                                <label for="StoreID" class="col-md-2 form-control-label">Store Name</label>
+                                <div class="col-md-3">
+                                    <select class="form-control" name="StoreID" ng-model="MonthReport.StoreID" ng-options="item.StoreID as item.StoreName for item in stores" required ng-change="getStoreName(MonthReport.StoreID)">
+                                        <option value="">Select Store</option>
+                                    </select>
+                                </div>
+                                <div class="help-block" ng-show="MonthReportForm.StoreID.$touched && MonthReportForm.StoreID.$invalid">*This field is required</div>
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : (MonthReportForm.Month.$touched && MonthReportForm.Month.$invalid ) }">
+                                <label for="Month" class="col-md-2 form-control-label">Month</label>
+                                <div class="col-md-3">
+                                    <select class="form-control" name="Month" ng-model="MonthReport.Month" required>
+                                        <option value="">Select Month</option>
+                                        <option value="Jan">January</option>
+                                        <option value="Feb">February</option>
+                                        <option value="Mar">March</option>
+                                        <option value="Apr">April</option>
+                                        <option value="May">May</option>
+                                        <option value="Jun">June</option>
+                                        <option value="Jul">July</option>
+                                        <option value="Aug">August</option>
+                                        <option value="Sep">September</option>
+                                        <option value="Oct">October</option>
+                                        <option value="Nov">November</option>
+                                        <option value="Dec">December</option>
+                                    </select>
+                                </div>
+                                <div class="help-block" ng-show="MonthReportForm.Month.$touched && MonthReportForm.Month.$invalid">*This field is required</div>
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : (MonthReportForm.Year.$touched && MonthReportForm.Year.$invalid ) }">
+                                <label for="Year" class="col-md-2 form-control-label">Year</label>
+                                <div class="col-md-3">
+                                    <select class="form-control" name="Year" ng-model="MonthReport.Year" required ng-options="item.YearNo as item.YearNo for item in years">
+                                        <option value="">Select Year</option>
+                                    </select>
+                                </div>
+                                <div class="help-block" ng-show="MonthReportForm.Year.$touched && MonthReportForm.Year.$invalid">*This field is required</div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary pull-right" ng-disabled="MonthReportForm.$invalid" ng-click="getMonthlyTotal(MonthReport)">Display</button>
+                                </div>
+                            </div>
+                            <div style="background-color: #d95459;padding: 4px; color:#fff;">
+                                <center><h3>{{GasStoreName.StoreName}}{{StoreName.StoreName}}({{MonthReport.Month}}-{{MonthReport.Year}})</h3></center>
+                            </div>                           
+                            <div id="vertical_scrolling_div" ng-show="responseData">
+                                <div id="freeze_container">
+                                    <table id="left_table" class="freeze_table table table-striped">
+                                        <thead>
+                                            <tr class='tblTitle'><th>########</th></tr>
+                                            <tr class='tblTitle'><th height="63"><strong>**Date**</strong></th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="final in finalArray"><td style="background-color: #d95459;color: white;">{{final.reportdate | date:'dd-MM-yyyy'}}</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="horizontal_scrolling_div">
+                                    <div table class="shead" style=" width:auto;">
+                                        <table class="table" style="table-layout:fixed;">
+                                            <tr class='tblTitle'><td style="width:147px" ng-repeat="header1 in subHeaders"><strong>{{header1.headerName}}</strong></td></tr>
+                                            <tr class='tblTitle'><td style="width:147px" ng-repeat="header1 in subHeaders"><strong>{{header1.subheaderName}}</strong></td></tr>
+                                        </table>
+                                    </div>
+                                    <table id="inner_table" class="table table-striped" style="table-layout:fixed;">
+                                        <tbody>
+                                            <tr class='tblTitle nhead'><td style="width:147px" ng-repeat="header1 in subHeaders"><strong>{{header1.headerName}}</strong></td></tr>
+                                            <tr class='tblTitle nhead'><td style="width:147px" ng-repeat="header1 in subHeaders"><strong>{{header1.subheaderName}}</strong></td></tr>
+                                            <tr ng-repeat="final in finalArray"><td style="width:147px;text-align: right;" ng-repeat="resultFinal in final.FinalArray"> {{resultFinal.result}}</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>      
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+﻿<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">ReceiveBooks</a></li>
+</ul>
+<!-- END BREADCRUMB -->
+
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-8">
+                <form name="receiveBooksForm" class="form-horizontal" novalidate>
+                    <div class="panel panel-default">
+                        <div class="panel-heading ui-draggable-handle">
+                            <h3 class="panel-title"><strong>Lottery: Receive Books</strong></h3>
+                            <!--<div class="pull-right" ng-include="'components/lottery/shifts.html'"></div>-->
+                        </div>
+                        <div class="panel-body">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <label class="control-label">Scan/Enter Book Serial (3 digit)</label>
+                                        <input type="text" class="form-control" ng-model="gameNumber_1">
+                                        <!--<button class="btn btn-primary" ng-click="addBook(3);">Add Book</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <label class="control-label">Scan/Enter Book Serial (4 digit)</label>
+                                        <input type="text" class="form-control" ng-model="gameNumber_2">
+                                        <button class="btn btn-primary" ng-click="addBook();">Add Book</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <table class="table table-condensed table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SlNo</th>
+                                                <th>Game No.</th>
+                                                <th>Pack No.</th>
+                                                <th>No. of Tickets</th>
+                                                <th>Game Name</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!gamesAdded.length">
+                                                <td colspan="5" class="text-center">No books has been received yet. Scan to add received books</td>
+                                            </tr>
+                                            <tr ng-repeat="gamee in gamesAdded track by $index">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{gamee.GameID}}</td>
+                                                <td>{{gamee.PackNo}}</td>
+                                                <td>{{gamee.NoOfTickets}}</td>
+                                                <td>{{gamee.GameName}}</td>
+                                                <td>
+                                                    <i class="glyphicon glyphicon-trash" ng-click="removeReceivedBook($index, game)"></i>
+                                                    <!--<input type="button" value="X" ng-click="removeReceivedBook($index, game)" class="btn btn-danger btn-sm">-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="panel-footer" ng-if="gamesAdded.length">
+                                        <button class="btn btn-primary pull-right" ng-click="saveReceivedBooks()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4" ng-hide="hideBelowTable">
+                <div class="panel panel-default">
+                    <div class="panel-heading ui-draggable-handle">
+                        <h3 class="panel-title"><strong>Received Books for Date: {{myDate | date:'dd-MMM-yyyy'}}</strong></h3>
+                        <!--<div class="pull-right" ng-include="'components/lottery/shifts.html'"></div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SlNo</th>
+                                    <th>Game No.</th>
+                                    <th>Pack No.</th>
+                                    <th>No. of Tickets</th>
+                                    <th>Game Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!todayAddedGames.length">
+                                    <td colspan="5" class="text-center">No books has been received yet. Scan to add received books</td>
+                                </tr>
+                                <tr ng-repeat="gamee in todayAddedGames track by $index">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{gamee.GameID}}</td>
+                                    <td>{{gamee.PackNo}}</td>
+                                    <td>{{gamee.NoOfTickets}}</td>
+                                    <td>{{gamee.GameName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

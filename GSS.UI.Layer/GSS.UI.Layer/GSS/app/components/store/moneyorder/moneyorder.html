@@ -1,0 +1,68 @@
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">ActiveBooks</a></li>
+</ul>
+<!-- END BREADCRUMB -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading ui-draggable-handle">
+                    <h3 class="panel-title"><strong>Business:</strong> Money Order</h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <label for="ShiftCode">Type of Payment</label>
+                                                <select class="form-control select2 ng-pristine ng-untouched ng-valid ng-empty" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                                    <option value="">Please Select</option>
+                                                    <option>Cash</option>
+                                                    <option>MO</option>
+                                                    <option>Cheque</option>
+                                                    <option>Cashier Cheque</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="control-label">Amount</label>
+                                                <div>
+                                                    <input type="text" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="purchaseInvoice.BillOfLading" ng-required="true" required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="control-label">&nbsp;</label>
+                                                <div>
+                                                    <button class="btn btn-default">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Payment Mode</th>
+                                                    <th>Amount</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row form-group">
+                                            <div class="col-md-12">
+                                                <input type="button" value="Save" class="btn btn-primary pull-right" />
+                                            </div>
+                                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

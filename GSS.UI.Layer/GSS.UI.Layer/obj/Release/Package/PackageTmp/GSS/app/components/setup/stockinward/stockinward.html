@@ -1,0 +1,117 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Gas</a></li>
+    <li><a href="#">Stock Inward</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+     <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <form name="deliveryForm" class="form-horizontal" novalidate>
+                    <div class="panel-heading ui-draggable-handle">
+                        <h4 class="panel-title">
+                                <strong>Gas: Stock Inward</strong>
+                        </h4>
+                    </div>
+                    <div class="panel-body" id="accOneColTwo">
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="control-label">Bill of Lading</label>
+                                <input type="text" class="form-control" ng-model="deliveryRepeatInput.BillOfLading" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Due Date</label>
+                                <input type="date" class="form-control" ng-model="deliveryRepeatInput.DueDate" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label class="control-label">Select Gas Type</label>
+                                <div>
+                                    <select class="form-control select2" name="GasTypeName" id="GasTypeName" ng-model="deliveryRepeatInput.GasTypeID">
+                                        <option value="">Please Select</option>
+                                        <option ng-repeat="gas in GasSale" value="{{gas.GasTypeID}}">{{gas.GasTypeName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Gross Gallons</label>
+                                <div>
+                                    <input type="text" style="text-align:right;" class="form-control" ng-model="deliveryRepeatInput.GrossGallons" placeholder="0.000" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" ng-blur="GrossGallonsDecimals(deliveryRepeatInput.GrossGallons)" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Net Gallons</label>
+                                <input type="text" style="text-align:right;" class="form-control" ng-model="deliveryRepeatInput.NetGallons" placeholder="0.000" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" ng-blur="NetGallonsDecimals(deliveryRepeatInput.NetGallons)" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <button class="btn btn-primary" id="addDelivery" ng-click="addDelivery(deliveryRepeatInput);">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Bill Of Lading</th>
+                                    <th>Due Date</th>
+                                    <th>Gas Type</th>
+                                    <th ng-hide="true"></th>
+                                    <th>Gross Gallons</th>
+                                    <th>Net Gallons</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="inputTableRow">
+                                <tr ng-repeat="Item in deliveryRepeat">
+                                    <td>{{Item.BillOfLading}}</td>
+                                    <td>{{Item.DueDate}}</td>
+                                    <td>{{Item.GasTypeName}}</td>
+                                    <td ng-hide="true">{{Item.GasTypeID}}</td>
+                                    <td style="text-align:right;">{{Item.GrossGallons}}</td>
+                                    <td style="text-align:right;">{{Item.NetGallons}}</td>
+                                    <td><i class="glyphicon glyphicon-trash" ng-click="RemoveDelivery(Item)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <button class="btn btn-primary pull-right" id="savedelivery" ng-model="deliveryRepeatInput.saveDelivery" ng-click="saveDelivery();">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿<style type="text/css">
+    .myGrid {
+        width: 500px;
+        height: 230px;
+    }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Lottery</a></li>
+    <li><a href="#">Stock</a></li>
+    <li><a href="#">Lottery Games</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Lottery Games</strong></h3>
+
+                </div>
+                <div class="panel-body">
+                    <span id="lotterygamesReports" class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tbllotterygamesReport')"></span>
+                    <table ng-table="tableParams" id="tbllotterygamesReport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID | number}}</td>
+                            <td class="text-center" title="'GameDescription'" filter="{ GameName: 'text'}" sortable="'GameName'">{{row.GameName}}</td>
+                            <td class="text-right" title="'No Of Tickets'" filter="{ NoOfTickets: 'number'}" sortable="'NoOfTickets'">{{row.NoOfTickets| number}}</td>
+                            <td class="text-right" title="'Ticket Value'" filter="{ TicketValue: 'number'}" sortable="'TicketValue'">{{row.TicketValue| currency}}</td>
+                            <td class="text-right" title="'Book Value'" filter="{ BookValue: 'number'}" sortable="'BookValue'">{{row.BookValue| currency}}</td>
+                            <td class="text-right" title="'Starting Number'" filter="{ TicketStartNumber: 'number'}" sortable="'TicketStartNumber'">{{row.TicketStartNumber| number}}</td>
+                            <td class="text-right" title="'Ending Number'" filter="{ TicketEndNumber: 'number'}" sortable="'TicketEndNumber'">{{row.TicketEndNumber| number}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

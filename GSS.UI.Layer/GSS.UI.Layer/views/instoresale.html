@@ -1,0 +1,193 @@
+﻿<html>
+<head>
+    <title>GSS</title>
+</head>
+<body ng-controller="InStoreSalesController" class="col-lg-12" style="margin-top: 20px;">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1> <a class="navbar-brand" href="index.html">GSS</a></h1>
+            </div>
+            <div class="border-bottom">
+                <div class="drop-men">
+                    <ul class="nav_1">
+                        <li class="dropdown" style="margin-right: 28px;margin-top: 14px;">
+                            <a class="dropdown-toggle dropdown-at" data-toggle="dropdown" style="cursor:pointer"><span class="name-caret">{{username}}<i class="caret"></i></span><i class="fa fa-user"></i></a>
+                            <ul class="dropdown-menu" role="menu" style="left: -8em;">
+                                <li><a href="#/changepassword"><i class="fa fa-key"></i>Change Password</a></li>
+                                <li><a ng-click="logout()" style="cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#/dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/stores" class="hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Store Configuration</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/dailystorebasis" class="hvr-bounce-to-right"><i class="fa fa-building-o nav_icon"></i> <span class="nav-label">Store Management</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()" ng-show="storeType">
+                            <a href="#/openingbalanceupdate" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Opening Balance</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/accountcreationstore" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Account Creation</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/unlockDay" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Unlock Day</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/ReportLedger" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Report Ledger</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/monthlyreport" class="hvr-bounce-to-right"><i class="fa fa-list nav_icon"></i> <span class="nav-label">Reports</span></a>
+                        </li>
+                        <li>
+                            <a href="#/BalanceSheet" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Profit and Loss Account</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/creategroups" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Reports Configuration</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="content-main">
+                <!--banner-->
+                <!--   <div class="banner">
+                      <h2>
+                      <a href="index.html">home</a>
+                      <i class="fa fa-angle-right"></i>
+                      <span>dashboard</span>
+                      </h2>
+                  </div> -->
+                <!--//banner-->
+                <!--content-->
+                <div class="content-top">
+                    <div id="processing" ng-show="loading"><center><img src="/App/img/loading2.gif" style="margin-top: 107px;" /></center></div>
+                    <div id="wrapper">
+                        <!--<div class="pull-right">
+                            <span>Today's Date: {{date | date:'dd-MM-yyyy'}}</span>
+                        </div>-->
+                        <span class="fa fa-calendar pull-left" style="font-size:20px;"></span>
+                        <div class="col-sm-3">
+                            <input type="date" id="datepicker" class="datepicker form-control" ng-model="myDate" ng-change="getDaySaleDetails(myDate);" />
+                        </div>
+                        <span class="pull-left" style="font-size:15px;">{{myDate | date:'dd-MMM-yyyy'}}</span>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <br />
+            <div class="content-mid">
+                <h4 ng-model="StoreName" style="color: #d95459;"><b>{{StoreName.StoreName}}</b></h4><br />
+                <ul class="nav nav-tabs">
+                    <li ng-show="storeType"><a href="#/dailystorebasis">Gas Station</a></li>
+                    <li><a href="#/lottery">Lottery</a></li>
+                    <li><a href="#/storepaymetns">In store-Payments</a></li>
+                    <li class="active"><a href="#/storesales">In store Sale</a></li>
+                    <li><a href="#/receipts">Receipts/Buy Down</a></li>
+                    <li><a href="#/bankdeposits">Bank Deposit(s)</a></li>
+                    <li><a href="#/purchases">Purchases</a></li>
+                    <li><a href="#/chequecashing">ChequeCashing</a></li>
+                    <li><a href="#/chequedeposit">ChequesDeposit</a></li>
+                </ul>
+                <div class="panel panel-default">
+                    <form name="inStoreSalesForm" class="form-horizontal" novalidate>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-body text-center"><b>Sale</b></div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <table class="tbl" style="width:90%;">
+                                        <tbody>
+                                            <tr ng-repeat="bs in BusinessSaleCollection | filter: { DisplaySide: 'BS' }">
+                                                <td>{{bs.LedgerName}}</td>
+                                                <td ng-if="bs.DisplayType=='Write'"><input type="text" style="text-align:right;" class="form-control" id="BSAmount{{$index}}" name="BSAmount{{$index}}" ng-model="bs.Amount" ng-blur="getTotal(BusinessSaleCollection)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00" ng-required="getValidations"> <p class="help-block" ng-show="inStoreSalesForm.BSAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p></td>
+                                                <td ng-if="bs.DisplayType=='ReadOnly'"><input type="text" style="text-align:right;" class="form-control" ng-model="bs.Amount" ng-readonly="true" step="0.01" ng-init="init(BusinessSaleCollection)"></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-sm-6">
+                                    <table class="tbl" style="width:90%;">
+                                        <tbody>
+                                            <tr ng-repeat="bp in BusinessSaleCollection | filter: { DisplaySide: 'BP' }">
+                                                <td>{{bp.LedgerName}}</td>
+                                                <td ng-if="bp.DisplayType=='Write'"><input type="text" style="text-align:right;" class="form-control" id="BPAmount{{$index}}" name="BPAmount{{$index}}" ng-model="bp.Amount" ng-blur="getTotal(BusinessSaleCollection)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00" ng-required="getValidations"> <p class="help-block" ng-show="inStoreSalesForm.BPAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p></td>
+                                                <td ng-if="bp.DisplayType=='ReadOnly'"><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.01" ng-readonly="true" ng-init="init(BusinessSaleCollection)"></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <hr style="border:1px solid black;" />
+                                <table class="tbl" style="width:40%">
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Total</b></td>
+                                            <td><b>$ {{inSaleAccounts.bsTotal}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="position: relative;top: 80px;"><b>Grand Total</b></td>
+                                            <td style="position: relative;top: 80px;"><b> $ {{inSaleAccounts.bsGrandTotal}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6">
+                                <hr style="border:1px solid black;" />
+                                <table class="tbl" style="width:70%">
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Total</b></td>
+                                            <td><b>$ {{inSaleAccounts.bpTotal}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diff Amount</td>
+                                            <td><b>$ {{inSaleAccounts.diffamount}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Short / Over</td>
+                                            <td><b>$ {{inSaleAccounts.shortorover}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cash On Hand</td>
+                                            <td class="col-sm-6" style="right: 15px;"><input type="text" style="text-align:right;" id="CashPhysicalAtStore" name="CashPhysicalAtStore" class="form-control" ng-model="inSaleAccounts.CashPhysicalAtStore" ng-blur="getShortOrOver(inSaleAccounts.CashPhysicalAtStore);" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00" ng-required="getValidations" /> <p class="help-block" ng-show="inStoreSalesForm.CashPhysicalAtStore.$error.pattern" style="color:red;">*Not a valid number!</p></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Grand Total</b></td>
+                                            <td><b>$ {{inSaleAccounts.bpGrandTotal}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="border: 1px;padding-bottom: 217px;"><button class="btn btn-primary pull-right" ng-click="saveSalesTransactions() || inStoreSalesForm.$invalid" ng-disabled="instoreSales" style="margin-right: 25px;">Save</button></div>
+                    </form>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+</body>
+</html>

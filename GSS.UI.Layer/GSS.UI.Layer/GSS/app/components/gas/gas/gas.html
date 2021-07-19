@@ -1,0 +1,249 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">GasSale</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading ui-draggable-handle">
+                    <h3 class="panel-title"><strong>Gas: Sales</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="">
+                        <div class="panel-group accordion">
+                            <div class="panel panel-info">
+                                <form name="gasStationForm" class="form-horizontal" novalidate>
+                                    <div class="panel-heading ui-draggable-handle">
+                                        <h4 class="panel-title">
+                                            <a ng-click="showPanelsOne()" style="cursor:pointer;">
+                                                Sales
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-body" id="accOneColOne" style="display: block;">
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-3">Gas Type</th>
+                                                    <th>Totalizer</th>
+                                                    <th>Gallons</th>
+                                                    <th>Amount</th>
+                                                    <th>Average Price</th>
+                                                    <th>Set Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="gas in GasSale">
+                                                    <td><strong>{{gas.GasTypeName}}</strong></td>
+                                                    <td>
+                                                        <input type="text" style="text-align:right;" class="form-control" id="Totalizer{{$index}}" name="Totalizer{{$index}}" ng-model="gas.Totalizer" ng-blur="grandtotalTotalizer(GasSale)" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="gasStationForm.Totalizer{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" style="text-align:right;" class="form-control" id="Gallons{{$index}}" name="Gallons{{$index}}" ng-model="gas.SaleGallons" placeholder="0.000" ng-blur="validateTotalizer(GasSale)" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="gasStationForm.Gallons{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" style="text-align:right;" class="form-control" id="Amount{{$index}}" name="Amount{{$index}}" ng-model="gas.SaleAmount" placeholder="0.00" ng-blur="calculatePerGallon(GasSale)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="gasStationForm.Amount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" style="text-align:right;" class="form-control" name="Price{{$index}}" ng-model="gas.SalePrice" ng-readonly="true" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" style="text-align:right;" class="form-control" id="Price{{$index}}" name="Price{{$index}}" ng-model="gas.SetPrice" placeholder="0.00" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' ng-blur="getSetprice(GasSale)" step="0.01" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="gasStationForm.Price{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Grand Total</b></td>
+                                                    <td ng-model="gasStation.TotalTotalizer" style="text-align:right;"><b> {{gasStation.TotalTotalizer}}</b></td>
+                                                    <td ng-model="gasStation.TotalSaleGallons" style="text-align:right;"><b> {{gasStation.TotalSaleGallons}}</b></td>
+                                                    <td ng-model="gasStation.TotalSale" style="text-align:right;"><b>$ {{gasStation.TotalSale}}</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <button name="saleSection" ng-model="gasStation.saleSection" ng-click="saleSection(GasSale)" ng-disabled="saleSectionSave || gasStationForm.$invalid " class="btn btn-primary pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel panel-info">
+                            	<div class="panel-heading ui-draggable-handle">
+                                    <h4 class="panel-title">
+                                        <a ng-click="showPanelsFour()" style="cursor:pointer;">
+                                            Opening Balance
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div class="panel-body" id="accOneColFour" style="display: none;">
+                                	<table class="table table-condensed table-striped">    
+                                		<thead>
+                                                <tr>
+                                                    <th style="white-space:nowrap">TankName: [{{TankName}}]</th>
+                                                    <th ng-repeat="gas in GasInventory | filter: filterData">
+                                                        {{gas.GasTypeName}}
+                                                    </th>
+                                                    <th><div class="help-block" ng-show="info" style="color:red">No OilTypes with out Gas Consuction Formuale</div></th>
+                                                </tr>
+                                            </thead>                                       
+                                        <tbody>
+                                    		<tr>
+												<th>Opening Balance</th>
+    											<td ng-repeat="balance in GasInventory | filter: filterData">
+        											<input type="text" style="text-align:right;" class="form-control" name="balance{{$index}}" ng-model="balance.OpeningBalance" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" readonly />
+        											<p class="help-block" ng-show="inventoryForm.balance{{$index}}.$invalid && inventoryForm.balance{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+    											</td>
+											</tr>
+                                            <tr>
+                                                <th>Closing Balance</th>
+                                                <td ng-repeat="balance in GasInventory | filter: filterData"><input type="text" style="text-align:right;" class="form-control" name="balance{{$index}}" step="0.001" placeholder="0.000" readonly value="{{balance.SystemClosingBalance}}" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <form name="inventoryForm" class="form-horizontal" novalidate>
+                                    <div class="panel-heading ui-draggable-handle">
+                                        <h4 class="panel-title">
+                                            <a ng-click="showPanelsThree()" style="cursor:pointer;">
+                                                Tank Reading
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-body" id="accOneColThree" style="display: none;">
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="white-space:nowrap">TankName: [{{TankName}}]</th>
+                                                    <th ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        {{gas.GasTypeName}}
+                                                    </th>
+                                                    <th><div class="help-block" ng-show="info" style="color:red">No OilTypes with out Gas Consuction Formuale</div></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody> 
+                                            	<tr>
+                                                    <th>Tank Capacity</th>
+                                                    <td ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="tankcapacity{{$index}}" ng-model="gas.TankCapacity" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-required="getValidations" readonly/>
+                                                        <p class="help-block" ng-show="inventoryForm.tankcapacity{{$index}}.$invalid && inventoryForm.tankcapacity{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>                                               
+                                                <tr>
+                                                    <th>Gas Volume</th>
+                                                    <td ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="actualbalance{{$index}}" ng-model="gas.ActualClosingBalance" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.actualbalance{{$index}}.$invalid && inventoryForm.actualbalance{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tank empty space</th>
+                                                    <td ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="emptyspace{{$index}}" ng-model="gas.EmptySpace" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-required="getValidations" readonly/>
+                                                        <p class="help-block" ng-show="inventoryForm.emptyspace{{$index}}.$invalid && inventoryForm.emptyspace{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Water</th>
+                                                    <td ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="stickinches{{$index}}" ng-model="gas.StickInches" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.stickinches{{$index}}.$invalid && inventoryForm.stickinches{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Stick Gallons</th>
+                                                    <td ng-repeat="gas in GasInventory | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="stickgallons{{$index}}" ng-model="gas.StickGallons" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.stickgallons{{$index}}.$invalid && inventoryForm.stickgallons{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-condensed table-striped" ng-show="tanksstatus">
+                                            <thead>
+                                                <tr>
+                                                    <th>TankName: [{{TankName1}}]</th>
+                                                    <th ng-repeat="gas in GasInventory1 | filter: { GasTypeID: '!2' }">
+                                                        {{gas.GasTypeName}}
+                                                    </th>
+                                                    <th><div class="help-block" ng-show="info" style="color:red">No OilTypes with out Gas Consuction Formuale</div></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Opening Balance</th>
+                                                    <td ng-repeat="balance in GasInventory1 | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="balance{{$index}}" ng-model="balance.OpeningBalance" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.balance{{$index}}.$invalid && inventoryForm.balance{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Gas Reading</th>
+                                                    <td ng-repeat="gas in GasInventory1 | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="actualbalance{{$index}}" ng-model="gas.ActualClosingBalance" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" ng-change="enableClosingBalButton(GasInventory)" />
+                                                        <p class="help-block" ng-show="inventoryForm.actualbalance{{$index}}.$invalid && inventoryForm.actualbalance{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Stick Inches</th>
+                                                    <td ng-repeat="gas in GasInventory1 | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="stickinches{{$index}}" ng-model="gas.StickInches" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.stickinches{{$index}}.$invalid && inventoryForm.stickinches{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Stick Gallons</th>
+                                                    <td ng-repeat="gas in GasInventory1 | filter: { GasTypeID: '!2' }">
+                                                        <input type="text" style="text-align:right;" class="form-control" name="stickgallons{{$index}}" ng-model="gas.StickGallons" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000" ng-blur="checkBalance(GasInventory)" ng-required="getValidations" />
+                                                        <p class="help-block" ng-show="inventoryForm.stickgallons{{$index}}.$invalid && inventoryForm.stickgallons{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <button name="saveInventory" class="btn btn-primary pull-right" ng-model="saveInventory" ng-disabled="gasInventory || inventoryForm.$invalid" ng-click="saveInventory()">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

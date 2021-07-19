@@ -1,0 +1,34 @@
+<ul class="breadcrumb">
+    <li><a href="#">Gas</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Sale trend</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Sale trend</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <form id="returnbookFrm" novalidate>                                
+                                <div class="form-group">
+                                    <label for="InputFieldB">Month</label>
+                                    <input type="month" ng-model="month" class="form-control" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" ng-click="GetGasSaleTrend(month)">Show</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">  
+                    <div id="graph1">
+                        <strong>Bar Graph on Gas Types & Total Sale</strong>
+                        <canvas id="myBarChart" width="1076" height="400">></canvas>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>

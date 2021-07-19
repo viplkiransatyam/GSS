@@ -1,0 +1,49 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery</a></li>
+    <li><a href="#">Payments to Lottery Dealer</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Payments to Lottery Dealer</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <!-- <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span> -->
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                          <tr ng-repeat="row in $data | filter: removeTotalFilter">
+                           <td class="text-center" title="'#'"><input type="checkbox" ng-model="row.selected" name="checkboxes" id="check{{$index}}" value="{{row}}"/></td>
+                            <td class="text-center" title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID}}</td>
+                            <td class="text-center" title="'PackNo'" filter="{ PackNo: 'number'}" sortable="'PackNo'">{{row.PackNo}}</td>
+                            <td class="text-center" title="'AutoSettleDate'" filter="{ AutoSettleDate: 'text'}" sortable="'AutoSettleDate'">{{row.AutoSettleDate| date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-right" title="'BookAmount'" filter="{ BookAmount: 'number'}" sortable="'BookAmount'">{{row.BookAmount| currency}}</td>
+                            <td class="text-right" title="'SettleAmount'" filter="{ SettleAmount: 'number'}" sortable="'SettleAmount'">{{row.SettleAmount| currency}}</td>                            
+                        </tr>
+                        <tr><td colspan="4" class="text-right">Total</td><td class="text-right">{{bookamounttotal | currency}}</td><td class="text-right">{{settleamounttotal | currency}}</td></tr>                    
+                    </table>
+                    <div class="panel panel-default">                       
+                        <div class="panel-body">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label>Business Ending</label>
+                                    <input type="date" ng-model="Payments.BusinessEndingDate" class="form-control"/>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Sweep Date</label>
+                                    <input type="date" ng-model="Payments.PaymentSweapDate" class="form-control"/>
+                                </div>                                    
+                                <div class="form-group">
+                                    <label>Total Payment</label>
+                                    <input type="number" ng-model="Payments.TotalPayment" class="form-control"/>
+                                </div> 
+                                <button type="submit" class="btn btn-primary" ng-click="updateLotteryPayment()">Upload Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,288 @@
+<!-- PAGE CONTENT -->
+
+    <!-- START BREADCRUMB -->
+    <ul class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Dashboard</li>
+    </ul>
+    <!-- END BREADCRUMB -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title-box">
+                    <h3><strong>Major:</strong>Reports Links</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <strong><u>Gas - Reports</u></strong>:<br/>
+                <div class="gas" style="padding-left:8%;">
+                    <span><a ui-sref="gasLedger"><span class="xn-text"><strong>Gas Ledger</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="purchaseregister"><span class="xn-text"><strong>Purchase Register</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="gassalereport"><span class="xn-text"><strong>Gas Sale Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="saletrend"><span class="xn-text"><strong>Sale Trend</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="gassalereportmonth"><span class="xn-text"><strong>Sale Report Month</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="shiftendreport"><span class="xn-text"><strong>Shift End Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="gasmonthlyreport"><span class="xn-text"><strong>Monthly Statement</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="profitloss"><span class="xn-text"><strong>Profit & Loss</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="gasreconcillationreport"><span class="xn-text"><strong>Reconciliation Statement</strong></span></a></span>
+                </div>
+                <strong><u>Lottery - Reports</u></strong>:<br/>
+                <div class="lottery" style="padding-left:8%;">
+                    <span><a ui-sref="lotteryinventoryreport"><span class="xn-text"><strong>Inventory Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="activebooksreport"><span class="xn-text"><strong>Active Books Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="lotteryBookReturn"><span class="xn-text"><strong>Return Books</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="paymentdue"><span class="xn-text"><strong>Payment Due</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="lotteryLedger"><span class="xn-text"><strong>Lottery Ledger</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="dayendreport"><span class="xn-text"><strong>Day End Sale Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="lotterysalereport"><span class="xn-text"><strong>Sales Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="salereportmonth"><span class="xn-text"><strong>Sale Report Month</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="saletrendgamewise"><span class="xn-text"><strong>Sale Trend</strong></span></a></span>
+                </div>
+                <strong><u>Business - Reports</u></strong>:<br/>
+                <div class="Business" style="padding-left:8%;">
+                    <span><a ui-sref="businessmonthlyreport"><span class="xn-text"><strong>Monthly Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="businessshiftendreport"><span class="xn-text"><strong>Shift End Report</strong></span></a></span>,&nbsp;&nbsp;&nbsp;<span><a ui-sref="businessledgerreport"><span class="xn-text"><strong>Ledger</strong></span></a></span>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row" ng-if="(AvailLottery == 'Y')?true:false">
+            <div class="col-md-3">
+                <!-- START USERS ACTIVITY BLOCK -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Lottery:</strong>  Previous shift sales</h3>
+                            <!--<span>Consectetur adipiscing elit</span>-->
+                        </div>
+                        <!--<ul class="panel-controls" style="margin-top: 2px;">
+                            <li><a class="" data-toggle="modal" data-target="#consolPopup"><span class="glyphicon glyphicon-plus"></span></a></li>
+                        </ul>-->
+                    </div>
+                    <div class="panel-body padding-0">
+                        <table class="table table-condensed table-bordered">
+                            <tbody>
+                                <tr class="row">
+                                    <td>Date</td>
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].Date | date:'dd-MMM-yyyy'}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Shift</td>
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].ShiftCode}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Instant Sale</td>
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].InstantSale | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Online Sale</td>
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].OnlineSale | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Total Sale</td> 
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].TotalSale | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Book Active</td> 
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].BookActive | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Cash Paid</td> 
+                                    <th class="text-right">{{dashboardData.DashboardPreviousDaySales[0].CashPaid | currency}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- START VISITORS BLOCK -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Lottery:</strong>  Previous shift closing reading</h3>                           
+                        </div>
+                        <span class="pull-right" ng-if="(dashboardData.PreviousShiftBalance.length)">Date:<strong>{{dashboardData.PreviousShiftBalance[0].Date | date:'dd-MMM-yyyy'}}</strong>, Shiftcode:<strong>{{dashboardData.PreviousShiftBalance[0].ShiftCode}}</strong></span>
+                    </div>
+                    <div class="panel-body padding-0">                        
+                        <table class="table table-condensed table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Game Description</th>
+                                    <th>Box No.</th>
+                                    <th>Closing Ticket</th>
+                                </tr>
+                            </thead>
+                            <tbody>                           
+                                <tr ng-repeat="prevShiftClosReading in dashboardData.PreviousShiftBalance | limitTo:7">                                    
+                                    <td>{{prevShiftClosReading.GameName}}</td>
+                                    <td class="text-center">{{prevShiftClosReading.BoxNo}}</td>
+                                    <td class="text-center">{{prevShiftClosReading.EndTicket}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END VISITORS BLOCK -->
+
+            </div>
+                 <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Lottery:</strong> Last 6 Shifts Sales</h3>
+                            <!--<span>Lottery Sales Summary</span>-->
+                        </div>
+                        <!--<ul class="panel-controls" style="margin-top: 2px;">
+                            <li><a class="#"><span class="glyphicon glyphicon-plus"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                    <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
+                                </ul>
+                            </li>
+                        </ul>-->
+                    </div>
+                    <div class="panel-body padding-0">
+                        <div class="chart-holder" id="dashboard-bar-1" style="height: 200px;"></div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+        <div class="row" ng-if="(AvailGas == 'Y')?true:false">
+            <div class="col-md-3">
+                <!-- START USERS ACTIVITY BLOCK -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Gas:</strong>  Previous shift sales</h3>
+                            <!--<span>Consectetur adipiscing elit</span>-->
+                        </div>
+                        <!--<ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a class="" data-toggle="modal" data-target="#consolPopup"><span class="glyphicon glyphicon-plus"></span></a></li>
+                    </ul>-->
+                    </div>
+                    <div class="panel-body padding-0">
+                        <table class="table table-condensed table-bordered">
+                            <tbody>
+                                <tr class="row">
+                                    <td>Date</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Date | date:'dd-MMM-yyyy'}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Shift</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.ShiftCode}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Unlead</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Unlead | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>MidGrade</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.MidGrade | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Premium</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Premium | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Diesel</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Diesel | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Kirosene</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Kirosene | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>NonEthnol</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.NonEthnol | currency}}</th>
+                                </tr>
+                                <tr class="row">
+                                    <td>Total</td>
+                                    <th class="text-right">{{gasdashboardData.Sales.Total | currency}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- START VISITORS BLOCK -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Gas:</strong>  Inventory for last shift</h3>                            
+                        </div>
+                        <span class="pull-right" ng-if="(gasdashboardData.Inventory.length)">Date:<strong>{{gasdashboardData.Inventory[0].SaleDate | date:'dd-MMM-yyyy'}}</strong>, Shiftcode:<strong>{{gasdashboardData.Inventory[0].ShiftCode}}</strong></span>
+                    </div>
+                    <div class="panel-body padding-0" style="overflow: scroll; overflow: auto;">
+                        <!--<div class="chart-holder" id="dashboard-donut-1" style="height: 200px;"></div>-->
+                        <table class="table table-condensed table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: smaller;">Description</th>
+                                    <th>Unlead</th>
+                                    <th>MidGrade</th>
+                                    <th>Premium</th>
+                                    <th>Diesel</th>
+                                    <th>Kirosene</th>
+                                    <th>NonEthnol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="inventory in gasdashboardData.Inventory | limitTo:7">                                   
+                                    <td class="text-center">{{inventory.Description}}</td>
+                                    <td class="text-center">{{inventory.Unlead}}</td>
+                                    <td class="text-center">{{inventory.MidGrade}}</td>
+                                    <td class="text-center">{{inventory.Premium}}</td>
+                                    <td class="text-center">{{inventory.Diesel}}</td>
+                                    <td class="text-center">{{inventory.Kirosene}}</td>
+                                    <td class="text-center">{{inventory.NonEthnol}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Gas:</strong> Profit and Loss Report</h3>
+                        </div>
+                        <span class="pull-right" ng-if="(gasDashboardProfitLossData.Data.length)">Date:<strong>{{gasDashboardProfitLossData.Date | date:'dd-MMM-yyyy'}}</strong>, Shiftcode:<strong>{{gasDashboardProfitLossData.ShiftCode}}</strong></span>
+                    </div>
+                    <div class="panel-body padding-0" style="overflow: scroll; overflow: auto;">
+                        <!--<div class="chart-holder" id="dashboard-donut-1" style="height: 200px;"></div>-->
+                        <table class="table table-condensed table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: smaller;">Gas Type</th>
+                                    <th>Closing Day Profit</th>
+                                    <th>Last Week Profit</th>                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rec in gasDashboardProfitLossData.Data">
+                                    <td class="text-center">{{rec.GasType}}</td>
+                                    <td class="text-center">{{rec.DayProfit}}</td>
+                                    <td class="text-center">{{rec.WeekProfit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END VISITORS BLOCK -->
+
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3><strong>Gas:</strong> Last 6 Shifts Sales</h3>
+                            <!--<span>Lottery Sales Summary</span>-->
+                        </div>
+                    </div>
+                    <div class="panel-body padding-0">
+                        <div class="chart-holder" id="dashboard-bar-2" style="height: 200px;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- END DASHBOARD CHART -->
+
+    </div>
+    <!-- END PAGE CONTENT WRAPPER -->
+
+<!-- END PAGE CONTENT -->

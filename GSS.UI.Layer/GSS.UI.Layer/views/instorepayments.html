@@ -1,0 +1,242 @@
+﻿<html>
+<head>
+    <title>GSS</title>
+</head>
+<body ng-controller="InStorePaymentsController" class="col-lg-12" style="margin-top: 20px;">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1> <a class="navbar-brand" href="index.html">GSS</a></h1>
+            </div>
+            <div class="border-bottom">
+                <div class="drop-men">
+                    <ul class="nav_1">
+                        <li class="dropdown" style="margin-right: 28px;margin-top: 14px;">
+                            <a class="dropdown-toggle dropdown-at" data-toggle="dropdown" style="cursor:pointer"><span class="name-caret">{{username}}<i class="caret"></i></span><i class="fa fa-user"></i></a>
+                            <ul class="dropdown-menu" role="menu" style="left: -8em;">
+                                <li><a href="#/changepassword"><i class="fa fa-key"></i>Change Password</a></li>
+                                <li><a ng-click="logout()" style="cursor:pointer;"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="#/dashboard" class="hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/stores" class="hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Store Configuration</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/dailystorebasis" class="hvr-bounce-to-right"><i class="fa fa-building-o nav_icon"></i> <span class="nav-label">Store Management</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()" ng-show="storeType">
+                            <a href="#/openingbalanceupdate" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Opening Balance</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/accountcreationstore" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Account Creation</span> </a>
+                        </li>
+                        <li ng-if="IsAdmin()">
+                            <a href="#/unlockDay" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Unlock Day</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/ReportLedger" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Report Ledger</span> </a>
+                        </li>
+                        <li>
+                            <a href="#/monthlyreport" class="hvr-bounce-to-right"><i class="fa fa-list nav_icon"></i> <span class="nav-label">Reports</span></a>
+                        </li>
+                        <li>
+                            <a href="#/BalanceSheet" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Profit and Loss Account</span> </a>
+                        </li>
+                        <li ng-if="IsStoreManager()">
+                            <a href="#/creategroups" class="hvr-bounce-to-right"><i class="fa fa-money nav_icon"></i> <span class="nav-label">Reports Configuration</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="content-main">
+                <!--banner-->
+                <!--   <div class="banner">
+                      <h2>
+                      <a href="index.html">home</a>
+                      <i class="fa fa-angle-right"></i>
+                      <span>dashboard</span>
+                      </h2>
+                  </div> -->
+                <!--//banner-->
+                <!--content-->
+                <div class="content-top">
+                    <div id="processing" ng-show="loading"><center><img src="/App/img/loading2.gif" style="margin-top: 107px;" /></center></div>
+                    <div id="wrapper">
+                        <!--<div class="pull-right">
+                            <span>Today's Date: {{date | date:'dd-MM-yyyy'}}</span>
+                        </div>-->
+                        <span class="fa fa-calendar pull-left" style="font-size:20px;"></span>
+                        <div class="col-sm-3">
+                            <input type="date" id="datepicker" class="datepicker form-control" ng-model="myDate" ng-change="getDaySaleDetails(myDate);" />
+                        </div>
+                        <span class="pull-left" style="font-size:15px;">{{myDate | date:'dd-MMM-yyyy'}}</span>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <br />
+            <div class="content-mid">
+                <h4 ng-model="StoreName" style="color: #d95459;"><b>{{StoreName.StoreName}}</b></h4><br />
+                <ul class="nav nav-tabs">
+                    <li ng-show="storeType"><a href="#/dailystorebasis">Gas Station</a></li>
+                    <li><a href="#/lottery">Lottery</a></li>
+                    <li class="active"><a href="#/storepaymetns">In store-Payments</a></li>
+                    <li><a href="#/storesales">In store Sale</a></li>
+                    <li><a href="#/receipts">Receipts/Buy Down</a></li>
+                    <li><a href="#/bankdeposits">Bank Deposit(s)</a></li>
+                    <li><a href="#/purchases">Purchases</a></li>
+                    <li><a href="#/chequecashing">ChequeCashing</a></li>
+                    <li><a href="#/chequedeposit">ChequesDeposit</a></li>
+                </ul>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form name="inStorePaymentsForm" class="form-horizontal" novalidate>
+                            <div class="tab-pane" id="tab3info">
+                                <div class="panel panel-info">
+                                    <div class="panel-body text-center"><b>Cash Payments</b></div>
+                                </div>
+                                <table class="tbl">
+                                    <tbody>
+                                        <tr ng-repeat="ca in AccountPaidRecevableCollection | filter: { AccountTranType: 'CP' }">
+                                            <td><a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" ng-click="getDetailedReport(ca)">{{ca.DisplayName}}</a></td>
+                                            <td>
+                                                <input type="text" style="text-align:right;" class="form-control" id="CPAmount{{$index}}" name="CPAmount{{$index}} " ng-model="ca.Amount" step="0.01" ng-blur="amountPaid(AccountPaidRecevableCollection)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' placeholder="0.00" ng-required="getValidations" />
+                                                <p class="help-block" ng-show="inStorePaymentsForm.CPAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>											
+                                            <td style="padding-left:25px;">
+												<label>
+													<input type="radio" value="CS" ng-checked ="paymenttype" id="CPPaymentType{{$index}}" name="CPPaymentType{{$index}}" ng-model="ca.PaymentType" ng-required="getValidations" />
+													Cash
+												</label>
+												<p class="help-block" ng-show="inStorePaymentsForm.CPPaymentType{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+											<td style="padding-left:25px;">
+												<label>
+													<input type="radio" value="MO" ng-checked ="paymenttype" id="CPPaymentType1{{$index}}" name="CPPaymentType{{$index}}" ng-model="ca.PaymentType" ng-required="getValidations" />
+													MO
+												</label>
+												<p class="help-block" ng-show="inStorePaymentsForm.CPPaymentType1{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+											<td style="padding-left:25px;">Remarks</td>
+                                            <td style="padding-left:15px;">
+                                                <textarea class="form-control" id="CPRemarks{{$index}}" name="CPRemarks{{$index}} " ng-model="ca.Remarks" ng-required="getValidations"></textarea>
+                                                <p class="help-block" ng-show="inStorePaymentsForm.CPRemarks{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <span class="pull-right"><b>Total: ${{accountTransactions.grandtotalCashPaid}}</b></span>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="tab-pane">
+                                <div class="panel panel-info">
+                                    <div class="panel-body text-center"><b>Paid Cheque(s)</b></div>
+                                </div>
+                                <table class="tbl">
+                                    <tbody>
+                                        <tr ng-repeat="ca in AccountPaidRecevableCollection | filter: { AccountTranType: 'QP' }">
+                                            <td><a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" ng-click="getDetailedReport(ca)">{{ca.DisplayName}}</a></td>
+                                            <td>
+                                                <input type="text" style="text-align:right;" class="form-control" id="QPAmount{{$index}}" name="QPAmount{{$index}}" ng-model="ca.Amount" step="0.01" ng-blur="amountPaid(AccountPaidRecevableCollection)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' placeholder="0.00" ng-required="getValidations" />
+                                                <p class="help-block" ng-show="inStorePaymentsForm.QPAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+											<td style="padding-left:25px;">
+												<label>
+													<input type="radio" value="CQ" ng-checked ="paymenttype1" id="QPPaymentType{{$index}}" name="QPPaymentType{{$index}} " ng-model="ca.PaymentType" ng-required="getValidations" />
+													Cheque
+												</label>
+												<p class="help-block" ng-show="inStorePaymentsForm.QPPaymentType{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+											</td>
+											<td style="padding-left:25px;">
+												<label>
+													<input type="radio" value="CC" ng-checked ="paymenttype1" id="QPPaymentType1{{$index}}" name="QPPaymentType{{$index}} " ng-model="ca.PaymentType" ng-required="getValidations" />
+													Cashier Cheque
+												<label>
+												<p class="help-block" ng-show="inStorePaymentsForm.QPPaymentType1{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+											</td>
+											<td style="padding-left:25px;">Remarks</td>
+                                            <td style="padding-left:15px;">
+                                                <textarea class="form-control" id="QPRemarks{{$index}}" name="QPRemarks{{$index}} " ng-model="ca.PaymentRemarks" ng-required="getValidations"></textarea>
+                                                <p class="help-block" ng-show="inStorePaymentsForm.CPAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <span class="pull-right"><b>Total: ${{accountTransactions.grandtotalCheckPaid}}</b></span>
+                                <br />
+                                <br />
+                                <div><button class="btn btn-primary pull-right" ng-click="saveAccountTransactions()" ng-disabled="saveTransactions || inStorePaymentsForm.$invalid ">Save</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+	<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" style="overflow-y: scroll;height: 600px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><strong>{{ Titlename }} Group</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchKeyword" class="col-md-3 form-control-label">Search:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control col-md-6 ng-valid ng-dirty" ng-model="searchKeyword" placeholder="Search Here">
+                        </div>
+                    </div>
+                    
+                    <table border="1" style="width:100%" class="table table-responsive table-condensed">
+                        <thead style="background: lightblue;">
+                            <tr>
+                                <th>Date</th>
+                                <th>LedgerName</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+								<th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>                          
+                            <tr ng-repeat="r in detailedData | filter: searchKeyword">
+                                <td align="left">{{ r.Date | date:'dd-MM-yyyy' }}</td>
+                                <td align="left">{{ r.LedgerName }}</td>
+                                <td align="right">{{ r.Debit }}</td>
+                                <td align="right">{{ r.Credit}}</td>
+                                <td align="right">{{ r.Balance}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

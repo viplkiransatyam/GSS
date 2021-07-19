@@ -1,0 +1,100 @@
+<style>
+.ng-table-pager {
+    display: none;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Admin</a></li>
+    <li><a href="#">User Creation</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong>User Creation</strong> </h3> </div>
+                <div class="panel-body">
+                    <form name="adduserForm" novalidate>
+                        <div class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Store Name</label>
+                                <div class="col-md-6 ">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="StoreID" id="StoreID" required ng-model="user.StoreID">
+                                        <option value="">Select Store</option>
+                                        <!-- ngRepeat: shift in shifts -->
+                                        <option ng-repeat="row in stores" ng-selected="currentStore == row.StoreID" value="{{row.StoreID}}" >{{row.StoreName}}</option>
+                                        <!-- end ngRepeat: shift in shifts -->
+                                    </select>
+                                    <span ng-show="adduserForm.$submitted && adduserForm.StoreID.$error.required">
+                                        Store Name is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">User Name</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control" name="UserName" id="UserName" ng-model="user.UserName" required>
+                                    <span ng-show="adduserForm.$submitted && adduserForm.UserName.$error.required">
+                                        User Name is required.
+                                    </span>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Password</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" class="form-control" name="Password" ng-model="user.Password" required>
+                                    <span ng-show="adduserForm.$submitted && adduserForm.Password.$error.required">
+                                       Password is required.
+                                    </span>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Type of user</label>
+                                <div class="col-md-6 ">
+                                    <label>
+                                        <input type="radio" ng-model="user.AccessType" value="S" name="AccessType" ng-required="(user.AccessType == '')" ng-checked="user.AccessType == 'S'">
+                                        Store User
+                                      </label><br/>
+                                      <label>
+                                        <input type="radio" ng-model="user.AccessType" value="A" name="AccessType" ng-required="true || user.AccessType == ''" ng-checked="user.AccessType == 'A'">
+                                        Store Admin
+                                      </label><br/>                                   
+                                    <span ng-show="adduserForm.$submitted && adduserForm.AccessType.$error.required">
+                                        Access Type is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Active Status</label>
+                                <div class="col-md-6"> 
+                                    <input type="checkbox" ng-model="user.ActiveStatus"  ng-checked="user.ActiveStatus== 'A'">
+                                    <label>Active/Deactive:
+                                    </label>
+                                </div>
+                            </div>     
+                                               
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="addNewUser();" ng-show="save">
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" ></span>Save</button>
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="updateUser();" ng-show="update">
+                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Update</button>
+                            <button class="col-md-3 btn btn-default" type="reset" ng-click="userreset(user);">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+            </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">                    
+                    <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data" ng-click="getSelectedRow(row)" style="cursor:pointer;">
+                            <td title="'StoreName'" filter="{ StoreName: 'text'}" sortable="'StoreName'">{{row.StoreName}}</td>
+                            <td class="text-center" title="'UserName'" filter="{ UserName: 'text'}" sortable="'UserName'">{{row.UserName}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>  

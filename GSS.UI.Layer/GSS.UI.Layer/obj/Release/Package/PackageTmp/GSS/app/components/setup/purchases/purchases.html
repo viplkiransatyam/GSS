@@ -1,0 +1,208 @@
+﻿<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Purchases</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion"> 
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Add Purchases</a></strong></h3>
+                    </div>
+                    <div id="payments" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <form name="PurchasesForm" class="form-horizontal" novalidate >           
+                                <div class="row">
+                                    <div class="col-md-3">
+                                            <label for="SupplierNo" class="control-label text-left">Select Vendor</label>
+                                            <select class="form-control" id="SupplierNo" name="SupplierNo" ng-model="PurchasesRepeatInput.SupplierNo" ng-options="item.LedgerID as item.LedgerName for item in accounts  | filter: { DisplaySide: 'QP'}">
+                                                <option value="">Select Account</option>
+                                            </select>                                   
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="invdate">Invoice Date</label>
+                                            <input type="date" id="fromdatepicker" class="datepicker form-control" ng-model="PurchasesRepeatInput.InvCrdDate" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label text-left" for="invnumber">Invoice Number</label>
+                                        <input type="text" class="form-control" name="invnumber" ng-model="PurchasesRepeatInput.InvCrdNumber">
+                                     
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="invamount">Invoice Amount</label>
+                                            <input type="text" min=0 style="text-align:right;" class="form-control" name="invamount" ng-model="PurchasesRepeatInput.InvCrdAmount" step="0.01" placeholder='0.00' ng-blur="amountChange(PurchasesRepeatInput.InvCrdAmount);"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="duedate">Duedate</label>
+                                            <input type="date" id="fromdatepicker" class="datepicker form-control" ng-model="PurchasesRepeatInput.DueDate" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label text-left" for="remarks">Remarks</label>
+                                        <textarea class="form-control" name="remarks" ng-model="PurchasesRepeatInput.Remarks"></textarea>                               
+                                    </div>
+                                    <div class="col-md-1" style="margin-top:28px">                                      
+                                        <button class="btn btn-primary" id="addPurchases" ng-click="addPurchases(PurchasesRepeatInput);">Add</button>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor Name</th>
+                                                <th ng-hide="true"></th>
+                                                <th>Invoice Date</th>
+                                                <th>Invoice Number</th>
+                                                <th>Invoice Amount</th>
+                                                <th>DueDate</th>
+                                                <th>Remarks</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="inputTableRow">
+                                            <tr ng-repeat="Item in PurchasesRepeat.Purchase">
+                                                <td>{{Item.SupplierName}}</td>
+                                                <td ng-hide="true">{{Item.SupplierNo}}</td>
+                                                <td>{{Item.InvCrdDate | date:'MM-dd-yyyy'}}</td>
+                                                <td>{{Item.InvCrdNumber}}</td>
+                                                <td style="text-align:right;">{{Item.InvCrdAmount}}</td>
+                                                <td>{{Item.DueDate | date:'MM-dd-yyyy'}}</td>
+                                                <td>{{Item.Remarks}}</td>
+                                                <td>
+                                                    <i class="glyphicon glyphicon-edit" ng-click="EditPurchases(Item)"></i>
+                                                    <i class="glyphicon glyphicon-trash" ng-click="RemovePurchases(Item)"></i>
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td style="text-align:right;">Total: {{purchasesinvoiceTotalAmount}}<strong></strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="panel-footer">
+                                    <button class="btn btn-primary" id="savepurchases" ng-click="savePurchases();">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#receipts" style="cursor:pointer;">Add Purchase Returns</a></strong></h3>
+                    </div>
+                    <div id="receipts"  class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form name="PurchaseReturnsForm" class="form-horizontal" novalidate >           
+                                <div class="row">                           
+                                    <div class="col-md-2">
+                                        <label for="SupplierNo" class="control-label text-left">Select Vendor</label>
+                                        <select class="form-control " id="SupplierNo1" name="SupplierNo" ng-model="PurchaseReturnRepeatInput.SupplierNo" ng-options="item.LedgerID as item.LedgerName for item in accounts | filter: { DisplaySide: 'QP'}">
+                                            <option value="">Select Account</option>
+                                        </select>                             
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="crdate">Credit Date</label>
+                                            <input type="date" id="fromdatepicker" class="datepicker form-control" ng-model="PurchaseReturnRepeatInput.InvCrdDate" />
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="crnotenumber">Credit Note Number</label>
+                                            <input type="text" class="form-control" name="crnotenumber" ng-model="PurchaseReturnRepeatInput.InvCrdNumber">
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label class="control-label text-left" for="cramount">Credit Amount</label>
+                                            <input type="text" min=0 style="text-align:right;" class="form-control" name="cramount" ng-model="PurchaseReturnRepeatInput.InvCrdAmount" step="0.01" placeholder='0.00' ng-blur="amountChange1(PurchaseReturnRepeatInput.InvCrdAmount);">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label text-left" for="remarks">Remarks</label>
+                                        <textarea class="form-control" name="remarks" ng-model="PurchaseReturnRepeatInput.Remarks"></textarea>                        
+                                    </div>
+                                    <div class="col-md-1" style="margin-top:28px">
+                                        <div class="form-group">
+                                            <label class="control-label">&nbsp;&nbsp;</label>
+                                            <button class="btn btn-primary" ng-click="addReturns(PurchaseReturnRepeatInput);">Add</button>
+                                        </div>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor Name</th>
+                                                <th ng-hide="true"></th>
+                                                <th>Credit Date</th>
+                                                <th>Credit Note Number</th>
+                                                <th>Credit Amount</th>
+                                                <th>Remarks</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="inputTableRow">
+                                            <tr ng-repeat="Item in PurchaseReturnsRepeat.Purchase">
+                                                <td>{{Item.SupplierName}}</td>
+                                                <td ng-hide="true">{{Item.SupplierID}}</td>
+                                                <td>{{Item.InvCrdDate | date:'MM-dd-yyyy'}}</td>
+                                                <td>{{Item.InvCrdNumber}}</td>
+                                                <td style="text-align:right;">{{Item.InvCrdAmount}}</td>                                        
+                                                <td>{{Item.Remarks}}</td>
+                                                <td>
+                                                    <i class="glyphicon glyphicon-edit" ng-click="EditReturns(Item)"></i>
+                                                    <i class="glyphicon glyphicon-trash" ng-click="RemoveReturns(Item)"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td style="text-align:right;">Total: {{purchasereturnsinvoiceTotalAmount}}<strong></strong></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="panel-footer">
+                                    <button class="btn btn-primary" id="savepurchasesreturns" ng-click="savePurchasesReturns();">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

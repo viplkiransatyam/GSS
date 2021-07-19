@@ -1,0 +1,106 @@
+﻿<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">New Game</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong> Setup : New Game</strong> </h3> </div>
+                <div class="panel-body">
+                    <form name="addGameForm" novalidate>
+                        <div class="row form-horizontal  ">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Game ID</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control " name="txtGameID" ng-model="game.GameID" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtGameID.$error.required">
+                                        GameID is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left ">Game Description</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="txtGameDesc" ng-model="game.GameName" required></textarea>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtGameDesc.$error.required">
+                                        Game Description is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">No of tickets</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="txtTicketNo" ng-model="game.NoOfTickets" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtTicketNo.$error.required">
+                                        No of tickets is required.
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Ticket Value</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="txtTicketValue" ng-model="game.TicketValue" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtTicketValue.$error.required">
+                                        Ticket Value is required.
+                                    </span>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Starting Ticket Number</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="txtStartTickNo" ng-model="game.TicketStartNumber" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtStartTickNo.$error.required">
+                                        Starting Ticket Number is required.
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Ending Ticket Number</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="txtEndTickNo" ng-model="game.TicketEndNumber" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtEndTickNo.$error.required">
+                                        Ending Ticket Number is required.
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 text-left">Book Value</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control" name="txtBookVal" ng-model="game.BookValue" required>
+                                    <span ng-show="addGameForm.$submitted && addGameForm.txtBookVal.$error.required">
+                                        Book Value is required.
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="addNewGame(game);"  >
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                            <button class="col-md-3 btn btn-default" type="reset" ng-click="gamereset(game);">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+            </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    
+                    <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID | number}}</td>
+                            <td class="text-center" title="'GameName'" filter="{ GameName: 'text'}" sortable="'GameName'">{{row.GameName}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>  

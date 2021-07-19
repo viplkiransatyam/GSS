@@ -1,0 +1,59 @@
+﻿body {
+}
+@media only screen and (min-width : 320px) {
+    body {
+        /*background: red;*/
+    }
+
+    .ssMenu {
+        margin-bottom: 16px;
+    }
+
+    .top-bar {
+        top: 60px;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    body {
+        /*background: green;*/
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    body {
+        /*background: blue;*/
+    }
+
+    .ssMenu {
+        margin-bottom: 16px;
+    }
+
+    .top-bar {
+        top: 60px;
+    }
+
+    .nav-container.hidden-lg {
+        padding-top: 15px;
+    }
+}
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    .ssMenu {
+        margin-bottom: 0;
+    }
+
+    .top-bar {
+        top: 0;
+    }
+
+    .nav-container.hidden-lg {
+        padding-top: 15px;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+}

@@ -1,0 +1,51 @@
+<style type="text/css">
+.myGrid {
+width: 500px;
+height: 230px;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">GasReports</a></li>
+    <li><a href="#">GasSaleReport</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Gas Sale Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="InputFieldA">From</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="InputFieldB">To</label>
+                                <input type="date" ng-model="toDate" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="getgasSaleReport(fromDate, toDate)">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'ShiftCode'" filter="{ ShiftCode: 'number'}" sortable="'ShiftCode'">{{row.ShiftCode}}</td>
+                            <td class="text-right" title="'Unlead'" filter="{ Unlead: 'number'}" sortable="'Unlead'">{{row.Unlead| currency}}</td>
+                            <td class="text-right" title="'Premium'" filter="{ Premium: 'number'}" sortable="'Premium'">{{row.Premium| currency}}</td>
+                            <td class="text-right" title="'MidGrade'" filter="{ MidGrade: 'number'}" sortable="'MidGrade'">{{row.MidGrade| currency}}</td>
+                            <td class="text-right" title="'Kirosene'" filter="{ Kirosene: 'number'}" sortable="'Kirosene'">{{row.Kirosene| currency}}</td>
+                            <td class="text-right" title="'Diesel'" filter="{ Diesel: 'number'}" sortable="'Diesel'">{{row.Diesel| currency}}</td>
+                            <td class="text-right" title="'NonEthnol'" filter="{ NonEthnol: 'number'}" sortable="'NonEthnol'">{{row.NonEthnol| currency}}</td>
+                            <td class="text-right" title="'Total'" filter="{ Total: 'number'}" sortable="'Total'">{{row.Total | currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

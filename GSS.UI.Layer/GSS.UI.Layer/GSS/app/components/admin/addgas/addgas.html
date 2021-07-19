@@ -1,0 +1,98 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Admin</a></li>
+    <li><a href="#">Add Gas</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong>Add Gas</strong>(No. Of Licenses : <strong>{{licenses}} </strong>) </h3> </div>
+                <div class="panel-body">
+                    <form name="addgasForm" novalidate>
+                        <div class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Store Name</label>
+                                <div class="col-md-6 ">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="StoreID" id="StoreID" required ng-model="gas.StoreID">
+                                        <option value="">Select Store</option>
+                                        <!-- ngRepeat: shift in shifts -->
+                                        <option ng-repeat="row in stores" ng-selected="currentStore == row.StoreID" value="{{row.StoreID}}" >{{row.StoreName}}</option>
+                                        <!-- end ngRepeat: shift in shifts -->
+                                    </select>
+                                    <span ng-show="addgasForm.$submitted && addgasForm.StoreID.$error.required">
+                                        Store Name is required.
+                                    </span>
+
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Select Gas</label>
+                                <div class="col-md-6 ">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="GasTypeID" id="GasTypeID" required ng-model="gas.GasTypeID" ng-change="getGasType(gas.GasTypeID)">
+                                        <option value="">Select Gas Type</option>
+                                        <!-- ngRepeat: shift in shifts -->
+                                        <option ng-repeat="row in gases" ng-selected="currentGas == row.GasTypeID" value="{{row.GasTypeID}}" >{{row.GasTypeName}}</option>
+                                        <!-- end ngRepeat: shift in shifts -->
+                                    </select>
+                                    <span ng-show="addgasForm.$submitted && addgasForm.GasTypeID.$error.required">
+                                        Store Name is required.
+                                    </span>
+
+                                </div>
+                            </div> 
+                            <div class="form-group" ng-hide="midgrade">
+                                <label class="col-md-6 control-label  text-left">Mid-Grade Mix</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Premium(%)</label>
+                                        <input type="number" min="0" max="100" class="form-control" name="premium" id="premium" ng-model="premium" ng-change="getPercentage1(premium)">
+                                        <span ng-show="addgasForm.$submitted && addgasForm.premium.$error.required">
+                                            Premium is required.
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">Unlead(%)</label>
+                                        <input type="number"  min="0" max="100"  class="form-control" name="unlead" id="unlead" ng-model="unlead" ng-change="getPercentage2(unlead)">
+                                        <span ng-show="addgasForm.$submitted && addgasForm.unlead.$error.required">
+                                         Unlead is required.
+                                        </span>
+                                    </div>                                     
+                                </div>
+                            </div>                 
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Tank Capacity</label>
+                                 <div class="col-md-6 ">
+                                    <input type="number" min="0" class="form-control" name="GasTankCapacity" id="GasTankCapacity" ng-model="gas.GasTankCapacity" required>
+                                    <span ng-show="addgasForm.$submitted && addgasForm.GasTankCapacity.$error.required">
+                                        Tank Capacity is required.
+                                    </span>
+                                </div>
+                            </div>                     
+                                               
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="addGas();">
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" ></span>Add Gas Type</button>
+                            <!-- <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="updateUser();" ng-show="update">
+                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Update</button> -->
+                            <button class="col-md-3 btn btn-default" type="reset" ng-click="userreset(gas);">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+            </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">                    
+                    <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'StoreName'" filter="{ StoreName: 'text'}" sortable="'StoreName'">{{row.StoreName}}</td>
+                            <td title="'GasTypeName'" filter="{ GasTypeName: 'text'}" sortable="'GasTypeName'">{{row.GasTypeName}}</td>
+                            <td title="'GasTankCapacity'" filter="{ GasTypeName: 'number'}" sortable="'GasTypeName'">{{row.GasTankCapacity}}</td>
+                            <td><i class="fa fa-pencil-square-o fa-2x" ng-click="editItem(row)" title="Edit" style="cursor:pointer;"></i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>  

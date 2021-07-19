@@ -1,0 +1,136 @@
+﻿<style>.cal-events-num {
+    display: none;
+}</style>
+<script id="Customdata.html" type="text/ng-template">
+    <div class="cal-month-day">
+        <span class="pull-right"
+                data-cal-date
+                ng-bind="day.label">
+        </span> 
+        
+        <small style="position: absolute; bottom: 10px; left: 5px" ng-repeat="saleday in day.events">
+            <strong><label style="color:rgb(200, 38, 255);font-size: larger;">Sale- Inst: ${{saleday.instantsale}} Online: ${{saleday.onlinesale}}</label></strong><br />
+            <strong><label style="color:rgb(255, 128, 0);font-size: larger;">Commission- Inst: ${{saleday.InstantCommission}} </label></strong><br />
+            <strong><label style="color:rgb(255, 128, 0);font-size: larger;">Online: ${{saleday.OnlineCommission}} Cash: ${{saleday.CashCommission}}</label></strong><br />
+            <a class="btn btn-info btn-sm" onclick="clickMe(this)" data-currentDate={{saleday.startsAt}}><span class='glyphicon glyphicon-link'></span>Day Report</a>
+        </small>
+    </div>
+ </script>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery Reports</a></li>
+    <li><a href="#">Sale Report Month</a></li>
+</ul>
+<div class="page-content-wrap" id="outer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Sale Report Month</strong></h3>                   
+                </div>
+                <div class="panel-body">
+                    <div>
+                    <h2 class="text-center"><strong>{{ calendarTitle }}</strong></h2>
+
+                    <div class="row">
+
+                        <div class="col-md-6 text-center">
+                            <div class="btn-group">
+
+                                <button class="btn btn-info"
+                                        mwl-date-modifier
+                                        date="viewDate"
+                                        decrement="calendarView"
+                                        ng-click="getLotterySalesMonth()">
+                                    Previous
+                                </button>
+                                <button class="btn btn-default"
+                                        mwl-date-modifier
+                                        date="viewDate"
+                                        set-to-today
+                                        ng-click="cellIsOpen = false">
+                                    Today
+                                </button>
+                                <button class="btn btn-info"
+                                        mwl-date-modifier
+                                        date="viewDate"
+                                        increment="calendarView"
+                                        ng-click="getLotterySalesMonth()">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+
+                        <br class="visible-xs visible-sm">
+
+                        <div class="col-md-6 text-center">
+                            <div class="btn-group">
+                                <label class="btn btn-info" ng-model="calendarView" uib-btn-radio="'year'" ng-click="cellIsOpen = false">Year</label>
+                                <label class="btn btn-info" ng-model="calendarView" uib-btn-radio="'month'" ng-click="cellIsOpen = false">Month</label>
+                                <!--<label class="btn btn-info" ng-model="calendarView" uib-btn-radio="'week'" ng-click="cellIsOpen = false">Week</label>
+                                <label class="btn btn-info" ng-model="calendarView" uib-btn-radio="'day'" ng-click="cellIsOpen = false">Day</label>-->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <mwl-calendar events="events"
+                                view="calendarView"
+                                view-title="calendarTitle"
+                                view-date="viewDate"                                
+                                cell-auto-open-disabled="true"
+                                custom-template-urls="{calendarMonthCell: 'Customdata.html'}">
+                    </mwl-calendar>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="width:1090px;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Day Sale Information</h4>
+        </div>
+        <div class="modal-body">
+            <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="detailedsalereport in $data">
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'" style="width:20%">{{detailedsalereport.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'ShiftCode'" filter="{ ShiftCode: 'number'}" sortable="'ShiftCode'">{{detailedsalereport.ShiftCode}}</td>
+                            <td class="text-center" title="'Game'" filter="{ Game: 'number'}" sortable="'Game'">{{detailedsalereport.Game}}</td>
+                            <td class="text-center" title="'Pack'" filter="{ Pack: 'number'}" sortable="'Pack'">{{detailedsalereport.Pack}}</td>
+                            <td class="text-center" title="'GameName'" filter="{ GameName: 'text'}" sortable="'GameName'">{{detailedsalereport.GameName}}</td>
+                            <td class="text-center" title="'TicketValue'" filter="{ TicketValue: 'number'}" sortable="'TicketValue'">{{detailedsalereport.TicketValue}}</td>
+                            <td class="text-center" title="'BoxNo'" filter="{ BoxNo: 'number'}" sortable="'BoxNo'">{{detailedsalereport.BoxNo}}</td>
+                            <td class="text-center" title="'StartTicket'" filter="{ StartTicket: 'number'}" sortable="'StartTicket'">{{detailedsalereport.StartTicket}}</td>
+                            <td class="text-center" title="'EndTicket'" filter="{ EndTicket: 'number'}" sortable="'EndTicket'">{{detailedsalereport.EndTicket}}</td>
+                            <td class="text-center" title="'NoOfTicketSold'" filter="{ NoOfTicketSold: 'number'}" sortable="'NoOfTicketSold'">{{detailedsalereport.NoOfTicketSold}}</td>
+                            <td class="text-right" title="'AmountSold'" filter="{ AmountSold: 'number'}" sortable="'AmountSold'">{{detailedsalereport.AmountSold | currency}}</td>
+                            <td class="text-center" title="'PackStatus'" filter="{ PackStatus: 'text'}" sortable="'PackStatus'">{{detailedsalereport.PackStatus}}</td>
+                        </tr>
+                        <tr ng-if="lotteryDetailedSalesReportData.length">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right"><strong>{{grandTotal | currency}}</strong></td>
+                            <td></td>
+                        </tr>
+                    </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="float:left">Close</button>
+        </div>
+    </div>
+  </div>
+</div>

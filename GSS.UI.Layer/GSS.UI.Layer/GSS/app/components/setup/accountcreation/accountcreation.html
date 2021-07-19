@@ -1,0 +1,193 @@
+<style>
+.daytab a{
+    background:#262a33  ;
+    color:white;
+}
+.daytab>li.active>a, .daytab>li.active>a:hover, .daytab>li.active>a:focus
+{
+    background: #1CAF9A!important;
+}
+.nav>li>a:hover{
+    color: black;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Account Creation</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Account Creation</strong></h3>
+                </div>
+                <div class="panel-body">
+                     <ul class="nav  nav-justified daytab">
+                        <li class="active"><a ng-click="accountLedger()" data-toggle="tab" style="cursor: pointer;">Account Ledger</a></li>
+                        <li><a ng-click="saleGroupCreation()" data-toggle="tab" style="cursor: pointer;">Sales Group Creation</a></li>
+                        <li><a ng-click="saleIndividual()"  data-toggle="tab" style="cursor: pointer;">Sale Individual Item Creation</a></li>
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane active" id="AccountLedger" ng-if="showLedgerDetails">
+                            <div class="panel-body">
+                                <div class="col-md-5">
+                                   <form name="accountCreationForm" novalidate>
+                                        <div class="row form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Account Name</label>
+                                                <div class="col-md-6 ">
+                                                    <input type="text" class="form-control" name="LedgerName" ng-model="account.LedgerName" required>
+                                                    <span ng-show="accountCreationForm.$submitted && accountCreationForm.LedgerName.$error.required">
+                                                        Account Name is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Select Group</label>
+                                                <div class="col-md-6 ">                                                  
+                                                    <select class="form-control select2" name="GroupID" id="GroupID" ng-model="account.GroupID" required>
+                                                        <option value="">Please Select</option>
+                                                        <option ng-repeat="group in groups" value="{{group.GroupID}}">{{group.GroupName}}</option>
+                                                    </select>                                                   
+                                                    <span ng-show="accountCreationForm.$submitted && accountCreationForm.GroupID.$error.required">
+                                                        Group Name is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Remarks</label>
+                                                <div class="col-md-6 ">
+                                                    <textarea class="form-control" name="Remarks" ng-model="account.Remarks"></textarea>
+                                                </div>
+                                            </div>              
+                                            <button class="col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="accountCreationForm.$valid && addAccountLedger();">
+                                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                                            <button class="col-md-3 btn btn-default" type="reset" ng-click="accountreset();">Clear</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">                                        
+                                            <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                                                <tr ng-repeat="row in $data">
+                                                    <td title="'LedgerName'"  sortable="'LedgerName'" filter="{ LedgerName: 'text'}">{{row.LedgerName}}</td>
+                                                    <td class="text-center" title="'SalesGroupName'" filter="{ SalesGroupName: 'text'}" sortable="'SalesGroupName'">{{row.SalesGroupName}}</td>
+                                                    <td><i class="fa fa-pencil-square-o fa-2x" ng-click="editItem(row)" title="Edit" style="cursor:pointer;"></i>&nbsp;<i class="fa fa-minus-square-o fa-2x" ng-click="removeItem(row)" title="Remove" style="cursor:pointer;"></i>&nbsp;<i class="fa fa-times-circle-o fa-2x" title="No Display" ng-click="display(row)" style="cursor:pointer;"></i></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane active" id="saleGroup" ng-if="showSaleGroupDetails">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <form name="SalesGroupForm" novalidate>
+                                        <div class="row form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Sales Head</label>
+                                                <div class="col-md-6 ">
+                                                    <input type="text" class="form-control" name="LedgerName" ng-model="salesgroup.LedgerName" required>
+                                                    <span ng-show="SalesGroupForm.$submitted && SalesGroupForm.LedgerName.$error.required">
+                                                        Sales Head is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Select Group</label>
+                                                <div class="col-md-6 ">                                                  
+                                                    <select class="form-control select2" name="GroupID" id="GroupID" ng-model="salesgroup.GroupID" required> 
+                                                        <option value="">Please Select</option>
+                                                        <option ng-repeat="group in businessaccountgroups" value="{{group.GroupID}}">{{group.GroupName}}</option>
+                                                    </select>                                                   
+                                                    <span ng-show="SalesGroupForm.$submitted && SalesGroupForm.GroupID.$error.required">
+                                                        Group Name is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Remarks</label>
+                                                <div class="col-md-6 ">
+                                                    <textarea class="form-control" name="Remarks" ng-model="salesgroup.Remarks"></textarea>
+                                                </div>
+                                            </div>              
+                                            <button class="col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="SalesGroupForm.$valid && addSalesGroup();"  >
+                                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                                            <button class="col-md-3 btn btn-default" type="reset" ng-click="salesgroupreset();">Clear</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">                                        
+                                            <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                                                <tr ng-repeat="row in $data">
+                                                    <td class="text-center" title="'SalesGroupName'" filter="{ SalesGroupName: 'text'}" sortable="'SalesGroupName'">{{row.SalesGroupName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane active" id="saleIndividual" ng-if="showIndividualDetails">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <form name="SalesIndividualForm" novalidate>
+                                        <div class="row form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Sales Head</label>
+                                                <div class="col-md-6 ">
+                                                    <input type="text" class="form-control" name="LedgerName" ng-model="saleindividual.LedgerName" required>
+                                                    <span ng-show="SalesIndividualForm.$submitted && SalesIndividualForm.LedgerName.$error.required">
+                                                        Sales Head is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Select Group</label>
+                                                <div class="col-md-6 ">                                                  
+                                                    <select class="form-control select2" name="SalesGroupID" id="SalesGroupID" ng-model="saleindividual.SalesGroupID" required>
+                                                        <option value="">Please Select</option>
+                                                        <option ng-repeat="group in SaleGroupsData" value="{{group.LedgerID}}">{{group.LedgerName}}</option>
+                                                    </select>                                                   
+                                                    <span ng-show="SalesIndividualForm.$submitted && SalesIndividualForm.GroupID.$error.required">
+                                                        Group Name is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label  text-left">Remarks</label>
+                                                <div class="col-md-6 ">
+                                                    <textarea class="form-control" name="Remarks" ng-model="saleindividual.Remarks"></textarea>
+                                                </div>
+                                            </div>              
+                                            <button class="col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="SalesIndividualForm.$valid && addSaleIndividual();"  >
+                                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                                            <button class="col-md-3 btn btn-default" type="reset" ng-click="saleindividualreset();">Clear</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">                                        
+                                            <table ng-table="tableParams" id="tblGameList" class="table table-condensed table-bordered table-striped">
+                                                <tr ng-repeat="row in $data">
+                                                    <td title="'LedgerName'" sortable="'LedgerName'" filter="{ LedgerName: 'text'}">{{row.LedgerName}}</td>
+                                                    <td class="text-center" title="'SalesGroupName'" filter="{ SalesGroupName: 'text'}" sortable="'SalesGroupName'">{{row.SalesGroupName}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

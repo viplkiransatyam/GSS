@@ -1,0 +1,131 @@
+﻿<style>
+    .form-control[readonly] {
+        color: #292828;
+    }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Purchases</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <form name="purchasesForm" class="form-horizontal" novalidate>
+                <div class="panel panel-default">
+                    <div class="panel-heading ui-draggable-handle">
+                        <h3 class="panel-title"><strong>Gas: Purchase Invoice</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label for="myDate">Select Date</label><input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ShiftCode">Select Shift</label>
+                                <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                    <option value="">Please Select</option>
+                                    <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">Bill of Lading</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-model="purchaseInvoice.BillOfLading" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">&nbsp;</label>
+                                <div>
+                                    <button class="btn btn-primary" ng-click="getBillDetails();">GO</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label class="control-label">Due Date</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-readonly="true" ng-model="dueDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Receipt Date</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-readonly="true" ng-model="receiptDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Invoice No.</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-model="purchaseInvoice.InvNo" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Invoice Date</label>
+                                <div>
+                                    <input type="date" class="form-control" ng-model="purchaseInvoice.InvDate" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-4">Gas Type</th>
+                                            <th class="col-md-2">Gross Gallons</th>
+                                            <th class="col-md-2">Net Gallons</th>
+                                            <th class="col-md-2">Price</th>
+                                            <th class="col-md-2">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Item in GasInventory">
+                                            <td>{{Item.GasTypeName}}</td>
+                                            <td><input type="text" style="text-align:right;" class="form-control" ng-model="Item.GrossInvGallons" name="GrossInvGallons{{$index}}" value="{{Item.GrossInvGallons}}" ng-blur="getGrossInvGallonsCalculations(GasInventory)" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000"></td>
+                                            <td><input type="text" style="text-align:right;" class="form-control" ng-model="Item.NetInvGallons" name="NetInvGallons{{$index}}" value="{{Item.NetInvGallons}}" ng-blur="getNetInvGallonsCalculations(GasInventory)" ng-pattern='/^[0-9]+(\.[0-9]{1,3})?$/' step="0.001" placeholder="0.000"></td>
+                                            <td>
+                                                <input type="text" style="text-align:right;" class="form-control" ng-model="Item.Price" name="Price{{$index}}" value="{{Item.Price}}" ng-blur="getPriceDecimals(GasInventory)" ng-pattern='/^[0-9]+(\.[0-9]{1,8})?$/' step="0.00000001" placeholder="0.00000000">
+                                                <p class="help-block" ng-show="purchasesForm.Price{{$index}}.$invalid && purchasesForm.Price{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                            <td>
+                                                <input type="text" style="text-align:right;" class="form-control" ng-model="Item.Amount" name="Amount{{$index}}" value="{{Item.Amount}}" ng-blur="getAmountCalculations(GasInventory)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="purchasesForm.Amount{{$index}}.$invalid && purchasesForm.Amount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>Taxes:</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr ng-repeat="Item in GasDefaultTax">
+                                            <td></td>
+                                            <td>{{Item.TaxName}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <input type="text" style="text-align:right;" class="form-control" name="TaxAmount{{$index}}" ng-model="Item.TaxAmount" ng-blur="getTaxesTotal(GasDefaultTax)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="purchasesForm.TaxAmount{{$index}}.$invalid && purchasesForm.TaxAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>Total</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="text" style="text-align:right;" class="form-control" ng-model="purchaseInvoice.InvAmount" ng-readonly="true"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <button class="btn btn-primary pull-right" id="savepurchases" ng-model="purchaseInvoice.savePurchases" ng-disabled="purchasesSave || purchasesForm.$invalid " ng-click="savePurchases();">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

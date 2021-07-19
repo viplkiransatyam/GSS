@@ -1,0 +1,7 @@
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\bin\Debug\APITest.exe.config
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\bin\Debug\APITest.exe
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\bin\Debug\APITest.pdb
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\obj\Debug\APITest.Properties.Resources.resources
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\obj\Debug\APITest.csproj.GenerateResource.Cache
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\obj\Debug\APITest.exe
+E:\Projects\GasStore\StoreModel\GSS.Data.Model\APITest\obj\Debug\APITest.pdb

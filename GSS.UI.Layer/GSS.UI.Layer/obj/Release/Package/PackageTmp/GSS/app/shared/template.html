@@ -1,0 +1,394 @@
+<style>
+    .x-navigation.x-navigation-horizontal{
+            background: #1caf9a;
+    }
+    .profile{
+        background: #34495e;
+    }
+    .profile-control-left{
+            background: #1caf9a;
+            color: white;
+    }
+    .profile-control-right{
+            background: #1caf9a;
+            color: white;
+    }
+    .x-navigation > li.xn-profile .profile-data-name{
+            color: #ffffff;
+            font-size: large;
+    }
+    .profile .profile-data .profile-data-title{
+            color: #ffffff;
+    }
+    .page-sidebar{
+            border-right: 1px solid #1caf9a;
+    }
+    .ng-isolate-scope{
+        background: #34495e;
+    }
+    .nav-tabs > li > a{
+        background: #1caf9a;
+        color: #ffffff;
+    } 
+    .nav-tabs>li>a:hover{
+        color: #000;
+    }
+    .nav-tabs>li.active>a{
+        color: #34495e;
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover{
+        border-top: 2px solid #1caf9a;
+    }
+    .x-navigation{
+        background: #34495e;
+    }
+    .x-navigation li > a{
+        font-weight: 800;
+        color: #fff;
+    }
+    .x-navigation > li.xn-profile{
+        border-bottom: 1px solid #1caf9a;
+    }
+    .x-navigation li > a:hover{
+       background: #1caf9a; 
+    }
+    .page-container{
+        background: #34495e;
+    }
+    .x-navigation.x-navigation-horizontal > li > a:hover{
+        background: #34495e;
+    }
+    .panel-group .panel-heading + .panel-collapse > .panel-body {
+        padding: 0;
+    }
+    uib-accordion div.panel.panel-default {
+        border-top-width: 0;
+    }
+    uib-accordion div.panel {
+        border-radius: 0 !important;
+    }
+    uib-accordion div.panel-default .panel-heading .panel-title a span {
+        font-size: 0.90em;
+        color: #ffffff !important;
+    }
+    uib-accordion div.panel-default .panel-heading {
+        background: #1caf9a !important;
+        border-top: none !important;
+        border-radius: 0px !important;
+    }
+    uib-accordion div.panel-default.panel-open .panel-heading {
+        background: #1CAF9A !important;
+        color: #8b91a0;
+    }
+
+    input[type='text'].form-control:focus {
+        background: #FFFF99;
+    }
+
+    .page-content-wrap .panel {
+        border: 1px solid #A8A2A1 !important;
+        box-shadow: 0px 0px 5px #A8A2A1;
+    }
+    .panel-highlight .panel-body {
+        /*background: #FFFF99;*/
+        background: #ecfcd7;
+    }
+
+    .table thead tr th{
+        background: #34495E !important;
+        color: #ffffff !important;
+    }
+</style>
+
+<!-- START PAGE CONTAINER -->
+<div class="page-container">            
+    <!-- START PAGE SIDEBAR -->
+    <div class="page-sidebar">
+        <!-- START X-NAVIGATION -->
+        <ul class="x-navigation">
+            <li class="xn-logo">
+                <a ui-sref="dashboard">GSS</a>
+                <a href="" class="x-navigation-control"></a>
+            </li>
+            <li class="xn-profile">
+                <a href="" class="profile-mini">
+                    <img src="../assets/assets/images/users/profile.png" alt="Store 3">
+                </a>
+                <div class="profile">
+                    <div class="profile-image">
+                        <img src="../assets/assets/images/users/profile.png" alt="Store 3">
+                    </div>
+                    <div class="profile-data">
+                        <div class="profile-data-name">{{UserName}}</div>
+                        <div class="profile-data-title" ng-model="address">{{address}}</div>
+                    </div>
+                    <div class="profile-controls">
+                        <a ui-sref="profile" class="profile-control-left"><span class="fa fa-info"></span></a>
+                        <a ui-sref="messages" class="profile-control-right"><span class="fa fa-envelope"></span></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <uib-tabset active="active">
+            <uib-tab index="0">
+                <uib-tab-heading><i class="glyphicon glyphicon-home"></i></uib-tab-heading>
+                <uib-accordion >
+                 <ul class="x-navigation" style="border-top:2px solid #f2f2f2;">
+                        <li><a ui-sref="dashboard"><span class="fa fa-user"></span><span class="xn-text">Dashboard</span></a></li>
+                    </ul>
+                    <div uib-accordion-group heading="Gas" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" style="border-top:2px solid #f2f2f2;" ng-if="(AvailGas == 'Y')?true:false">
+                        <ul class="x-navigation">
+                            <li><a ui-sref="gas" style="border-top: 1px solid;"><span class="fa fa-user"></span><span class="xn-text">Sales Entry</span></a></li>
+                        </ul>
+                    </div>
+                    <div uib-accordion-group heading="Credit Card / Payments" is-disabled="status.isFirstDisabled" style="border-top:2px solid #f2f2f2;">
+                        <ul class="x-navigation">
+                            <li><a ui-sref="cardreceipts" style="border-top: 1px solid;"><span class="fa fa-user"></span><span class="xn-text">Card Receipts</span></a></li>
+                            <li><a ui-sref="paymentvoucher"><span class="fa fa-user"></span><span class="xn-text">Payment Vouchers</span></a></li>
+                            <li><a ui-sref="receiptvoucher"><span class="fa fa-user"></span><span class="xn-text">Receipt Vouchers</span></a></li>
+                        </ul>
+                    </div>
+                    <div uib-accordion-group heading="Lottery" ng-if="(AvailLottery == 'Y')?true:false">
+                        <ul class="x-navigation">
+                            <li><a ui-sref="dailyclosing" style="border-top: 1px solid;"><span class="fa fa-user"></span><span class="xn-text">Daily Closing Reading</span></a></li>
+                            <li><a ui-sref="lotterycashtransfer"><span class="fa fa-user"></span><span class="xn-text">Cash Transfer</span></a></li>
+                            <li><a ui-sref="activebooks"><span class="fa fa-user"></span><span class="xn-text">Active Books</span></a></li>
+                            <li><a ui-sref="receivebooks"><span class="fa fa-user"></span><span class="xn-text">Receive Books</span></a></li>
+                        </ul>
+                    </div>
+                    <div uib-accordion-group heading="Business" ng-if="(AvailBusiness == 'Y')?true:false">
+                        <ul class="x-navigation">
+                            <li><a ui-sref="saleentry" style="border-top: 1px solid;"><span class="fa fa-user"></span><span class="xn-text">Sale Entry</span></a></li>
+                            <li><a ui-sref="bank"><span class="fa fa-user"></span><span class="xn-text">Bank</span></a></li>
+                            <li><a ui-sref="cashentry"><span class="fa fa-user"></span><span class="xn-text">Cash Entry</span></a></li>
+                        </ul>
+                    </div>
+                </uib-accordion>
+            </uib-tab>
+            <uib-tab index="1" heading="2" ng-if="(AccessType !='STORE_USER')?true:false">
+                <uib-tab-heading><i class="glyphicon glyphicon-list-alt"></i></uib-tab-heading>
+                <uib-accordion >
+                    <ul class="x-navigation" style="border-top:2px solid #f2f2f2;">
+                        <li><a ui-sref="dashboard"><span class="fa fa-user"></span><span class="xn-text">Dashboard</span></a></li>
+                    </ul>
+                    <div uib-accordion-group heading="Gas - Reports" style="border-top:2px solid #f2f2f2;" ng-if="AvailGas">
+                        <uib-accordion >
+                            <ul class="x-navigation">
+                                <div uib-accordion-group heading="Gas Dealer" style="border-top: 1px solid white;" >
+                                    <ul class="x-navigation">                                      
+                                        <li style="border-top:1px solid #f2f2f2;"><a ui-sref="gasLedger"><span class="xn-text">Gas Ledger</span></a></li> 
+                                        <li><a ui-sref="unreconciledstatement"><span class="xn-text">Unreconciled Statement</span></a></li>
+                                        <li><a ui-sref="purchaseregister"><span class="xn-text">Purchase Register</span></a></li>
+                                         <li><a ui-sref="stockinwardreport" style="border-top: 1px solid;"><span class="xn-text">Stock Inward Report</span></a></li>
+                                    </ul>
+                                </div>
+                                <div uib-accordion-group heading="Sales" style="border-top: 1px solid white;" >
+                                    <ul class="x-navigation">                                    
+                                        <li><a ui-sref="gassalereport" style="border-top: 1px solid;"><span class="xn-text">Sales Report</span></a></li>
+                                        <li><a ui-sref="saletrend" style="border-top: 1px solid;"><span class="xn-text">Sales Trend</span></a></li>
+                                        <li><a ui-sref="gassalereportmonth" style="border-top: 1px solid;"><span class="xn-text">Sale Report Month</span></a></li>
+                                        <li><a ui-sref="shiftendreport" style="border-top: 1px solid;"><span class="xn-text">Shift End Report</span></a></li>                                       
+                                        <li><a ui-sref="gasmonthlyreport"><span class="xn-text">Monthly Statement</span></a></li>
+                                        <li><a ui-sref="profitloss"><span class="xn-text">Profit & Loss</span></a></li>
+                                        <!-- <li><a ui-sref="gss-reports-gas-sales-comparison.html"><span class="xn-text">Sales Comparison</span></a></li> -->
+                                        <li><a ui-sref="gasreconcillationreport"><span class="xn-text">Reconciliation Statement</span></a></li>
+                                        
+                                    </ul>
+                                </div>                           
+                            </ul>
+                        </uib-accordion >
+                    </div>
+                    <div uib-accordion-group heading="Lottery - Reports" style="border-top:2px solid #f2f2f2;" ng-if="AvailLottery">
+                    	<uib-accordion >
+	                    	<div uib-accordion-group heading="Stock" style="border-top: 1px solid white;" >
+		                        <ul class="x-navigation">
+		                            <!--<li class="xn-title"><strong>Lottery - Reports</strong></li>-->
+		                            <li style="border-top:1px solid #f2f2f2;"><a ui-sref="activebooksreport"><span class="xn-text">Active Books Report</span></a></li>
+		                            <li><a ui-sref="receivebooksreport"><span class="xn-text">Receive Books Report</span></a></li>
+		                            <li><a ui-sref="lotteryinventoryreport"><span class="xn-text">Inventory Report</span></a></li>
+		                            <li><a ui-sref="lotteryBookReturn" ><span class="xn-text">Return Books</span></a></li> 
+                                    <li><a ui-sref="lotterygames"><span class="xn-text">Lottery Games</span></a></li>
+		                    	</ul>
+		                	</div>
+		                    <div uib-accordion-group heading="Lottery Dealer" style="border-top: 1px solid white;">
+		                		<ul class="x-navigation">
+		                			<li style="border-top:1px solid #f2f2f2;"><a ui-sref="paymentdue"><span class="xn-text">Payment Due</span></a></li>
+		                            <li><a ui-sref="booksactivenotsettled"><span class="xn-text">Books Active Not Settled</span></a></li>
+		                            <li><a ui-sref="lotteryLedger"><span class="xn-text">Lottery Ledger</span></a></li>	
+		                     	</ul>
+		                	</div>
+		                    <div uib-accordion-group heading="Sales" style="border-top: 1px solid white;">
+		                        <ul class="x-navigation"> 
+		                        <li style="border-top:1px solid #f2f2f2;"><a ui-sref="dayendreport"><span class="xn-text">Day End Sale Report</span></a></li>
+		                            <li><a ui-sref="detailedsalereport"><span class="xn-text">Detailed Sales Report</span></a></li>
+		                        	<li><a ui-sref="lotterysalereport"><span class="xn-text">Sales Report</span></a></li>
+		                            <li><a ui-sref="salereportmonth"><span class="xn-text">Sale Report Month</span></a></li>
+                                    <li><a ui-sref="saletrendgamewise"><span class="xn-text">Sale Trend</span></a></li>	
+		                        </ul>
+		                    </div>
+	                    </uib-accordion >
+	                </div>
+                    <div uib-accordion-group heading="Business - Reports" style="border-top:2px solid #f2f2f2;" ng-if="AvailBusiness">
+                        <ul class="x-navigation">
+                            <!--<li class="xn-title"><strong>Lottery - Reports</strong></li>-->
+                            <li style="border-top:1px solid #f2f2f2;"><a ui-sref="businessmonthlyreport"><span class="xn-text">Monthly Report</span></a></li>
+                            <li><a ui-sref="businessshiftendreport"><span class="xn-text">Shift End Report</span></a></li>
+                            <li><a ui-sref="businessledgerreport"><span class="xn-text">Ledger</span></a></li>
+                        </ul>
+                    </div>
+                </uib-accordion>
+            </uib-tab>
+            <uib-tab index="3" ng-if="(AccessType !='STORE_USER')?true:false">
+                <uib-tab-heading><i class="fa fa-cog"></i></uib-tab-heading>
+                <uib-accordion >
+                <ul class="x-navigation" style="border-top:2px solid #f2f2f2;">
+                        <li><a ui-sref="dashboard"><span class="fa fa-user"></span><span class="xn-text">Dashboard</span></a></li>
+                    </ul>
+                    <div uib-accordion-group heading="Setup" style="border-top:2px solid #f2f2f2;">
+                    	<uib-accordion >
+                            <div uib-accordion-group heading="Business" style="border-top: 1px solid white;">
+                                <ul class="x-navigation">
+                                    <li tyle="border-top: 1px solid;"><a ui-sref="accountcreation"><span class="fa fa-user"></span><span class="xn-text">Account Creation</span></a></li>
+                                    <li><a ui-sref="businesspurchase"><span class="fa fa-user"></span><span class="xn-text">Purchase</span></a></li>
+                                    <li><a ui-sref="reportconfig"><span class="fa fa-user"></span><span class="xn-text">Report Configuration</span></a></li>
+                                </ul>
+                            </div>
+                            <div uib-accordion-group heading="Gas" style="border-top: 1px solid white;">
+                                <ul class="x-navigation">
+                                    <li tyle="border-top: 1px solid;"><a ui-sref="stockinward"><span class="fa fa-user"></span><span class="xn-text">Stock Inward</span></a></li>
+                                    <li><a ui-sref="purchases"><span class="fa fa-user"></span><span class="xn-text">Purchase Invoice</span></a></li>
+                                    <li><a ui-sref="receipts"><span class="fa fa-user"></span><span class="xn-text">Gas Dealer Statement</span></a></li>
+                                    <li><a ui-sref="recgasdealeraccount"><span class="fa fa-user"></span><span class="xn-text">Reconcile Gas Dealer Account</span></a></li>
+                                </ul>
+                            </div>
+	                    	<div uib-accordion-group heading="Lottery" style="border-top: 1px solid white;">
+		                        <ul class="x-navigation">
+		                            <li style="border-top: 1px solid;"><a ui-sref="newgame" style="border-top: 1px solid;"><span class="fa fa-user"></span><span class="xn-text">Add New Game</span></a></li>
+		                            <li><a ui-sref="manualsettlepack"><span class="fa fa-user"></span><span class="xn-text">Manual Settle Pack</span></a></li>
+		                            <li><a ui-sref="returnbooks"><span class="fa fa-user"></span><span class="xn-text">Return Books</span></a></li>
+		                            <li><a ui-sref="lotterypayments"><span class="fa fa-user"></span><span class="xn-text">Update Sweap Date</span></a></li>
+		                             <li><a ui-sref="updatecomm"><span class="fa fa-user"></span><span class="xn-text">Update Commission</span></a></li>
+		                        </ul>
+	                        </div>
+                        </uib-accordion >
+                    </div>
+                </uib-accordion>
+            </uib-tab>
+            <uib-tab index="4" ng-if="(AccessType =='SUPER_USER')?true:false">
+                <uib-tab-heading><i class="fa fa-lock"></i></uib-tab-heading>
+                <uib-accordion>
+                <ul class="x-navigation" style="border-top:2px solid #f2f2f2;">
+                        <li><a ui-sref="dashboard"><span class="fa fa-user"></span><span class="xn-text">Dashboard</span></a></li>
+                    </ul>
+                    <div uib-accordion-group  heading="Administration" style="border-top:2px solid #f2f2f2;">
+                        <ul class="x-navigation">
+                            <li style="border-top:1px solid #f2f2f2;"><a ui-sref="storechange"><span class="fa fa-user"></span><span class="xn-text">Change Store</span></a></li>
+                            <li><a ui-sref="createstore"><span class="fa fa-user"></span><span class="xn-text">Store Creation</span></a></li>
+                            <li><a ui-sref="createuser"><span class="fa fa-user"></span><span class="xn-text">User Creation</span></a></li>
+                            <li><a ui-sref="addlottery"><span class="fa fa-user"></span><span class="xn-text">Add Lottery</span></a></li>
+                            <li><a ui-sref="addgas"><span class="fa fa-user"></span><span class="xn-text">Add Gas</span></a></li>
+                            <li><a ui-sref="addcreditcard"><span class="fa fa-user"></span><span class="xn-text">Add Credit Card</span></a></li>
+                        </ul>
+                    </div>
+                </uib-accordion>
+            </uib-tab>
+        </uib-tabset>
+
+            <!--<ul class="x-navigation">
+                <li class="xn-title">Navigation</li>                
+                <li class="active">
+                    <a ui-sref="dashboard"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a>
+                </li>
+                <li>
+                    <a ui-sref="store"><span class="fa fa-tasks"></span><span class="xn-text">Store Management</span></a>
+                </li>
+                <li class="xn-title">GAS</li>
+                <li><a ui-sref="gas"><span class="fa fa-user"></span><span class="xn-text">Sales Entry</span></a></li>
+                <li><a ui-sref="purchases"><span class="fa fa-user"></span><span class="xn-text">Purchase Invoice</span></a></li>
+                <li><a ui-sref="receipts"><span class="fa fa-user"></span><span class="xn-text">Receipt Entry</span></a></li>
+
+                <li class="xn-title">Lottery</li>
+                <li><a ui-sref="dailyclosing"><span class="fa fa-user"></span><span class="xn-text">Daily Closing Reading</span></a></li>
+                <li><a ui-sref="activebooks"><span class="fa fa-user"></span><span class="xn-text">Active Books</span></a></li>
+                <li><a ui-sref="receivebooks"><span class="fa fa-user"></span><span class="xn-text">Receive Books</span></a></li>
+                <li class="xn-title"><strong>Gas - Reports</strong></li>
+                <li><a ui-sref="gss-reports-gas-profit-loss.html"><span class="xn-text">Profit &amp; Loss</span></a></li>
+                <li><a ui-sref="gss-reports-gas-reconcellation-statement.html"><span class="xn-text">Reconcellation Statement</span></a></li>
+                <li><a ui-sref="gss-reports-gas-sales-report.html"><span class="xn-text">Sales Report</span></a></li>
+                <li><a ui-sref="gss-reports-gas-monthly-statement.html"><span class="xn-text">Monthly Statement</span></a></li>
+                <li><a ui-sref="gss-reports-gas-sales-comparison.html"><span class="xn-text">Sales Comparison</span></a></li>
+
+                <li class="xn-title"><strong>Lottery - Reports</strong></li>
+                <li><a ui-sref="lotterysalereport"><span class="xn-text">Sales Report</span></a></li>
+                <li><a ui-sref="detailedsalereport"><span class="xn-text">Detailed Sales Report</span></a></li>
+                <li><a ui-sref="activebooksreport"><span class="xn-text">Active Books Report</span></a></li>
+                <li><a ui-sref="receivebooksreport"><span class="xn-text">Receive Books Report</span></a></li>
+            </ul>-->
+            <!-- END X-NAVIGATION -->
+</div>
+    <!-- END PAGE SIDEBAR -->
+            
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+          <!-- START X-NAVIGATION VERTICAL -->
+        <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+            <!-- TOGGLE NAVIGATION -->
+            <li class="xn-icon-button">
+                <a href="" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+            </li>
+            <!-- END TOGGLE NAVIGATION -->
+            <!-- SEARCH -->
+            <!--<li class="xn-search">
+                <form role="form">
+                    <input type="text" name="search" placeholder="Search..."/>
+                </form>
+            </li>-->   
+            <!-- END SEARCH -->
+            <!-- SIGN OUT -->
+            <li class="xn-icon-button pull-right">
+                <a ui-sref="logout" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out" title="Logout" style="cursor:pointer;"></span></a>
+            </li> 
+            <!-- END SIGN OUT -->
+            <li class="pull-right"><a>{{(StoreName=="null")?"":StoreName}}</a></li>
+            <!-- <li class="pull-right"><a ui-sref="dailyclosing">Lottery</a></li>
+            <li class="pull-right"><a ui-sref="gas">Gas</a></li> -->
+        </ul>
+        <!-- END X-NAVIGATION VERTICAL -->                     
+
+        <!-- START BREADCRUMB -->
+        <!-- <ul class="breadcrumb">
+            <li><a href="">Home</a></li>                    
+            <li class="active">Dashboard</li>
+        </ul> -->
+        <!-- END BREADCRUMB -->                       
+        
+        <!-- PAGE CONTENT WRAPPER -->
+        <div class="page-content-wrap">
+            <!-- LOADING ALL THE VIEW FILES HERE -->            
+            <div data-ui-view></div> 
+        </div>     
+    </div>            
+    <!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+<!-- MESSAGE BOX-->
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+            <div class="mb-content">
+                <p>Are you sure you want to log out?</p>                    
+                <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <a ui-sref="pages-login.html" class="btn btn-success btn-lg">Yes</a>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

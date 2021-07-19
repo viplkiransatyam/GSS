@@ -1,0 +1,249 @@
+<style>
+    .daytab a{
+            background:#262a33  ;
+            color:white;
+    }
+    .daytab>li.active>a, .daytab>li.active>a:hover, .daytab>li.active>a:focus
+         {
+            background: #1CAF9A!important;
+        }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">GasReports</a></li>
+    <li><a href="#">Shift End Report</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Shift End Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="InputFieldA">Date</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+	                         <div class="form-group">
+	                            <label class="control-label">Select Shift</label>
+	                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+	                                <option value="">Please Select</option>
+	                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+	                            </select>
+	                        </div>
+                            <button type="submit" class="btn btn-primary" ng-click="getShiftendReport(fromDate, ShiftCode)">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav  nav-justified daytab">
+                        <li class="active"><a  ng-click="ShowAbstractDetailsTabContent()" data-toggle="tab">Sales & Card Receipts</a></li>
+                        <li><a  ng-click="DetailedTabContent()" data-toggle="tab">Stocks & Purchases</a></li>
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane active" id="AbstractDetailsTabContent" ng-if="showAbstDetails">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table class="table table-condensed table-bordered">
+                                        <caption class="text-center"><strong>Sales</strong></caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    Shift
+                                                </th>
+                                                <th class="text-center">
+                                                    Gas Type
+                                                </th>
+                                                <th class="text-center">
+                                                    Qty
+                                                </th>
+                                                <th class="text-center">
+                                                    Sale
+                                                </th>
+                                                <th class="text-center">
+                                                    Unit Price
+                                                </th>
+                                                <th class="text-center">
+                                                    Set Price
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sale in DaySales">
+                                                <td class="text-center">
+                                                    {{(sale.GasType == 'Total')?'':ShiftCode}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{(sale.GasType == 'Total')?sale.GasType:sale.GasType}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{(sale.SaleQty)?sale.SaleQty:''}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{sale.SaleAmount | currency}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{(sale.UnitPrice)?sale.UnitPrice: ''}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{(sale.SetPrice)?sale.SetPrice:''}}
+                                                </td>
+                                            </tr>                                                                               
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-condensed table-bordered">
+                                        <caption class="text-center"><strong>Card Receipts</strong></caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    Shift
+                                                </th>
+                                                <th class="text-center">
+                                                    Card Type
+                                                </th>
+                                                <th class="text-center">
+                                                    Amount
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="receipts in DayCardReceipts">
+                                                <td class="text-center">
+                                                    {{(receipts.CardName == 'Total')?'':ShiftCode}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{(receipts.CardName == 'Total')?receipts.CardName:receipts.CardName}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{receipts.CardAmount | currency}}
+                                                </td>                                               
+                                            </tr>                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane active" id="DetailedTabContent" ng-if="showDetailed">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table class="table table-condensed table-bordered">
+                                        <caption class="text-center"><strong>Stocks</strong></caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    Shift
+                                                </th>
+                                                <th class="text-center">
+                                                    Gas Type
+                                                </th>
+                                                <th class="text-center">
+                                                    Opening Balance
+                                                </th>
+                                                <th class="text-center">
+                                                    ReceivedGallon
+                                                </th>
+                                                <th class="text-center">
+                                                    Sales
+                                                </th>
+                                                <th class="text-center">
+                                                    Purchase
+                                                </th>
+                                                <th class="text-center">
+                                                    Proift/Loss
+                                                </th>
+                                                <th class="text-center">
+                                                    Closing Stock
+                                                </th>
+                                                <th class="text-center">
+                                                    Closing Stock in Tank
+                                                </th>
+                                                <th class="text-center">
+                                                    Short/Over
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr ng-repeat="stock in DayStocks">
+                                                <td class="text-center">
+                                                    {{stock.ShiftCode}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{stock.GasType}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{stock.OpenQty}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{stock.InwardQty}}
+                                                </td>
+                                               <td class="text-center">
+                                                   {{stock.SaleQty}}
+                                               </td>
+                                               <td class="text-center">
+                                                   {{stock.PurchasePrice}}
+                                               </td>
+                                               <td class="text-center">
+                                                   {{stock.ProfitLoss}}
+                                               </td>
+                                               <td class="text-center">
+                                                   {{stock.SystemClosingQty}}
+                                               </td>
+                                                <td class="text-center">
+                                                    {{stock.ClosingQty}}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{stock.ShortOver | currency}}
+                                                </td>
+                                            </tr>                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-condensed table-bordered">
+                                        <caption class="text-center"><strong>Purchases</strong></caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    Invoice No.
+                                                </th>
+                                                <th class="text-center">
+                                                    Gas Type
+                                                </th>
+                                                <th class="text-center">
+                                                    Inward Qty
+                                                </th>
+                                                <th class="text-center">
+                                                    Invoice Qty
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="purchases in DayPurchases">
+                                                <td class="text-center">
+                                                    {{purchases.InvoiceNo}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{purchases.GasType}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{purchases.InwardQty}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{purchases.InvoiceQty}}
+                                                </td>                                                
+                                            </tr>                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

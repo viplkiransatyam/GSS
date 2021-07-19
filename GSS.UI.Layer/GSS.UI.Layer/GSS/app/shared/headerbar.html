@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">               
+            </div>
+            <div class="panel-body">
+            <table>
+                <tbody>
+                     <tr>
+                        <td class="col-md-5"><input type="date" class="form-control" id="daily_date" ng-model="myDate"></td>
+                        <td class="col-md-5">
+                            <select class="form-control select2"name="repeatSelect" id="repeatSelect" ng-model="ShiftCode" ng-change="getShiftCode(ShiftCode);">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </td>
+                        <td class="col-md-2"><button class="btn btn-primary pull-right" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button></td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>

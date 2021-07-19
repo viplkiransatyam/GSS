@@ -1,0 +1,110 @@
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Common</a></li>
+    <li><a href="#">Payment Vouchers</a></li>
+</ul>
+<!-- END BREADCRUMB -->
+
+    <!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <!--<button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>-->
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails();">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-group" id="accordion"> 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Payment Vouchers</a></strong></h3>
+                        </div>
+                        <div id="payments" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form name="PaymentsForm" class="form-horizontal" novalidate >
+                                    <div class="row">                            
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Select Account</label>                              
+                                                <select class="form-control select2" name="AccountLedgerID" id="AccountLedgerID" ng-model="payments.AccountLedgerID" required>
+                                                    <option value="">Please Select</option>
+                                                    <option ng-repeat="account in accounts | filter: { DisplayStatus: 'Y' }" value="{{account.LedgerID}}">{{account.LedgerName}}</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Account TranType</label>                                 
+                                                <select class="form-control select2" name="AccountTranType" id="AccountTranType" ng-model="payments.AccountTranType" required>
+                                                    <option value="">Please Select</option>
+                                                    <option value="Cash">Cash</option>
+                                                    <option value="MO">MO</option>
+                                                    <option value="Cheque">Cheque/Bank Transfer</option>
+                                                    <option value="CashierCheque">Cashier Cheque</option>
+                                                    <option>Automatic Bank Payments(EFT)</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label">Amount</label>
+                                            <input type="number" class="form-control" name="Amount" min="0" id="Amount" ng-model="payments.Amount" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label">Remarks</label>
+                                            <textarea class="form-control" name="PaymentRemarks" id="PaymentRemarks" ng-model="payments.PaymentRemarks" required></textarea>
+                                        </div>               
+                                        <button class="btn btn-primary" ng-click="addPayments();" style="margin-top: 27px;">Save</button>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Payment Mode</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                 <tr ng-if="!paymentsTable.length">
+                                                    <td colspan="7" class="text-center">No Payments has been received yet. Add Payment Vouchers</td>
+                                                </tr>
+                                                <tr ng-repeat="payment in paymentsTable track by $index">
+                                                    <td>{{payment.PaymentRemarks}}</td>
+                                                    <td>{{payment.AccountTranType}}</td>
+                                                    <td class="text-right">{{payment.Amount | currency}}</td> 
+                                                    <td>                               
+                                                        <i class="glyphicon glyphicon-trash" ng-click="removePayments($index, payment)"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- <div class="panel-footer" ng-if="paymentsTable.length">
+                                            <button class="btn btn-primary pull-right" ng-click="savePayments()">Save</button>
+                                        </div> -->
+                                    </div>
+                                </form >
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>

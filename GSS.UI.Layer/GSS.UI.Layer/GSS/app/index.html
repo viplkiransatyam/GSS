@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html ng-app="GasApp">
+    <head>        
+        <!-- META SECTION -->
+        <title>GSS</title>            
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />        
+        <link rel="icon" href="../assets/ico/favicon.png" type="image/x-icon" />
+        <!-- END META SECTION -->        
+        <!-- CSS INCLUDE --> 
+        <!-- BOOTSTRAP & FONTAWESOME -->
+        <link href="../assets/css/fontawesome/font-awesome.min.css" rel="stylesheet" type="text/css"> 
+        <link rel="stylesheet" href="../assets/css/isteven-multi-select.css">
+        <link href="../assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">  
+       
+        <!--<link href="http://marcosmoura.com/angular-material-sidemenu/angular-material/angular-material.css" rel="stylesheet" />
+        <link href="http//marcosmoura.com/angular-material-sidemenu/angular-material-sidemenu.css" rel="stylesheet" />-->
+         <link rel='stylesheet' href='../css/loading-bar.min.css' type='text/css' media='all' /> 
+        <link rel='stylesheet' href='../css/ng-table.min.css' type='text/css' media='all' />        
+        <link rel='stylesheet' href='../css/angular-bootstrap-calendar.min.css' type='text/css' media='all' />
+        <style>
+            #mydiv {  
+                position:absolute;
+                top:0;
+                left:0;
+                width:105%;
+                height:102%;
+                z-index:1050;
+                background-color:#404244;
+                opacity: .8;
+             }
+
+            .ajax-loader {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -32px; /* -1 * image width / 2 */
+                margin-top: -32px;  /* -1 * image height / 2 */
+                display: block;     
+            }
+        </style>          
+    </head>
+    <body>    
+        <div ui-view="">
+           
+        </div>                    
+            
+        <!-- START SCRIPTS -->        
+        <!-- START PLUGINS -->
+        <script type="text/javascript" src="../assets/lib/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../assets/lib/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../assets/lib/plugins/bootstrap/bootstrap.min.js"></script>   
+        <!-- END PLUGINS -->      
+        
+        <!-- END TEMPLATE -->
+        <!-- END SCRIPTS -->
+        <!-- START ANGUALR -->
+        <script type="text/javascript" src="../assets/lib/angular.min.js"></script>
+        <!--<script type="text/javascript" src="http://marcosmoura.com/angular-material-sidemenu/angular-animate/angular-animate.js"></script>
+        
+        <script type="text/javascript" src="http://marcosmoura.com/angular-material-sidemenu/angular-aria/angular-aria.js"></script>
+        <script type="text/javascript" src="http//marcosmoura.com/angular-material-sidemenu/angular-material/angular-material.js"></script>
+        <script type="text/javascript" src="http//marcosmoura.com/angular-material-sidemenu/angular-material-sidemenu.js"></script>-->
+
+        <script type="text/javascript" src="../assets/lib/angular-ui-router.js"></script>
+        <script type="text/javascript" src="../assets/lib/angular-cookies.min.js"></script>
+        <script type="text/javascript" src="../assets/lib/ocLazyLoad.js"></script>
+        <script src="../js/ui-bootstrap-tpls.min.js"></script>
+        <script type="text/javascript" src="../assets/lib/plugins/morris/raphael-min.js"></script>
+        <script type="text/javascript" src="../assets/lib/plugins/morris/morris.min.js"></script>
+        <script type='text/javascript' src='../js/loading-bar.min.js'></script> 
+        <script type='text/javascript' src='../js/ng-table.min.js'></script>        
+        <script type='text/javascript' src='../js/moment.min.js'></script>    
+        <script type='text/javascript' src='../js/angular-bootstrap-calendar-tpls.min.js'></script>
+        <script type='text/javascript' src='../js/Chart.min.js'></script>
+        <script type='text/javascript' src='../js/angular-chart.min.js'></script>  
+        <script type='text/javascript' src='../js/angular-chart.min.js'></script>         
+        <script type="text/javascript" src="../assets/lib/isteven-multi-select.js"></script>      
+        <script type="text/javascript" src="app.js"></script>        
+        <script type="text/javascript" src="shared/login/loginService.js"></script>
+       
+        <!-- END ANGUALR -->
+    </body>    
+</html>

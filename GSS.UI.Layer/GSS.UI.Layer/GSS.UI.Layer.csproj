@@ -1,0 +1,1352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{994D1A67-D39D-4F63-A988-85D0EF28F153}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GSS.UI.Layer</RootNamespace>
+    <AssemblyName>GSS.UI.Layer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Cors.5.2.6\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebApi.Cors.5.2.6\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\..\GSS.Data.Model\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\GSS.Data.Model\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\GSS.Data.Model\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\GSS.Data.Model\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\..\GSS.Data.Model\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.Facebook.3.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.Cookies.3.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.Google.3.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.Twitter.3.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\..\GSS.Data.Model\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccoutMasterController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\GasOilController.cs" />
+    <Compile Include="Controllers\GasPurchaseController.cs" />
+    <Compile Include="Controllers\OverrideController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RunConfigurationController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
+    <Compile Include="Controllers\GroupMasterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LotteryController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StoreMasterController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.js" />
+    <Content Include="App\img\404.png" />
+    <Content Include="App\img\500.png" />
+    <Content Include="App\img\avatar.jpg" />
+    <Content Include="App\img\left-bg.png" />
+    <Content Include="App\img\loading2.gif" />
+    <Content Include="App\img\loginbg.jpg" />
+    <Content Include="App\img\logomi.png" />
+    <Content Include="App\index.html" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\isteven-multi-select.css" />
+    <Content Include="GSS\app\app.js" />
+    <Content Include="GSS\app\components\admin\addcreditcard\addcreditcard.html" />
+    <Content Include="GSS\app\components\admin\addcreditcard\addcreditcard.js" />
+    <Content Include="GSS\app\components\admin\addgas\addgas.html" />
+    <Content Include="GSS\app\components\admin\addgas\addgas.js" />
+    <Content Include="GSS\app\components\admin\addlottery\addlottery.html" />
+    <Content Include="GSS\app\components\admin\addlottery\addlottery.js" />
+    <Content Include="GSS\app\components\admin\adminService.js" />
+    <Content Include="GSS\app\components\admin\storechange\storechange.html" />
+    <Content Include="GSS\app\components\admin\storechange\storechange.js" />
+    <Content Include="GSS\app\components\admin\storecreation\store.html" />
+    <Content Include="GSS\app\components\admin\storecreation\store.js" />
+    <Content Include="GSS\app\components\admin\usercreation\user.html" />
+    <Content Include="GSS\app\components\admin\usercreation\user.js" />
+    <Content Include="GSS\app\components\business\bank\bank.html" />
+    <Content Include="GSS\app\components\business\bank\bank.js" />
+    <Content Include="GSS\app\components\business\businessService.js" />
+    <Content Include="GSS\app\components\business\cashentry\cashentry.html" />
+    <Content Include="GSS\app\components\business\cashentry\cashentry.js" />
+    <Content Include="GSS\app\components\business\reports\groupcustomreport\groupcustomreport.html" />
+    <Content Include="GSS\app\components\business\reports\groupcustomreport\groupcustomreport.js" />
+    <Content Include="GSS\app\components\business\reports\ledger\ledger.html" />
+    <Content Include="GSS\app\components\business\reports\ledger\ledger.js" />
+    <Content Include="GSS\app\components\business\reports\monthlystmtreport\businessmonthlyreport.html" />
+    <Content Include="GSS\app\components\business\reports\monthlystmtreport\businessmonthlyreport.js" />
+    <Content Include="GSS\app\components\business\reports\profitloss\profitloss.html" />
+    <Content Include="GSS\app\components\business\reports\profitloss\profitlossController.js" />
+    <Content Include="GSS\app\components\common\paymentvoucher\receiptvoucher.html" />
+    <Content Include="GSS\app\components\gas\reports\profitloss\profitloss.html" />
+    <Content Include="GSS\app\components\gas\reports\profitloss\profitlossController.js" />
+    <Content Include="GSS\app\components\business\reports\shiftendreport\shiftendreport.html" />
+    <Content Include="GSS\app\components\business\reports\shiftendreport\shiftendreport.js" />
+    <Content Include="GSS\app\components\business\saleentry\saleentry.html" />
+    <Content Include="GSS\app\components\business\saleentry\saleentry.js" />
+    <Content Include="GSS\app\components\common\cardreceipts\cardreceipts.html" />
+    <Content Include="GSS\app\components\common\cardreceipts\cardreceiptsController.js" />
+    <Content Include="GSS\app\components\common\paymentvoucher\paymentvoucher.html" />
+    <Content Include="GSS\app\components\common\paymentvoucher\paymentvoucher.js" />
+    <Content Include="GSS\app\components\gas\gasService.js" />
+    <Content Include="GSS\app\components\gas\gas\gas.html" />
+    <Content Include="GSS\app\components\gas\gas\gasController.js" />
+    <Content Include="GSS\app\components\gas\purchases\purchaseController.js" />
+    <Content Include="GSS\app\components\gas\purchases\purchases.html" />
+    <Content Include="GSS\app\components\gas\receipts\receipts.html" />
+    <Content Include="GSS\app\components\gas\receipts\receiptsController.js" />
+    <Content Include="GSS\app\components\gas\reports\ledger\gasledger.html" />
+    <Content Include="GSS\app\components\gas\reports\ledger\gasledgerController.js" />
+    <Content Include="GSS\app\components\gas\reports\monthlyreport\monthlyreport.html" />
+    <Content Include="GSS\app\components\gas\reports\monthlyreport\monthlyreport.js" />
+    <Content Include="GSS\app\components\gas\reports\purchaseregister\purchaseregister.html" />
+    <Content Include="GSS\app\components\gas\reports\purchaseregister\purchaseregister.js" />
+    <Content Include="GSS\app\components\gas\reports\recgasdealeraccount\recgasdealeraccount.html" />
+    <Content Include="GSS\app\components\gas\reports\recgasdealeraccount\recgasdealeraccountContoller.js" />
+    <Content Include="GSS\app\components\gas\reports\reconcillationreport\reconcillationreport.html" />
+    <Content Include="GSS\app\components\gas\reports\reconcillationreport\reconcillationreport.js" />
+    <Content Include="GSS\app\components\gas\reports\salereportmonth\salereportmonth.html" />
+    <Content Include="GSS\app\components\gas\reports\salereportmonth\salereportmonth.js" />
+    <Content Include="GSS\app\components\gas\reports\salereport\salereport.html" />
+    <Content Include="GSS\app\components\gas\reports\salereport\salereport.js" />
+    <Content Include="GSS\app\components\gas\reports\saletrend\saletrend.html" />
+    <Content Include="GSS\app\components\gas\reports\saletrend\saletrend.js" />
+    <Content Include="GSS\app\components\gas\reports\shiftendreport\shiftendreport.html" />
+    <Content Include="GSS\app\components\gas\reports\shiftendreport\shiftendreport.js" />
+    <Content Include="GSS\app\components\gas\reports\stockinward\stockinward.html" />
+    <Content Include="GSS\app\components\gas\reports\stockinward\stockinward.js" />
+    <Content Include="GSS\app\components\lottery\activebooks\activebooks.html" />
+    <Content Include="GSS\app\components\lottery\activebooks\activebooksController.js" />
+    <Content Include="GSS\app\components\lottery\cashTransfer\cashtransfer.html" />
+    <Content Include="GSS\app\components\lottery\cashTransfer\lotterycashtransferController.js" />
+    <Content Include="GSS\app\components\lottery\dailyclosing\dailyclosing.html" />
+    <Content Include="GSS\app\components\lottery\dailyclosing\dailyclosingController.js" />
+    <Content Include="GSS\app\components\lottery\lotterypayments\lotterypayments.html" />
+    <Content Include="GSS\app\components\lottery\lotterypayments\lotterypayments.js" />
+    <Content Include="GSS\app\components\lottery\lotteryService.js" />
+    <Content Include="GSS\app\components\lottery\receivebooks\receivebooks.html" />
+    <Content Include="GSS\app\components\lottery\receivebooks\receivebooksController.js" />
+    <Content Include="GSS\app\components\lottery\reports\activebookreports\activebooksreport.html" />
+    <Content Include="GSS\app\components\lottery\reports\activebookreports\activebooksreportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\booksactivenotsettled\booksactivenotsettled.html" />
+    <Content Include="GSS\app\components\lottery\reports\booksactivenotsettled\booksactivenotsettled.js" />
+    <Content Include="GSS\app\components\lottery\reports\dayendreport\dayendreport.html" />
+    <Content Include="GSS\app\components\lottery\reports\dayendreport\dayendreportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\detailedsalereports\detailedsalereport.html" />
+    <Content Include="GSS\app\components\lottery\reports\detailedsalereports\detailedsalereportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\inventoryreport\inventoryreport.html" />
+    <Content Include="GSS\app\components\lottery\reports\inventoryreport\inventoryreportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\ledger\lotteryledger.html" />
+    <Content Include="GSS\app\components\lottery\reports\ledger\lotteryledgerController.js" />
+    <Content Include="GSS\app\components\lottery\reports\lotterygames\lotterygames.html" />
+    <Content Include="GSS\app\components\lottery\reports\lotterygames\lotterygamesController.js" />
+    <Content Include="GSS\app\components\lottery\reports\paymentdue\paymentdue.html" />
+    <Content Include="GSS\app\components\lottery\reports\paymentdue\paymentdue.js" />
+    <Content Include="GSS\app\components\lottery\reports\receivebookreports\receivebooksreport.html" />
+    <Content Include="GSS\app\components\lottery\reports\receivebookreports\receivebooksreportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\returnbooks\returnbooks.html" />
+    <Content Include="GSS\app\components\lottery\reports\returnbooks\returnbooks.js" />
+    <Content Include="GSS\app\components\lottery\reports\salereports\lotterysalereport.html" />
+    <Content Include="GSS\app\components\lottery\reports\salereports\lotterySaleReportController.js" />
+    <Content Include="GSS\app\components\lottery\reports\salereports\salereportmonth.html" />
+    <Content Include="GSS\app\components\lottery\reports\salereports\salereportmonth.js" />
+    <Content Include="GSS\app\components\lottery\reports\saletrendgamewise\saletrendgamewise.html" />
+    <Content Include="GSS\app\components\lottery\reports\saletrendgamewise\saletrendgamewisecontroller.js" />
+    <Content Include="GSS\app\components\setup\accountcreation\accountcreation.html" />
+    <Content Include="GSS\app\components\setup\accountcreation\accountcreation.js" />
+    <Content Include="GSS\app\components\setup\manualsettlepack\manualsettlepack.html" />
+    <Content Include="GSS\app\components\setup\manualsettlepack\manualsettlepack.js" />
+    <Content Include="GSS\app\components\setup\newgame\newgame.html" />
+    <Content Include="GSS\app\components\setup\newgame\newgameController.js" />
+    <Content Include="GSS\app\components\setup\purchases\purchases.html" />
+    <Content Include="GSS\app\components\setup\purchases\purchasesController.js" />
+    <Content Include="GSS\app\components\setup\reportconfig\reportconfig.html" />
+    <Content Include="GSS\app\components\setup\reportconfig\reportconfig.js" />
+    <Content Include="GSS\app\components\setup\returnbooks\returnbooks.html" />
+    <Content Include="GSS\app\components\setup\returnbooks\returnbooks.js" />
+    <Content Include="GSS\app\components\setup\setupService.js" />
+    <Content Include="GSS\app\components\setup\stockinward\stockinward.html" />
+    <Content Include="GSS\app\components\setup\stockinward\stockinwardController.js" />
+    <Content Include="GSS\app\components\setup\updatecomm\updatecomm.html" />
+    <Content Include="GSS\app\components\setup\updatecomm\updatecomm.js" />
+    <Content Include="GSS\app\components\store\bank\bank.html" />
+    <Content Include="GSS\app\components\store\bank\storeBankController.js" />
+    <Content Include="GSS\app\components\store\business\business.html" />
+    <Content Include="GSS\app\components\store\business\businessController.js" />
+    <Content Include="GSS\app\components\store\loansadvances\loansadvances.html" />
+    <Content Include="GSS\app\components\store\loansadvances\storeLoansAdvancesController.js" />
+    <Content Include="GSS\app\components\store\moneyorder\moneyorder.html" />
+    <Content Include="GSS\app\components\store\moneyorder\storeMoneyOrderController.js" />
+    <Content Include="GSS\app\components\store\storeService.js" />
+    <Content Include="GSS\app\index.html" />
+    <Content Include="GSS\app\shared\dashboard\dashboard.html" />
+    <Content Include="GSS\app\shared\dashboard\dashboardController.js" />
+    <Content Include="GSS\app\shared\dashboard\dashboardService.js" />
+    <Content Include="GSS\app\shared\headerbar.html" />
+    <Content Include="GSS\app\shared\login\login.html" />
+    <Content Include="GSS\app\shared\login\loginController.js" />
+    <Content Include="GSS\app\shared\login\loginService.js" />
+    <Content Include="GSS\app\shared\login\logoutController.js" />
+    <Content Include="GSS\app\shared\template.html" />
+    <Content Include="GSS\app\shared\templateController.js" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.asp" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.aspx" />
+    <Content Include="GSS\assets\assets\fileupload\cors\postmessage.html" />
+    <Content Include="GSS\assets\assets\fileupload\cors\result.html" />
+    <Content Include="GSS\assets\assets\fileupload\files\2V_vkjfD5Gg.jpg" />
+    <Content Include="GSS\assets\assets\fileupload\files\thumbnail\2V_vkjfD5Gg.jpg" />
+    <Content Include="GSS\assets\assets\images\blog\post_1.jpg" />
+    <Content Include="GSS\assets\assets\images\blog\post_2.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\girls-1.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\girls-2.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\girls-3.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\music-1.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\music-2.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\music-3.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\music-4.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\music-5.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-1.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-2.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-3.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-4.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-5.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-6.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\nature-7.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\space-1.jpg" />
+    <Content Include="GSS\assets\assets\images\gallery\space-2.jpg" />
+    <Content Include="GSS\assets\assets\images\nature.jpg" />
+    <Content Include="GSS\assets\assets\images\ocean.jpg" />
+    <Content Include="GSS\assets\assets\images\users\avatar-logo.jpg" />
+    <Content Include="GSS\assets\assets\images\users\avatar.jpg" />
+    <Content Include="GSS\assets\assets\images\users\no-image.jpg" />
+    <Content Include="GSS\assets\assets\images\users\profile.png" />
+    <Content Include="GSS\assets\assets\images\users\user.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user2.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user3.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user4.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user5.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user6.jpg" />
+    <Content Include="GSS\assets\assets\images\users\user7.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Lotus Sport Exige Gt3 01.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\peugeot_908rc-1600x1200.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Photoshop_Multi-coloured_butterflies_023732_.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Quiet Getaway, Lake Tahoe, Nevada-565362.jpeg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Space_Launching_pad_023724_.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Sport_Extreme__Waves__Ocean__Risk__Surfing_023731_.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\Sritney_Spears2_1920x1200.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\u3013_1278_53405-1600x1200.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\u9644_3151_love_4.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\white-aston-martin-wallpaper-1920x1080-1008078.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\white_curved_building-1920x1200.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\wide-wallpaper-1920x1080-001.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\wide-wallpaper-1920x1080-001234.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\windows_7___dragon-2560x1600.jpg" />
+    <Content Include="GSS\assets\assets\uploads\Images\World_other_world_Costa_Rica__Puntarenas_023746_.jpg" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\books.xml" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\elfinder.css" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\elfinder.full.js" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\fireworks.swf" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\fishes.jpg" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\google.html" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\milter-greylist.c" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\phuket.tiff" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\rm.wav" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\test-pivot.sql" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\virus.exe" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\vmware-win-ie8-elfinder.png" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\YUICompressor.java" />
+    <Content Include="GSS\assets\audio\alert.mp3" />
+    <Content Include="GSS\assets\audio\fail.mp3" />
+    <Content Include="GSS\assets\css\angular-material.css" />
+    <Content Include="GSS\assets\css\angular-material.layouts.css" />
+    <Content Include="GSS\assets\css\angular-material.layouts.min.css" />
+    <Content Include="GSS\assets\css\angular-material.min.css" />
+    <Content Include="GSS\assets\css\animate\animate.css" />
+    <Content Include="GSS\assets\css\animate\animate.min.css" />
+    <Content Include="GSS\assets\css\blueimp\blueimp-gallery.min.css" />
+    <Content Include="GSS\assets\css\bootstrap\bootstrap.min.css" />
+    <Content Include="GSS\assets\css\codemirror\codemirror.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\3024-day.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\3024-night.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\ambiance-mobile.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\ambiance.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\base16-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\base16-light.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\blackboard.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\cobalt.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\eclipse.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\elegant.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\erlang-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\lesser-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\mbo.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\mdn-like.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\midnight.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\monokai.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\neat.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\neo.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\night.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\paraiso-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\paraiso-light.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\pastel-on-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\rubyblue.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\solarized.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\the-matrix.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\tomorrow-night-eighties.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\twilight.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\vibrant-ink.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\xq-dark.css" />
+    <Content Include="GSS\assets\css\codemirror\theme\xq-light.css" />
+    <Content Include="GSS\assets\css\dropzone\dropzone.css" />
+    <Content Include="GSS\assets\css\fontawesome\font-awesome.min.css" />
+    <Content Include="GSS\assets\css\fonts\fontawesome-webfont.svg" />
+    <Content Include="GSS\assets\css\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="GSS\assets\css\form-elements.css" />
+    <Content Include="GSS\assets\css\fullcalendar\fullcalendar.css" />
+    <Content Include="GSS\assets\css\gss-custom.css" />
+    <Content Include="GSS\assets\css\isteven-multi-select.css" />
+    <Content Include="GSS\assets\css\jquery\jquery-ui.min.css" />
+    <Content Include="GSS\assets\css\mcustomscrollbar\jquery.mCustomScrollbar.css" />
+    <Content Include="GSS\assets\css\nvd3\nv.d3.css" />
+    <Content Include="GSS\assets\css\rickshaw\rickshaw.css" />
+    <Content Include="GSS\assets\css\select2.css" />
+    <Content Include="GSS\assets\css\select2.min.css" />
+    <Content Include="GSS\assets\css\style1.css" />
+    <Content Include="GSS\assets\css\summernote\summernote.css" />
+    <Content Include="GSS\assets\css\sweetalert.css" />
+    <Content Include="GSS\assets\css\theme-black.css" />
+    <Content Include="GSS\assets\css\theme-blue.css" />
+    <Content Include="GSS\assets\css\theme-default.css" />
+    <Content Include="GSS\assets\css\theme-white.css" />
+    <Content Include="GSS\assets\img\404.png" />
+    <Content Include="GSS\assets\img\500.png" />
+    <Content Include="GSS\assets\img\avatar.jpg" />
+    <Content Include="GSS\assets\img\backgrounds\wall_1.jpg" />
+    <Content Include="GSS\assets\img\bg-dot.png" />
+    <Content Include="GSS\assets\img\bg.png" />
+    <Content Include="GSS\assets\img\blueimp\error.png" />
+    <Content Include="GSS\assets\img\blueimp\error.svg" />
+    <Content Include="GSS\assets\img\blueimp\loading.gif" />
+    <Content Include="GSS\assets\img\blueimp\play-pause.png" />
+    <Content Include="GSS\assets\img\blueimp\play-pause.svg" />
+    <Content Include="GSS\assets\img\blueimp\video-play.png" />
+    <Content Include="GSS\assets\img\blueimp\video-play.svg" />
+    <Content Include="GSS\assets\img\colorpicker\alpha.png" />
+    <Content Include="GSS\assets\img\colorpicker\hue.png" />
+    <Content Include="GSS\assets\img\colorpicker\saturation.png" />
+    <Content Include="GSS\assets\img\dropzone\spritemap%402x.png" />
+    <Content Include="GSS\assets\img\dropzone\spritemap.png" />
+    <Content Include="GSS\assets\img\fileinput\loading.gif" />
+    <Content Include="GSS\assets\img\filetree\application.png" />
+    <Content Include="GSS\assets\img\filetree\code.png" />
+    <Content Include="GSS\assets\img\filetree\css.png" />
+    <Content Include="GSS\assets\img\filetree\db.png" />
+    <Content Include="GSS\assets\img\filetree\directory.png" />
+    <Content Include="GSS\assets\img\filetree\doc.png" />
+    <Content Include="GSS\assets\img\filetree\file.png" />
+    <Content Include="GSS\assets\img\filetree\film.png" />
+    <Content Include="GSS\assets\img\filetree\flash.png" />
+    <Content Include="GSS\assets\img\filetree\folder_open.png" />
+    <Content Include="GSS\assets\img\filetree\html.png" />
+    <Content Include="GSS\assets\img\filetree\java.png" />
+    <Content Include="GSS\assets\img\filetree\linux.png" />
+    <Content Include="GSS\assets\img\filetree\music.png" />
+    <Content Include="GSS\assets\img\filetree\pdf.png" />
+    <Content Include="GSS\assets\img\filetree\php.png" />
+    <Content Include="GSS\assets\img\filetree\picture.png" />
+    <Content Include="GSS\assets\img\filetree\ppt.png" />
+    <Content Include="GSS\assets\img\filetree\psd.png" />
+    <Content Include="GSS\assets\img\filetree\ruby.png" />
+    <Content Include="GSS\assets\img\filetree\script.png" />
+    <Content Include="GSS\assets\img\filetree\spinner.gif" />
+    <Content Include="GSS\assets\img\filetree\txt.png" />
+    <Content Include="GSS\assets\img\filetree\xls.png" />
+    <Content Include="GSS\assets\img\filetree\zip.png" />
+    <Content Include="GSS\assets\img\icheck\grey%402x.png" />
+    <Content Include="GSS\assets\img\icheck\grey.png" />
+    <Content Include="GSS\assets\img\icons\csv.png" />
+    <Content Include="GSS\assets\img\icons\json.png" />
+    <Content Include="GSS\assets\img\icons\pdf.png" />
+    <Content Include="GSS\assets\img\icons\png.png" />
+    <Content Include="GSS\assets\img\icons\ppt.png" />
+    <Content Include="GSS\assets\img\icons\sql.png" />
+    <Content Include="GSS\assets\img\icons\txt.png" />
+    <Content Include="GSS\assets\img\icons\word.png" />
+    <Content Include="GSS\assets\img\icons\xls.png" />
+    <Content Include="GSS\assets\img\icons\xml.png" />
+    <Content Include="GSS\assets\img\jquery\animated-overlay.gif" />
+    <Content Include="GSS\assets\img\jquery\resize-icon%402x.png" />
+    <Content Include="GSS\assets\img\jquery\resize-icon.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="GSS\assets\img\jquery\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="GSS\assets\img\jquery\ui-icons_222222_256x240.png" />
+    <Content Include="GSS\assets\img\jquery\ui-icons_228ef1_256x240.png" />
+    <Content Include="GSS\assets\img\jquery\ui-icons_ef8c08_256x240.png" />
+    <Content Include="GSS\assets\img\jquery\ui-icons_ffd27a_256x240.png" />
+    <Content Include="GSS\assets\img\jquery\ui-icons_ffffff_256x240.png" />
+    <Content Include="GSS\assets\img\left-bg.png" />
+    <Content Include="GSS\assets\img\loaders\default.gif" />
+    <Content Include="GSS\assets\img\loading2.gif" />
+    <Content Include="GSS\assets\img\loginbg.jpg" />
+    <Content Include="GSS\assets\img\logo%402x.png" />
+    <Content Include="GSS\assets\img\logo-grey%402x.png" />
+    <Content Include="GSS\assets\img\logo-grey.png" />
+    <Content Include="GSS\assets\img\logo-small%402x.png" />
+    <Content Include="GSS\assets\img\logo-small-grey%402x.png" />
+    <Content Include="GSS\assets\img\logo-small-grey.png" />
+    <Content Include="GSS\assets\img\logo-small.png" />
+    <Content Include="GSS\assets\img\logo.png" />
+    <Content Include="GSS\assets\img\logomi.png" />
+    <Content Include="GSS\assets\img\owl\AjaxLoader.gif" />
+    <Content Include="GSS\assets\img\owl\grabbing.png" />
+    <Content Include="GSS\assets\img\themes\black.jpg" />
+    <Content Include="GSS\assets\img\themes\blue.jpg" />
+    <Content Include="GSS\assets\img\themes\brown.jpg" />
+    <Content Include="GSS\assets\img\themes\default.jpg" />
+    <Content Include="GSS\assets\img\themes\light.jpg" />
+    <Content Include="GSS\assets\lib\actions.js" />
+    <Content Include="GSS\assets\lib\angular-animate.js" />
+    <Content Include="GSS\assets\lib\angular-animate.min.js" />
+    <Content Include="GSS\assets\lib\angular-animate\angular-animate.js" />
+    <Content Include="GSS\assets\lib\angular-animate\angular-animate.min.js" />
+    <Content Include="GSS\assets\lib\angular-aria\angular-aria.js" />
+    <Content Include="GSS\assets\lib\angular-aria\angular-aria.min.js" />
+    <Content Include="GSS\assets\lib\angular-cookies.js" />
+    <Content Include="GSS\assets\lib\angular-cookies.min.js" />
+    <Content Include="GSS\assets\lib\angular-material\angular-material-mocks.js" />
+    <Content Include="GSS\assets\lib\angular-material\angular-material.js" />
+    <Content Include="GSS\assets\lib\angular-material\angular-material.min.js" />
+    <Content Include="GSS\assets\lib\angular-messages.js" />
+    <Content Include="GSS\assets\lib\angular-messages.min.js" />
+    <Content Include="GSS\assets\lib\angular-mocks.js" />
+    <Content Include="GSS\assets\lib\angular-route.js" />
+    <Content Include="GSS\assets\lib\angular-route.min.js" />
+    <Content Include="GSS\assets\lib\angular-touch.js" />
+    <Content Include="GSS\assets\lib\angular-touch.min.js" />
+    <Content Include="GSS\assets\lib\angular-ui-router.js" />
+    <Content Include="GSS\assets\lib\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="GSS\assets\lib\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="GSS\assets\lib\angular-ui\ui-bootstrap.js" />
+    <Content Include="GSS\assets\lib\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="GSS\assets\lib\angular.js" />
+    <Content Include="GSS\assets\lib\angular.min.js" />
+    <Content Include="GSS\assets\lib\demo_charts_morris.js" />
+    <Content Include="GSS\assets\lib\demo_charts_nvd3.js" />
+    <Content Include="GSS\assets\lib\demo_charts_rickshaw.js" />
+    <Content Include="GSS\assets\lib\demo_dashboard.js" />
+    <Content Include="GSS\assets\lib\demo_icons.js" />
+    <Content Include="GSS\assets\lib\demo_maps.js" />
+    <Content Include="GSS\assets\lib\demo_tables.js" />
+    <Content Include="GSS\assets\lib\demo_tasks.js" />
+    <Content Include="GSS\assets\lib\faq.js" />
+    <Content Include="GSS\assets\lib\isteven-multi-select.js" />
+    <Content Include="GSS\assets\lib\ocLazyLoad.js" />
+    <Content Include="GSS\assets\lib\plugins.js" />
+    <Content Include="GSS\assets\lib\plugins\blueimp\jquery.blueimp-gallery.min.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap-colorpicker.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap-datepicker.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap-file-input.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap-select.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap-timepicker.min.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\bootstrap.min.js" />
+    <Content Include="GSS\assets\lib\plugins\bootstrap\npm.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\codemirror.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\apl\apl.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\asterisk\asterisk.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\clike\clike.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\clojure\clojure.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\cobol\cobol.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\coffeescript\coffeescript.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\commonlisp\commonlisp.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\css\css.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\css\less_test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\css\scss_test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\css\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\cypher\cypher.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\diff\diff.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\django\django.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\dtd\dtd.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\dylan\dylan.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\d\d.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\ecl\ecl.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\eiffel\eiffel.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\erlang\erlang.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\fortran\fortran.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\gas\gas.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\gfm\gfm.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\gfm\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\gherkin\gherkin.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\go\go.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\groovy\groovy.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\haml\haml.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\haml\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\haskell\haskell.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\haxe\haxe.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\http\http.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\jade\index.html" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\javascript\javascript.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\javascript\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\jinja2\jinja2.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\julia\julia.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\kotlin\kotlin.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\livescript\livescript.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\lua\lua.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\markdown\markdown.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\markdown\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\meta.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\mirc\mirc.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\mllike\mllike.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\nginx\nginx.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\ntriples\ntriples.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\octave\octave.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\pascal\pascal.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\pegjs\pegjs.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\perl\perl.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\php\php.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\php\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\pig\pig.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\properties\properties.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\puppet\puppet.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\python\python.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\q\q.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\rpm\changes\index.html" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\rpm\rpm.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\rst\rst.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\ruby\ruby.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\ruby\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\rust\rust.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\r\r.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\sass\sass.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\scheme\scheme.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\shell\shell.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\shell\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\sieve\sieve.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\slim\slim.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\slim\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\smalltalk\smalltalk.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\smartymixed\smartymixed.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\smarty\smarty.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\solr\solr.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\sparql\sparql.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\sql\sql.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\stex\stex.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\stex\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\tcl\tcl.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\tiddlywiki\tiddlywiki.css" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\tiddlywiki\tiddlywiki.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\tiki\tiki.css" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\tiki\tiki.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\toml\toml.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\turtle\turtle.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\vbscript\vbscript.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\vb\vb.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\velocity\velocity.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\verilog\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\verilog\verilog.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\xml\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\xml\xml.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\xquery\test.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\xquery\xquery.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\yaml\yaml.js" />
+    <Content Include="GSS\assets\lib\plugins\codemirror\mode\z80\z80.js" />
+    <Content Include="GSS\assets\lib\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="GSS\assets\lib\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="GSS\assets\lib\plugins\dropzone\dropzone.min.js" />
+    <Content Include="GSS\assets\lib\plugins\fileinput\fileinput.min.js" />
+    <Content Include="GSS\assets\lib\plugins\filetree\jqueryFileTree.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ar-ma.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ar-sa.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ar.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\bg.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ca.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\cs.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\da.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\de-at.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\de.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\el.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\en-au.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\en-ca.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\en-gb.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\es.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\fa.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\fi.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\fr-ca.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\fr.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\hi.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\hr.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\hu.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\id.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\is.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\it.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ja.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ko.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\lt.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\lv.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\nl.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\pl.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\pt-br.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\pt.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ro.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\ru.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\sk.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\sl.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\sr-cyrl.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\sr.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\sv.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\th.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\tr.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\uk.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\vi.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\zh-cn.js" />
+    <Content Include="GSS\assets\lib\plugins\fullcalendar\lang\zh-tw.js" />
+    <Content Include="GSS\assets\lib\plugins\highlight\jquery.highlight-4.js" />
+    <Content Include="GSS\assets\lib\plugins\icheck\icheck.min.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\accept.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\additional.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\alphanumeric.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\bankaccountNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\bankorgiroaccountNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\bic.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\cifES.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\creditcardtypes.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\currency.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\dateFA.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\dateITA.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\dateNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\extension.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\giroaccountNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\iban.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\integer.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\ipv4.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\ipv6.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\lettersonly.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\letterswithbasicpunc.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\mobileNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\mobileUK.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\nieES.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\nifES.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\nowhitespace.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\pattern.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\phoneNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\phonesUK.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\phoneUK.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\phoneUS.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\postalCodeCA.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\postalcodeIT.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\postalcodeNL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\postcodeUK.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\require_from_group.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\skip_or_fill_minimum.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\statesUS.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\strippedminlength.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\time.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\time12h.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\url2.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\vinUS.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\zipcodeUS.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\additional\ziprange.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\jquery.validate.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ar.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_bg.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ca.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_cs.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_da.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_de.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_el.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_es.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_es_AR.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_et.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_eu.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_fa.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_fi.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_fr.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_gl.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_he.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_hr.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_hu.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_id.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_is.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_it.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ja.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ka.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_kk.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ko.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_lt.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_lv.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_my.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_nl.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_no.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_pl.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_pt_BR.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_pt_PT.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ro.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_ru.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_si.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_sk.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_sl.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_sr.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_sr_lat.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_sv.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_th.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_tj.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_tr.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_uk.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_vi.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_zh.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\messages_zh_TW.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\methods_de.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\methods_es_CL.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\methods_fi.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\methods_nl.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery-validation\localization\methods_pt.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery\jquery-migrate.min.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery\jquery-ui.min.js" />
+    <Content Include="GSS\assets\lib\plugins\jquery\jquery.min.js" />
+    <Content Include="GSS\assets\lib\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="GSS\assets\lib\plugins\jvectormap\jquery-jvectormap-europe-mill-en.js" />
+    <Content Include="GSS\assets\lib\plugins\jvectormap\jquery-jvectormap-uakraine-merc-en.js" />
+    <Content Include="GSS\assets\lib\plugins\jvectormap\jquery-jvectormap-us-aea-en.js" />
+    <Content Include="GSS\assets\lib\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="GSS\assets\lib\plugins\knob\jquery.knob.min.js" />
+    <Content Include="GSS\assets\lib\plugins\lesscss\less.min.js" />
+    <Content Include="GSS\assets\lib\plugins\maskedinput\jquery.maskedinput.min.js" />
+    <Content Include="GSS\assets\lib\plugins\mcustomscrollbar\jquery.mCustomScrollbar.min.js" />
+    <Content Include="GSS\assets\lib\plugins\moment.min.js" />
+    <Content Include="GSS\assets\lib\plugins\morris\morris.min.js" />
+    <Content Include="GSS\assets\lib\plugins\morris\raphael-min.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\jquery.noty.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\bottom.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\bottomCenter.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\bottomLeft.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\bottomRight.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\center.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\centerLeft.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\centerRight.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\inline.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\top.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\topCenter.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\topLeft.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\layouts\topRight.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\promise.js" />
+    <Content Include="GSS\assets\lib\plugins\noty\themes\default.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\cie.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\colorbrewer.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\crossfilter.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\crossfilter.min.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\d3.v2.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\d3.v2.min.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\d3.v3.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\fisheye.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\hive.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\horizon.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\lib\sankey.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\nv.d3.min.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\core.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\interactiveLayer.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\intro.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\axis.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\backup\bullet.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\backup\bulletChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\boilerplate.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\bullet.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\bulletChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\cumulativeLineChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\discreteBar.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\discreteBarChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\distribution.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\historicalBar.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\historicalBarChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\indentedTree.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\legend.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\line.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\lineChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\linePlusBarChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\linePlusBarWithFocusChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\lineWithFisheye.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\lineWithFisheyeChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\lineWithFocusChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBar.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBarChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBarHorizontal.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBarHorizontalChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBarTimeSeries.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiBarTimeSeriesChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\multiChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\ohlcBar.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\parallelCoordinates.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\pie.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\pieChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\scatter.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\scatterChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\scatterPlusLineChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\sparkline.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\sparklinePlus.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\stackedArea.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\models\stackedAreaChart.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\outro.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\tooltip.js" />
+    <Content Include="GSS\assets\lib\plugins\nvd3\src\utils.js" />
+    <Content Include="GSS\assets\lib\plugins\owl\owl.carousel.min.js" />
+    <Content Include="GSS\assets\lib\plugins\rangeslider\jQAllRangeSliders-min.js" />
+    <Content Include="GSS\assets\lib\plugins\rickshaw\d3.layout.min.js" />
+    <Content Include="GSS\assets\lib\plugins\rickshaw\d3.min.js" />
+    <Content Include="GSS\assets\lib\plugins\rickshaw\d3.v2.js" />
+    <Content Include="GSS\assets\lib\plugins\rickshaw\d3.v3.js" />
+    <Content Include="GSS\assets\lib\plugins\rickshaw\rickshaw.min.js" />
+    <Content Include="GSS\assets\lib\plugins\scrolltotop\scrolltopcontrol.js" />
+    <Content Include="GSS\assets\lib\plugins\smartwizard\jquery.smartWizard-2.0.min.js" />
+    <Content Include="GSS\assets\lib\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="GSS\assets\lib\plugins\summernote\summernote.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\html2canvas.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\jquery.base64.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\jspdf\jspdf.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\jspdf\libs\base64.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\jspdf\libs\sprintf.js" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\tableExport.js" />
+    <Content Include="GSS\assets\lib\plugins\tagsinput\jquery.tagsinput.min.js" />
+    <Content Include="GSS\assets\lib\plugins\tocify\jquery.tocify.min.js" />
+    <Content Include="GSS\assets\lib\plugins\tour\bootstrap-tour.min.js" />
+    <Content Include="GSS\assets\lib\plugins\tour\bootstro.min.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\jquery.validationEngine.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-ca.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-cz.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-da.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-de.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-el.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-en.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-es.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-et.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-fa.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-fi.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-fr.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-he.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-hr.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-hu.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-id.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-it.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-ja.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-lt.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-nl.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-no.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-pl.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-pt.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-pt_BR.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-ro.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-ru.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-sr_Cyrl.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-sr_Latn.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-sv.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-tr.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-vi.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-zh_CN.js" />
+    <Content Include="GSS\assets\lib\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
+    <Content Include="GSS\assets\lib\portlet.js" />
+    <Content Include="GSS\assets\lib\select2.js" />
+    <Content Include="GSS\assets\lib\select2.min.js" />
+    <Content Include="GSS\assets\lib\settings.js" />
+    <Content Include="GSS\assets\lib\sweetalert.min.js" />
+    <Content Include="GSS\assets\lib\ui-grid.js" />
+    <Content Include="GSS\css\angular-bootstrap-calendar.min.css" />
+    <Content Include="GSS\css\bootstrap.min.css" />
+    <Content Include="GSS\css\elegant-icons.min.css" />
+    <Content Include="GSS\css\flexslider.min.css" />
+    <Content Include="GSS\css\lightbox.min.css" />
+    <Content Include="GSS\css\line-icons.min.css" />
+    <Content Include="GSS\css\loading-bar.min.css" />
+    <Content Include="GSS\css\login.css" />
+    <Content Include="GSS\css\ng-table.min.css" />
+    <Content Include="GSS\css\theme-aquatica.css" />
+    <Content Include="GSS\css\theme-aspirin.css" />
+    <Content Include="GSS\css\theme-blues.css" />
+    <Content Include="GSS\css\theme-buddha.css" />
+    <Content Include="GSS\css\theme-cobalt.css" />
+    <Content Include="GSS\css\theme-rocklobster.css" />
+    <Content Include="GSS\css\theme-tronic.css" />
+    <Content Include="GSS\css\theme.css" />
+    <Content Include="GSS\css\ui-grid.css" />
+    <Content Include="GSS\css\ui-grid.min.css" />
+    <Content Include="GSS\fonts\ElegantIcons.svg" />
+    <Content Include="GSS\fonts\glyphicons-halflings-regular-2.html" />
+    <Content Include="GSS\fonts\glyphicons-halflings-regular-3.html" />
+    <Content Include="GSS\fonts\glyphicons-halflings-regular-4.html" />
+    <Content Include="GSS\fonts\glyphicons-halflings-regular.html" />
+    <Content Include="GSS\fonts\glyphicons-halflings-regulard41d.html" />
+    <Content Include="GSS\img\balls_loading.gif" />
+    <Content Include="GSS\img\bg.jpg" />
+    <Content Include="GSS\img\client1.png" />
+    <Content Include="GSS\img\client2.png" />
+    <Content Include="GSS\img\client3.png" />
+    <Content Include="GSS\img\client4.png" />
+    <Content Include="GSS\img\client5.png" />
+    <Content Include="GSS\img\client6.png" />
+    <Content Include="GSS\img\client8.png" />
+    <Content Include="GSS\img\grey-bg.jpg" />
+    <Content Include="GSS\img\hero6.jpg" />
+    <Content Include="GSS\img\loader-animation.gif" />
+    <Content Include="GSS\img\logo-dark.png" />
+    <Content Include="GSS\img\logo-light.png" />
+    <Content Include="GSS\index.html" />
+    <Content Include="GSS\js\angular-bootstrap-calendar-tpls.min.js" />
+    <Content Include="GSS\js\angular-bootstrap-calendar.js" />
+    <Content Include="GSS\js\angular-chart.min.js" />
+    <Content Include="GSS\js\bootstrap.min.js" />
+    <Content Include="GSS\js\Chart.min.js" />
+    <Content Include="GSS\js\isotope.min.js" />
+    <Content Include="GSS\js\jquery.countdown.min.js" />
+    <Content Include="GSS\js\jquery.flexslider-min.js" />
+    <Content Include="GSS\js\jquery.min.js" />
+    <Content Include="GSS\js\jquery.plugin.min.js" />
+    <Content Include="GSS\js\lightbox.min.js" />
+    <Content Include="GSS\js\loading-bar.min.js" />
+    <Content Include="GSS\js\modernizr-2.6.2-respond-1.1.0.min.js" />
+    <Content Include="GSS\js\moment.min.js" />
+    <Content Include="GSS\js\ng-table.min.js" />
+    <Content Include="GSS\js\scripts.js" />
+    <Content Include="GSS\js\scrollReveal.min.js" />
+    <Content Include="GSS\js\skrollr.min.js" />
+    <Content Include="GSS\js\smooth-scroll.min.js" />
+    <Content Include="GSS\js\spectragram.min.js" />
+    <Content Include="GSS\js\twitterFetcher_v10_min.js" />
+    <Content Include="GSS\js\ui-bootstrap-tpls.js" />
+    <Content Include="GSS\js\ui-bootstrap-tpls.min.js" />
+    <Content Include="GSS\js\ui-bootstrap.js" />
+    <Content Include="GSS\js\ui-bootstrap.min.js" />
+    <Content Include="GSS\js\ui-grid.js" />
+    <Content Include="GSS\js\ui-grid.min.js" />
+    <Content Include="GSS\video\index.html" />
+    <Content Include="GSS\video\video.mp4" />
+    <Content Include="GSS\video\video.ogv" />
+    <Content Include="GSS\video\video.webm" />
+    <Content Include="index.html" />
+    <Content Include="loginsample.html" />
+    <Content Include="Scripts\isteven-multi-select.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\ui-grid.js" />
+    <Content Include="Styles\style.css" />
+    <Content Include="Styles\ui-grid.css" />
+    <Content Include="views\accountcreationstore.html" />
+    <Content Include="views\accountcreation.html" />
+    <Content Include="views\applygasoiltypeview.html" />
+    <Content Include="views\assignCardtype.html" />
+    <Content Include="views\bankdeposit.html" />
+    <Content Include="views\changepassword.html" />
+    <Content Include="views\chequeCashing.html" />
+    <Content Include="views\chequedeposits.html" />
+    <Content Include="views\creategroups.html" />
+    <Content Include="views\dailystorebasis.html" />
+    <Content Include="views\dailystoreController.js" />
+    <Content Include="views\dashboard.html" />
+    <Content Include="views\defaultView.html" />
+    <Content Include="views\gasmonthlyreportview.html" />
+    <Content Include="views\groupcustomreport.html" />
+    <Content Include="views\instorepayments.html" />
+    <Content Include="views\instoresale.html" />
+    <Content Include="views\login.html" />
+    <Content Include="views\lottery.html" />
+    <Content Include="views\GasPriceUpdate.html" />
+    <Content Include="views\mapledgers.html" />
+    <Content Include="views\monthlyreportview.html" />
+    <Content Include="views\BalanceSheetGas.html" />
+    <Content Include="views\purchases.html" />
+    <Content Include="views\unlockDay.html" />
+    <Content Include="views\ReportLedger.html" />
+    <Content Include="views\openingbalanceupdate.html" />
+    <Content Include="views\receipts.html" />
+    <Content Include="views\StoreView.html" />
+    <Content Include="Content\angular-material.css" />
+    <Content Include="Content\angular-material.layouts.css" />
+    <Content Include="Content\angular-material.layouts.min.css" />
+    <Content Include="Content\angular-material.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\form-elements.css" />
+    <Content Include="Content\metisMenu.min.css" />
+    <Content Include="Content\sb-admin-2.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\style1.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-animate.min.js" />
+    <Content Include="Scripts\angular-animate\angular-animate.js" />
+    <Content Include="Scripts\angular-animate\angular-animate.min.js" />
+    <Content Include="Scripts\angular-aria\angular-aria.js" />
+    <Content Include="Scripts\angular-aria\angular-aria.min.js" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
+    <Content Include="Scripts\angular-material\angular-material-mocks.js" />
+    <Content Include="Scripts\angular-material\angular-material.js" />
+    <Content Include="Scripts\angular-material\angular-material.min.js" />
+    <Content Include="Scripts\angular-messages.js" />
+    <Content Include="Scripts\angular-messages.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-touch.js" />
+    <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App.config" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\Montserrat-Regular.ttf" />
+    <Content Include="fonts\Muli-Regular.ttf" />
+    <Content Include="GSS\assets\assets\ajax_fullcalendar.php" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.cf" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.jsp" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.php" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.pl" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.py" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree.rb" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree_huck.lasso" />
+    <Content Include="GSS\assets\assets\filetree\jqueryFileTree_sabourdin.lasso" />
+    <Content Include="GSS\assets\assets\fileupload\files\.htaccess" />
+    <Content Include="GSS\assets\assets\fileupload\index.php" />
+    <Content Include="GSS\assets\assets\fileupload\UploadHandler.php" />
+    <Content Include="GSS\assets\assets\plugins\nvd3\cumulativeLineData.json" />
+    <Content Include="GSS\assets\assets\plugins\nvd3\linePlusBarData.json" />
+    <Content Include="GSS\assets\assets\plugins\nvd3\multiBarHorizontalData.json" />
+    <Content Include="GSS\assets\assets\plugins\nvd3\stackedAreaData.json" />
+    <Content Include="GSS\assets\assets\upload.php" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\archive.rar" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\archive.tar.gz" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\archive.zip" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\elFinder.class.php" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\elFinder.py" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\munin_httptime.sh" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\Payment Icons.zip" />
+    <Content Include="GSS\assets\assets\uploads\MIME-Types\Supervisor.doc" />
+    <Content Include="GSS\assets\css\bootstrap\bootstrap.css.map" />
+    <Content Include="GSS\assets\css\fonts\fontawesome-webfont.eot" />
+    <Content Include="GSS\assets\css\fonts\fontawesome-webfont.ttf" />
+    <Content Include="GSS\assets\css\fonts\fontawesome-webfont.woff" />
+    <Content Include="GSS\assets\css\fonts\FontAwesome.otf" />
+    <Content Include="GSS\assets\css\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="GSS\assets\css\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="GSS\assets\css\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="GSS\assets\lib\angular-animate.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-animate\angular-animate.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-aria\angular-aria.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-cookies.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-messages.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-route.min.js.map" />
+    <Content Include="GSS\assets\lib\angular-touch.min.js.map" />
+    <Content Include="GSS\assets\lib\angular.min.js.map" />
+    <Content Include="GSS\assets\lib\plugins\jquery\jquery-2.1.1.min.map" />
+    <Content Include="GSS\assets\lib\plugins\tableexport\simple_html_dom.php" />
+    <Content Include="GSS\css\ui-grid.ttf" />
+    <Content Include="GSS\css\ui-grid.woff" />
+    <Content Include="GSS\fonts\ElegantIcons.eot" />
+    <Content Include="GSS\fonts\ElegantIcons.ttf" />
+    <Content Include="GSS\fonts\ElegantIcons.woff" />
+    <Content Include="GSS\fonts\ElegantIconsd41d.eot" />
+    <Content Include="GSS\fonts\et-line.eot" />
+    <Content Include="GSS\fonts\et-line.ttf" />
+    <Content Include="GSS\fonts\et-line.woff" />
+    <Content Include="GSS\fonts\et-lined41d.eot" />
+    <None Include="Properties\PublishProfiles\ShreeYogi-FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\shreeyogi.com - Web Deploy.pubxml" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular-animate\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular-aria\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.backstretch.min.js" />
+    <Content Include="Scripts\jquery.metisMenu.js" />
+    <Content Include="Scripts\jquery.nicescroll.js" />
+    <Content Include="Scripts\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\metisMenu.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\scripts.js" />
+    <Content Include="Scripts\scripts1.js" />
+    <Content Include="Scripts\sweetalert-dev.js" />
+    <Content Include="Scripts\sweetalert.css" />
+    <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Styles\sweetalert.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="css\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 1\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 2\folder 1\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 2\folder 2\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 2\folder 3\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 2\folder 4\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 2\folder 5\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 3\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 4\" />
+    <Folder Include="GSS\assets\assets\uploads\Welcome\folder 5\" />
+    <Folder Include="GSS\assets\js\" />
+    <Folder Include="GSS\assets\lib\plugins\fileinput\fileinput\" />
+    <Folder Include="views\RunConfiguration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GSS.Data.BusinessLogic\ClassLibrary1\GSS.BusinessLogic.Layer.csproj">
+      <Project>{f37220d8-e12a-4c77-9c70-a02bb3bac98a}</Project>
+      <Name>GSS.BusinessLogic.Layer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GSS.Data.Model\GSS.Data.Model\GSS.Data.Model.csproj">
+      <Project>{415f2afa-516d-464e-a5e7-d127ef9579bb}</Project>
+      <Name>GSS.Data.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GSS.DataAccess.Layer\GSS.DataAccess.Layer\GSS.DataAccess.Layer.csproj">
+      <Project>{c790f7d1-66d9-4ced-b090-660f9792eea0}</Project>
+      <Name>GSS.DataAccess.Layer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62923</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:62923/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

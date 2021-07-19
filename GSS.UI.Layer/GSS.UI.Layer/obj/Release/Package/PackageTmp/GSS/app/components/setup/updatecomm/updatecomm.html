@@ -1,0 +1,65 @@
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Update Commissions</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong>Update Commissions</strong> </h3> </div>
+                <div class="panel-body">
+                    <form name="updateCommForm" novalidate>
+                        <div class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Business Ending</label>
+                                <div class="col-md-6 ">
+                                    <input type="date" class="form-control " name="BusinessEndidngDate" ng-model="comm.BusinessEndidngDate" required>
+                                    <span ng-show="updateCommForm.$submitted && updateCommForm.BusinessEndidngDate.$error.required">
+                                        Business Ending is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Instant Commission</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control " name="LotteryInstantCommission" ng-model="comm.LotteryInstantCommission" required>
+                                    <span ng-show="updateCommForm.$submitted && updateCommForm.LotteryInstantCommission.$error.required">
+                                        Instant Commission is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Sale Commission</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control " name="LotteryOnlineCommission" ng-model="comm.LotteryOnlineCommission" required>
+                                    <span ng-show="updateCommForm.$submitted && updateCommForm.LotteryOnlineCommission.$error.required">
+                                        Sale Commission is required.
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Cash Commission</label>
+                                <div class="col-md-6 ">
+                                    <input type="number" class="form-control " name="LotteryCashCommission" ng-model="comm.LotteryCashCommission" required>
+                                    <span ng-show="updateCommForm.$submitted && updateCommForm.LotteryCashCommission.$error.required">
+                                        Cash Commission is required.
+                                    </span>
+
+                                </div>
+                            </div>                             
+                                               
+                            <button class=" col-md-offset-6 col-md-3 btn btn-primary" type="submit" ng-click="addCommission();"  >
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Save</button>
+                            <button class="col-md-3 btn btn-default" type="reset" ng-click="commreset(store);">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>

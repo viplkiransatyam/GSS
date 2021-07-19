@@ -1,0 +1,122 @@
+<style type="text/css">
+.myGrid {
+width: 500px;
+height: 230px;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">GasReports</a></li>
+    <li><a href="#">Purchase Register</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Purchase Register</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="InputFieldA">From</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="InputFieldB">To</label>
+                                <input type="date" ng-model="toDate" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="getPurchaseRegisterReport(fromDate, toDate)">Display</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'InvDate'" filter="{ InvDate: 'text'}" sortable="'InvDate'">{{row.InvDate | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'InvNo'" filter="{ InvNo: 'number'}" sortable="'InvNo'">{{row.InvNo}}</td>
+                            <td title="'DueDate'" filter="{ DueDate: 'text'}" sortable="'DueDate'">{{row.DueDate | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-right" title="'Amount'" filter="{ Amount: 'number'}" sortable="'Amount'">{{row.Amount| currency}}</td>
+                           <td><button class="btn btn-info" ng-click="getListDetails(row.InvNo)">View</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="width:1090px;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Invoice Information</h4>
+        </div>
+        <div class="modal-body">
+             <div class="row form-group">
+                <table class="table table-condensed table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-md-4">Due Date</th>
+                            <th class="col-md-2">Receipt Date</th>
+                            <th class="col-md-2">Invoice No.</th>
+                            <th class="col-md-2">Invoice Date</th>
+                            <th class="col-md-2">Invoice Amount</th>
+                            <th class="col-md-2">Receipt Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{dueDate | date:'dd-MMM-yyyy'}}</td>
+                            <td>{{receiptDate | date:'dd-MMM-yyyy'}}</td>
+                            <td>{{InvNo}}</td>
+                            <td>{{InvDate | date:'dd-MMM-yyyy'}}</td>
+                            <td>{{InvAmount | currency}}</td>
+                            <td>{{GasInvoiceReceiptType}}</td>
+                        </tr>
+                    </tbody>
+                </table>               
+            </div>
+            <div class="row form-group">
+               <table class="table table-condensed table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-md-4">Gas Type</th>
+                            <th class="col-md-2">Gross Gallons</th>
+                            <th class="col-md-2">Net Gallons</th>
+                            <th class="col-md-2">Price</th>
+                            <th class="col-md-2">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Item in GasInventory">
+                            <td>{{Item.GasTypeName}}</td>
+                            <td>{{Item.GrossInvGallons}}</td>
+                            <td>{{Item.NetInvGallons}}</td>
+                            <td>{{Item.Price | currency}}</td>
+                            <td>{{Item.Amount | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Taxes:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="Item in GasDefaultTax">
+                            <td></td>
+                            <td>{{Item.TaxName}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{Item.TaxAmount | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>

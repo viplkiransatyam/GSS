@@ -1,0 +1,80 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Bank</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getCashDeposit(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+     <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Cash Balance/ Bank Deposit</a></strong></h3>
+                    </div>
+                    <div id="payments" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <form name="BankForm" class="form-horizontal" novalidate >
+                                <div class="row">                            
+                                    <table class="table table-condensed table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width: 30%;">Description</th>
+                                                <th class="text-center">Sale</th>
+                                                <th class="text-center">Paid</th>
+                                                <th class="text-center">Balance</th>
+                                                <th class="text-center" style="width: 20%;">Deposit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="bank in BankDetails">
+                                                <td>{{bank.LedgerName}}</td>
+                                                <td>{{bank.LedgerSale | currency}}</td>
+                                                <td>{{bank.LedgerPaid | currency}}</td>
+                                                <td>{{bank.Balance | currency}}</td>
+                                                <td>
+                                                    <input type="text" style="text-align:right;" class="form-control" id="Deposit{{$index}}" name="Deposit{{$index}}" ng-model="bank.Deposit" ng-blur="fixDecimals(BankDetails)" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00"/>
+                                                    <p class="help-block" ng-show="BankForm.Deposit{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="panel-footer" ng-if="BankDetails.length">
+                                        <button ng-click="saveCashDeposit()" ng-disabled="BankForm.$invalid"class="btn btn-primary pull-right">Save</button>
+                                    </div>                                    
+                                </div>
+                            </form >
+                        </div>
+                    </div>
+                </div> 
+            </div>           
+        </div>
+</div>

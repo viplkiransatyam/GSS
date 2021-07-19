@@ -1,0 +1,63 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery Reports</a></li>
+    <li><a href="#">DetailedSale Report</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Lottery Detailed Sales Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>From</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>To</label>
+                                <input type="date" ng-model="toDate" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="lotteryDetailedSalesReport(fromDate,toDate)">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="detailedsalereport in $data track by $index">
+                            <td class="text-center" title="'SlNo'" filter="{ SlNo: 'number'}" sortable="'SlNo'">{{$index + 1}}</td>
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'" style="width:20%">{{detailedsalereport.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'ShiftCode'" filter="{ ShiftCode: 'number'}" sortable="'ShiftCode'">{{detailedsalereport.ShiftCode}}</td>
+                            <td class="text-center" title="'Game'" filter="{ Game: 'number'}" sortable="'Game'">{{detailedsalereport.Game}}</td>
+                            <td class="text-center" title="'Pack'" filter="{ Pack: 'number'}" sortable="'Pack'">{{detailedsalereport.Pack}}</td>
+                            <td class="text-center" title="'GameName'" filter="{ GameName: 'text'}" sortable="'GameName'">{{detailedsalereport.GameName}}</td>
+                            <td class="text-center" title="'TicketValue'" filter="{ TicketValue: 'number'}" sortable="'TicketValue'">{{detailedsalereport.TicketValue}}</td>
+                            <td class="text-center" title="'BoxNo'" filter="{ BoxNo: 'number'}" sortable="'BoxNo'">{{detailedsalereport.BoxNo}}</td>
+                            <td class="text-center" title="'StartTicket'" filter="{ StartTicket: 'number'}" sortable="'StartTicket'">{{detailedsalereport.StartTicket}}</td>
+                            <td class="text-center" title="'EndTicket'" filter="{ EndTicket: 'number'}" sortable="'EndTicket'">{{detailedsalereport.EndTicket}}</td>
+                            <td class="text-center" title="'NoOfTicketSold'" filter="{ NoOfTicketSold: 'number'}" sortable="'NoOfTicketSold'">{{detailedsalereport.NoOfTicketSold}}</td>
+                            <td class="text-right" title="'AmountSold'" filter="{ AmountSold: 'number'}" sortable="'AmountSold'">{{detailedsalereport.AmountSold | currency}}</td>
+                            <td class="text-center" title="'PackStatus'" filter="{ PackStatus: 'text'}" sortable="'PackStatus'">{{detailedsalereport.PackStatus}}</td>
+                        </tr>
+                        <tr ng-if="lotteryDetailedSalesReportData.length">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right"><strong>{{grandTotal | currency}}</strong></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

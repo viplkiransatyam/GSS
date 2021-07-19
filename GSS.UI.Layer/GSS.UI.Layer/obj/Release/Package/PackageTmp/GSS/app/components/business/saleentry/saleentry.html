@@ -1,0 +1,165 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Sale Entry</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+     <div class="row">
+            <div class="col-md-8">
+                <div class="panel-group" id="accordion"> 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Business Sale</a></strong></h3>
+                        </div>
+                        <div id="payments" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form name="BusinessSaleForm" class="form-horizontal" novalidate >
+                                    <div class="row">                            
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Select Sale</label>                              
+                                                 <select class="form-control select2" name="ItemName" id="ItemName" ng-model="businesssale.ItemName" required ng-change="getSaleHeads(businesssale.ItemName)">
+                                                    <option value="">Please Select</option>                                                    
+                                                    <option value="GroupSale">Group Sale</option>   
+                                                    <option value="IndividualSale">Individual Sale</option> 
+                                                </select>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Sale Head</label>                                 
+                                            <select class="form-control select2" name="LedgerID" id="LedgerID" ng-model="businesssale.LedgerID" required>
+                                                    <option value="">Please Select</option>
+                                                    <option ng-repeat="account in accounts" value="{{account.LedgerID}}">{{account.LedgerName}}</option>
+                                                </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label">Amount</label>
+                                            <input type="number" class="form-control" name="Amount" min="0" id="Amount" ng-model="businesssale.Amount" required>
+                                        </div>                                                      
+                                        <button class="btn btn-primary" ng-click="addBusinessSale();" style="margin-top: 26px;">Add</button>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sales Head</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                 <tr ng-if="!BusinessSales.length">
+                                                    <td colspan="7" class="text-center">No Records found</td>
+                                                </tr>
+                                                <tr ng-repeat="sale in BusinessSales track by $index">
+                                                    <td>{{sale.LedgerName}}</td>
+                                                    <td class="text-right">{{sale.Amount | currency}}</td> 
+                                                    <td>                               
+                                                        <i class="glyphicon glyphicon-trash" ng-click="removeSale($index, sale)"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr><td ><strong class="pull-right">Total</strong></td><td><strong class="pull-right">${{saleTotal}}</strong></td><td></td></tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="panel-footer" ng-if="BusinessSales.length">
+                                            <button class="btn btn-primary pull-right" ng-click="saveBusinessSale()">Save</button>
+                                        </div>
+                                    </div>
+                                </form >
+                            </div>
+                        </div>
+                    </div>                  
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#receipts" style="cursor:pointer;">Business Paid</a></strong></h3>
+                        </div>
+                        <div id="receipts"  class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form name="BusinessPaidForm" class="form-horizontal" novalidate>
+                                    <div class="row">                            
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Paid For</label>                              
+                                                <select class="form-control select2" name="LedgerID" id="LedgerID1" ng-model="businesspaid.LedgerID" required>
+                                                <option value="">Please Select</option>
+                                                <option ng-repeat="account in accounts1" value="{{account.LedgerID}}">{{account.LedgerName}}</option>
+                                                </select>                                                
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label text-left">Payment Type</label>                                 
+                                            <select class="form-control select2" name="PaymentType" id="PaymentType" ng-model="businesspaid.PaymentType" required>                                               
+                                                <option value="">Please Select</option>
+                                                    <option value="CS">Cash</option>  
+                                                    <option value="CQ">Cheque</option>
+                                                    <option>Automatic Bank Payments(EFT)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label">Amount</label>
+                                            <input type="number" class="form-control" name="Amount" min="0" id="Amount" ng-model="businesspaid.Amount" required>
+                                        </div>                                                      
+                                        <button class="btn btn-primary" ng-click="addBusinessPaid();" style="margin-top: 26px;">Add</button>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Paid For</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="!BusinessPaids.length">
+                                                    <td colspan="7" class="text-center">No Records found</td>
+                                                </tr>
+                                                 <tr ng-repeat="paid in BusinessPaids track by $index">
+                                                    <td>{{paid.LedgerName}}</td>
+                                                    <td class="text-right">{{paid.Amount | currency}}</td>
+                                                    <td>
+                                                        <i class="glyphicon glyphicon-trash" ng-click="removePaid($index, paid)"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr><td><strong class="pull-right">Total</strong></td><td><strong class="pull-right">${{paidTotal}}</strong></td><td></td></tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="panel-footer" ng-if="BusinessPaids.length">
+                                            <button class="btn btn-primary pull-right" ng-click="saveBusinessPaid()">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+</div>

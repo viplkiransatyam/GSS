@@ -1,0 +1,52 @@
+<ul class="breadcrumb">
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Monthly Report</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Monthly Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <form name="ledgeform" novalidate>                              
+                                <div class="form-group">
+                                    <label for="InputFieldA">Date</label>
+                                    <input type="month" ng-model="fromDate" class="form-control" />
+                                </div>                              
+                                <button type="submit" class="btn btn-primary" ng-click="getLedger(fromDate)">Show</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="custom" style="height: 600px; overflow: scroll;">
+                        <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                        <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                            <tr ng-repeat="row in $data">
+                                <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{row.Date | date:'dd-MMM-yyyy'}}</td>
+                                <td class="text-left" title="'Business'" filter="{ Business: 'number'}" sortable="'Business'">{{row.Business| currency}}</td>
+                                <td class="text-right" title="'Lottery'" filter="{ Lottery: 'number'}" sortable="'Lottery'">{{row.Lottery| currency}}</td>
+                                <td class="text-right" title="'Gas'" filter="{ Gas: 'number'}" sortable="'Gas'">{{row.Gas| currency}}</td>
+                                <td class="text-right" title="'BorrowFromOthers'" filter="{ BorrowFromOthers: 'number'}" sortable="'BorrowFromOthers'">{{(row.BorrowFromOthers | currency)}}</td>
+                                <td class="text-right" title="'CashPaid'" filter="{ CashPaid: 'number'}" sortable="'CashPaid'">{{(row.CashPaid | currency)}}</td>
+                                <td class="text-right" title="'CreditCard'" filter="{ CreditCard: 'number'}" sortable="'CreditCard'">{{(row.CreditCard | currency)}}</td>
+                                <td class="text-right" title="'LotteryPaidout'" filter="{ LotteryPaidout: 'number'}" sortable="'LotteryPaidout'">{{(row.LotteryPaidout | currency)}}</td>
+                                <td class="text-right" title="'LoanToOthers'" filter="{ LoanToOthers: 'number'}" sortable="'LoanToOthers'">{{(row.LoanToOthers | currency)}}</td>
+                                <td class="text-right" title="'UPAD'" filter="{ UPAD: 'number'}" sortable="'UPAD'">{{(row.UPAD | currency)}}</td>
+                                <td class="text-right" title="'BusinessSavings'" filter="{ BusinessSavings: 'number'}" sortable="'BusinessSavings'">{{(row.BusinessSavings | currency)}}</td>
+                                <td class="text-right" title="'Others'" filter="{ Others: 'number'}" sortable="'Others'">{{(row.Others | currency)}}</td>
+                                <td class="text-right" title="'BankDeposit'" filter="{ BankDeposit: 'number'}" sortable="'BankDeposit'">{{(row.BankDeposit | currency)}}</td>
+                                <td class="text-right" title="'CashBalance'" filter="{ CashBalance: 'number'}" sortable="'CashBalance'">{{(row.CashBalance | currency)}}</td>
+                                <td class="text-right" title="'CashOnHand'" filter="{ CashOnHand: 'number'}" sortable="'CashOnHand'">{{(row.CashOnHand | currency)}}</td>
+                                <td class="text-right" title="'OverShort'" filter="{ OverShort: 'number'}" sortable="'OverShort'">{{(row.OverShort | currency)}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

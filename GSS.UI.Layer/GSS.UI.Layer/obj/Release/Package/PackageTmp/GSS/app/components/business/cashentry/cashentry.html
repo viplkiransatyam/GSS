@@ -1,0 +1,139 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Cash Entry</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getCashFlow(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+     <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Cash Entry</a></strong></h3>
+                    </div>
+                    <div id="cashentry" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <form name="CashEntryForm" class="form-horizontal" novalidate >
+                                <div class="row">                            
+                                   <div class="col-sm-12">
+                                        <div class="col-sm-6">
+                                            <table class="table table-condensed table-bordered table-striped">
+                                                <thead><th class="text-center" colspan="2">Cash Inflow</th></thead>
+                                                <tbody>
+                                                    <tr ng-repeat="bs in CashEntryDetails | filter: { DisplaySide: 'BS' }">
+                                                        <td>{{bs.LedgerName}}</td>
+                                                        <td><input type="text" style="text-align:right;" class="form-control" ng-model="bs.Amount" ng-readonly="true" step="0.001"></td>
+                                                    </tr>
+                                                    <tr ng-repeat="bs in CashEntryDetails | filter: { DisplaySide: 'CR' }">
+                                                        <td>{{bs.LedgerName}}</td>
+                                                        <td><input type="text" style="text-align:right;" class="form-control" ng-model="bs.Amount" ng-readonly="true" step="0.001"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <table class="table table-condensed table-bordered table-striped">
+                                                <thead><th class="text-center" colspan="2">Cash Outflow</th></thead>
+                                                <tbody>
+                                                    <tr ng-repeat="bp in CashEntryDetails | filter: { DisplaySide: 'BP' }">
+                                                        <td>{{bp.LedgerName}}</td>
+                                                        <td><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.001" ng-readonly="true"></td>
+                                                    </tr>
+                                                    <tr ng-repeat="bp in CashEntryDetails | filter: { DisplaySide: 'CQ' }">
+                                                        <td>{{bp.LedgerName}}</td>
+                                                        <td><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.001" ng-readonly="true"></td>
+                                                    </tr>
+
+                                                    <tr ng-repeat="bp in CashEntryDetails | filter: { DisplaySide: 'CP' }">
+                                                        <td ng-if="bp.LedgerName != 'Cash at Store'">{{bp.LedgerName}}</td>
+                                                        <td ng-if="bp.LedgerName != 'Cash at Store'"><input type="text" style="text-align:right;" class="form-control" ng-model="bp.Amount" step="0.001" ng-readonly="true"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-6">
+                                            <table class="table table-condensed table-bordered table-striped" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Total</b></td>
+                                                        <td><b>$ {{bsTotal}}</b></td>
+                                                    </tr>
+                                                    <tr><td style="height: 29px;"></td><td></td></tr>
+                                                    <tr><td style="height: 29px;"></td><td></td></tr>
+                                                    <tr><td style="height: 26px;"></td><td></td></tr>
+                                                    <tr>
+                                                        <td><b>Grand Total</b></td>
+                                                        <td><b>$ {{bsGrandTotal}}</b></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <table class="table table-condensed table-bordered table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><b>Total</b></td>
+                                                        <td><b>$ {{bpTotal}}</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>System Closing Balance</td>
+                                                        <td><b>$ {{cashentry.CashClosingBalance}}</b></td>
+                                                    </tr>                                               
+                                                    <tr>
+                                                        <td>Short / Over</td>
+                                                        <td><b>$ {{shortorover}}</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Cash On Hand</td>
+                                                        <td class="col-sm-6" style="right: 15px;"><input type="text" style="text-align:right;" id="CashPhysicalAtStore" name="CashPhysicalAtStore" class="form-control" ng-model="cashentry.CashPhysicalAtStore" ng-blur="getShortOrOver(cashentry.CashPhysicalAtStore);" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00" ng-required="getValidations" /> <p class="help-block" ng-show="CashEntryForm.CashPhysicalAtStore.$error.pattern" style="color:red;">*Not a valid number!</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Grand Total</b></td>
+                                                        <td><b>$ {{bpGrandTotal}}</b></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <button ng-click="saveCashEntry()" ng-disabled="CashEntryForm.$invalid"class="btn btn-primary pull-right">Finalize</button>
+                                    </div>                                    
+                                </div>
+                            </form >
+                        </div>
+                    </div>
+                </div> 
+            </div>           
+        </div>
+</div>

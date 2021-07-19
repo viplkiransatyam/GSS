@@ -1,0 +1,113 @@
+﻿<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Receipts</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <form name="receiptsForm" class="form-horizontal" novalidate>
+                <div class="panel panel-default">
+                    <div class="panel-heading ui-draggable-handle">
+                        <h3 class="panel-title"><strong>Gas: Gas Dealer Statement</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row form-group">
+                            <div class="col-md-5">
+                                <label class="control-label">Draft No.</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-model="receipts.ReferenceNo">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">&nbsp;</label>
+                                <div>
+                                    <button class="btn btn-primary" ng-click="getReceiptDetails();">GO</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label class="control-label">Reference No.</label>
+                                <div>
+                                    <input type="text" class="form-control" ng-model="receiptsInput.ReferenceTranNo">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Date</label>
+                                <div>
+                                    <input type="date" class="form-control" ng-model="receiptsInput.ReferenceTranDate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Transaction Type</label>
+                                <div>
+                                    <select class="form-control select2" name="TranTypeIndicator" id="TranTypeIndicator" ng-model="receiptsInput.TranTypeIndicator">
+                                        <option value="">Please Select</option>
+                                        <option ng-repeat="shift in TransactionTypes" value="{{shift.TransactionTypeID}}">{{shift.TransactionTypeName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">Amount</label>
+                                <div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control text-right" ng-model="receiptsInput.TranAmount" ng-blur="getDecimals();">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label class="control-label">&nbsp;</label>
+                                <div>
+                                    <button class="btn btn-primary" type="button" ng-click="addReceipts(receiptsInput);">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-4">Reference No.</th>
+                                            <th class="col-md-2">Date</th>
+                                            <th class="col-md-4">Transaction Type</th>
+                                            <th class="col-md-2">Amount</th>
+                                            <th class="col-md-2">Amount in Vendor Books</th>
+                                            <th class="col-md-2">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Item in GasDealerTransRows">
+
+                                            <td>{{Item.ReferenceTranNo}}</td>
+                                            <td>{{Item.ReferenceTranDate}}</td>
+                                            <td>{{Item.TranDescription}}</td>
+                                            <td ng-hide="true">{{Item.TranTypeIndicator}}</td>
+                                            <td class="text-right">{{Item.TranAmount | currency }}</td>
+                                            <td class="text-right">{{(Item.VendorAmount)? Item.VendorAmount | currency: 'No Invoice Found'}}</td>
+                                            <td>
+                                                <i class="glyphicon glyphicon-edit" ng-click="EditReceipts(Item)"></i>
+                                                <!--<i class="glyphicon glyphicon-trash" ng-click="RemovePurchases(Item)"></i>-->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            
+                                            <td class="text-right"><label><strong>Total</strong></label></td>
+                                            <td class="text-right"><label>{{receipts.total}}</label></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">
+                                    <button class="btn btn-primary pull-right" id="receiptsSave" ng-model="receipts.receiptsSave" ng-disabled="receiptsSave || receiptsForm.$invalid " ng-click="saveReceipts();">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

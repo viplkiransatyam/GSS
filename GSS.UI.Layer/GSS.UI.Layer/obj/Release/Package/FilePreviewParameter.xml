@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="www.shreeyogi.com" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^E:\\Projects\\GasStore\\StoreModel\\GSS\.UI\.Layer\\GSS\.UI\.Layer\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^E:\\Projects\\GasStore\\StoreModel\\GSS\.UI\.Layer\\GSS\.UI\.Layer\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=198.71.226.6;Initial Catalog=GasStationDB;Persist Security Info=True;User ID=gasstationdb;Password=Jgq2i3#1" tags="">
+    <parameterEntry kind="XmlFile" scope="E:\\Projects\\GasStore\\StoreModel\\GSS\.UI\.Layer\\GSS\.UI\.Layer\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="StoreSoftConnection-Web.config Connection String" description="" value="Data Source=198.71.226.6;Initial Catalog=GasStationDB;Persist Security Info=True;User ID=gasstationdb;Password=Jgq2i3#1" tags="">
+    <parameterEntry kind="XmlFile" scope="E:\\Projects\\GasStore\\StoreModel\\GSS\.UI\.Layer\\GSS\.UI\.Layer\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StoreSoftConnection']/@connectionString" />
+  </parameter>
+</parameters>

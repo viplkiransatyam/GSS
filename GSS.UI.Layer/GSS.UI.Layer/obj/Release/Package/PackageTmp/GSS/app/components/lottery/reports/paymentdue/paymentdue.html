@@ -1,0 +1,59 @@
+<style>
+.fontstyle{
+    color: #1caf9a;
+    font-weight: 800;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery - Reports</a></li>
+    <li><a href="#">Payment Due</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Payment Due</strong>
+                    <span style="float:right;">(Previous Business Ended on: <strong>{{PreviousBusinessEndedDate | date:'dd-MMM-yyyy'}}</strong>)</span>
+                    </h3><br/>
+                    
+                </div>
+                <div class="panel-body">
+                    <!-- <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span> -->
+                    <div class="col-md-8">
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                          <tr ng-repeat="row in $data">                            
+                            <td class="text-center" title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID}}</td>
+                            <td class="text-center" title="'PackNo'" filter="{ PackNo: 'number'}" sortable="'PackNo'">{{row.PackNo}}</td>
+                            <td class="text-center" title="'AutoSettleDate'" filter="{ AutoSettleDate: 'text'}" sortable="'AutoSettleDate'">{{row.AutoSettleDate | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-right" title="'BookAmount'" filter="{ BookAmount: 'number'}" sortable="'BookAmount'">{{row.BookAmount| currency}}</td>
+                        </tr> 
+                        <tr>
+                            <td></td>
+                            <td colspan="2"><strong class="pull-right">Total</strong></td>                            
+                            <td><strong class="pull-right">${{BookAmountTotal}}</strong></td>
+                        </tr>                   
+                    </table> 
+                    </div>
+                    <div class="col-md-4">                   
+                        <table class="table-bordered">
+                            <tr><td><strong>Total Activated Books :</strong></td><td></td><td><span class="fontstyle text-right">{{TotalBooksActive | currency}}</a></td></tr>
+                            <tr><td><strong>Online Sale :</strong></td><td></td><td><span class="fontstyle text-right">{{OnlineSale | currency}} </span></td></tr>
+                            <tr><td><strong>Commissions :-</strong></td></tr>
+                            <tr><td><strong>Sale Commission :</strong></td><td><span class="fontstyle text-right">{{SaleCommission | currency}} </span></td><td></td></tr>
+                            <tr><td><strong>Cash Commission :</strong></td><td><span class="fontstyle text-right">{{CashCommission | currency}} </span></td><td></td></tr>
+                            <tr><td><strong>Instant Commission :</strong></td><td><span class="fontstyle text-right">{{InstantCommission | currency}} </span></td><td><span class="fontstyle text-right">{{(SaleCommission) + (CashCommission) + (InstantCommission) | currency}}</span></td></tr>
+                            <tr><td><strong>Cash Paid :-</strong></td></tr>
+                            <tr><td><strong>Instant Paid :</strong></td><td><span class="fontstyle text-right">{{InstantPaid | currency}} </span></td><td></td></tr>
+                            <tr><td><strong>Online Paid:</strong></td><td><span class="fontstyle text-right">{{OnlinePaid | currency}} </span></td><td><span class="fontstyle text-right">{{(InstantPaid) + (OnlinePaid) | currency}}</span></td></tr>
+                            <tr><td><strong>Book Returns :</strong></td><td></td><td><span class="fontstyle text-right">{{LotteryReturn | currency}} </span></td></tr>
+                            <tr><td><strong>Total Due :</strong></td><td></td><td><span class="fontstyle text-right">{{TotalDueAmount | currency}} </span></td></tr>
+                        </table>                          
+                    </div>
+                </div>           
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GSS-Login</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">  
+    <!--login Template CSS-->
+    <link rel="stylesheet" href="/Content/form-elements.css">
+    <link rel="stylesheet" href="/Content/style1.css">  
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+</head>
+
+<body ng-controller="LoginController">
+    <div id="processing" ng-show="loading"><center><img src="/App/img/loading2.gif" style="margin-top: 107px;" /></center></div>
+    <!-- Top content -->
+    <div class="top-content" style="background-image:url('/App/img/loginbg.jpg');">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>Login to GSS</h3>
+                                <p>Please enter Username and Password</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <form role="form" name="loginForm" method="post" class="login-form" ng-init="init();">
+                                <fieldset>
+                                    <div class="form-group" ng-class="{ 'has-error' : (loginForm.UserName.$touched && loginForm.UserName.$invalid ) }">
+                                        <span class="fa fa-user"></span>
+                                            <input class="form-control" placeholder="Username" name="UserName" ng-model="login.UserName" type="text"  autofocus required>                                        
+                                        <span class="help-block" ng-show="loginForm.UserName.$touched && loginForm.UserName.$invalid">*This field is required</span>
+                                    </div>
+                                    <div class="form-group" ng-class="{ 'has-error': loginForm.Password.$touched && loginForm.Password.$invalid }">
+                                        <span class="fa fa-key"></span>
+                                        <input class="form-control" placeholder="Password" name="Password" type="password" ng-model="login.Password" required>
+                                        <span class="help-block" ng-show="loginForm.Password.$touched && loginForm.Password.$invalid">*This field is required</span>
+                                    </div>
+                                    <!-- Change this to a button or input when using this as a form -->
+                                    <button class="btn btn-lg" name="Login" ng-disabled="loginForm.$invalid" ng-click="validateLogin(login)">Login</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--[if lt IE 10]>
+        <script src="assets/js/placeholder.js"></script>
+    <![endif]-->
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<style>
+    .ng-table-pager {
+        display: none;
+    }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Admin</a></li>
+    <li><a href="#">Change Store</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"> <h3 class="panel-title"> <strong>Add Credit Card</strong> </h3> </div>
+                <div class="panel-body">
+                    <form name="addCreditCardToStore" novalidate>
+                        <div class="row form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Store Name</label>
+                                <div class="col-md-6 ">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="cboStore" id="cboStore" ng-model="cboStore"
+                                            ng-options="option.StoreName for option in stores track by option.StoreID" required></select>
+                                        <span ng-show="addCreditCardToStore.$submitted && addCreditCardToStore.StoreID.$error.required">
+                                            Store Name is required.
+                                        </span>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Select Accepted Card</label>
+                                <div class="col-md-6">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="AcceptCard" id="AcceptCard" ng-model="user.AcceptCard"
+                                            ng-options="option.CardTypeName for option in cards track by option.CardTypeID" required>
+                                        <option value="">Select Card</option>
+                                    </select>
+
+                                    
+                                    <span ng-show="addCreditCardToStore.$submitted && addCreditCardToStore.AcceptCard.$error.required">
+                                        Card type is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-6 control-label  text-left">Credited To</label>
+                                <div class="col-md-6">
+                                    <select class="form-control select2 ng-pristine ng-valid ng-empty ng-touched" name="CreditTo" id="CreditTo" ng-model="user.CreditTo"
+                                            ng-options="option.text for option in creditTo track by option.value" required>
+                                        <option value="">Select Account</option>
+                                    </select>
+
+                                    <span ng-show="addCreditCardToStore.$submitted && addCreditCardToStore.CreditTo.$error.required">
+                                        Card type is required.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class=" btn btn-primary pull-right" type="submit" ng-click="AddCard();">
+                                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>Add
+                                </button>
+                                </div>
+                                <div class="clearfix">
+
+                                </div>
+                            <div class="clearfix">
+
+                            </div>
+                                <div class="row form-group">
+                                    <div class="col-md-12">
+
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Card  Type
+                                                    </th>
+                                                    <th>
+                                                        Credited to
+                                                    </th>
+                                                    <th>
+                                                        Delete
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="cards in addedCards">
+                                                    <td>
+                                                        {{cards.CardName}}
+                                                    </td>
+                                                    <td>
+                                                        {{cards.CreditTo}}
+                                                    </td>
+                                                    <td>
+                                                        <i class="glyphicon glyphicon-trash" ng-click="deleteRow(cards)"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <button type="submit" class="btn btn-primary pull-right" ng-if="addedCards.length>0" ng-click="savecards()">Save</button>
+                            </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <table ng-table="tableParams" id="tblCardList" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'StoreName'" filter="{ StoreName: 'text'}" sortable="'StoreName'">{{row.StoreName}}</td>
+                            <td title="'CardName'" filter="{ CardName: 'text'}" sortable="'CardName'">{{row.CardName}}</td>
+                            <td title="'CardCreditType'" filter="{ CardCreditType: 'text'}" sortable="'CardName'">{{row.CardCreditType}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+                                    

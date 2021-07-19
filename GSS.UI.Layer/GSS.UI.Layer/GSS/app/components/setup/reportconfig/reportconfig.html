@@ -1,0 +1,105 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Report Configuration</li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion"> 
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#payments" style="cursor:pointer;">Create Groups</a></strong></h3>
+                    </div>
+                    <div id="payments" class="panel-collapse collapse in">
+                        <form name="CreateGroupsForm" class="form-horizontal col-md-8">
+                            <div class="panel-body">                            
+                                <div class="form-group" ng-class="{ 'has-error' : (GroupName.$touched && GroupName.$invalid ) }">
+                                    <label for="GroupName" class="col-md-3 form-control-label">Group Name</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="GroupName" ng-model="GroupName" ng-pattern="/^[\w -]*$/" required>
+                                    </div>
+                                    <div class="help-block" ng-show="GroupName.$touched && GroupName.$invalid">*This field is required</div>
+                                    <p class="help-block" ng-show="GroupName.$touched && GroupName.$error.pattern">*Not a valid Name!</p>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                               <button class="btn btn-primary" ng-click="addGroup(GroupName)">Add Report Group</button>
+                            </div>
+                        </form>
+                        <div class="col-md-4">
+                            <span><b>List of Groups for the store {{StoreName.StoreName}}</b></span>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><b>Group Name</b></th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="tank in tanks">
+                                        <td>{{tank.GroupName}}</td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong><a data-toggle="collapse" data-parent="#accordion" data-target="#receipts" style="cursor:pointer;">Map Ledgers</a></strong></h3>
+                    </div>
+                    <div id="receipts"  class="panel-collapse collapse">
+                        <form name="MapLedgersForm" class="form-horizontal col-md-8">
+                            <div class="panel-body">                                
+                                <div class="form-group" ng-class="{ 'has-error' : (mapLedgers.GroupID.$touched && mapLedgers.GroupID.$invalid ) }">
+                                    <label for="GroupID" class="col-md-3 form-control-label">Select Group</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="GroupID" ng-model="mapLedgers.GroupID" ng-options="item.GroupID as item.GroupName for item in groups" ng-change="getLedgers(mapLedgers.GroupID)"required>
+                                            <option value="">Select Group</option>
+                                        </select>
+                                    </div>
+                                    <div class="help-block" ng-show="mapLedgers.GroupID.$touched && mapLedgers.GroupID.$invalid">*This field is required</div>
+                                </div>
+                                
+                                <div class="form-group">    
+                                    <label for="LedgerID" class="col-md-3 form-control-label">Select Account</label> 
+                                    <div class="col-md-6">
+                                        <!--<label ng-repeat="account in accounts" class="form-control-label">
+                                            <input type="checkbox" name="ledgerIDs[]" ng-model="account.selected" value="{{account.LedgerID}}"> {{account.LedgerName}}
+                                        </label>-->
+                                        <div isteven-multi-select
+                                             input-model="accounts"
+                                             output-model="LedgerIDs"
+                                             button-label="LedgerName"
+                                             item-label="LedgerName"
+                                             tick-property="ticked">
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="panel-footer">
+                                <button class="btn btn-primary" ng-click="mapLedger(mapLedgers)">Save</button>
+                            </div>                  
+                        </form>
+                        <div class="col-md-4">
+                            <span><b>List of Ledgers for the Group {{}}</b></span>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><b>Ledger Name</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="tank in tanks">
+                                        <td>{{tank.LedgerName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

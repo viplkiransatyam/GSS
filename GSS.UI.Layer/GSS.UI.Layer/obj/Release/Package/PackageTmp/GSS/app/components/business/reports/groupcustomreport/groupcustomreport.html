@@ -1,0 +1,67 @@
+<ul class="breadcrumb">
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Group Custom Report</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Group Custom Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <form name="ledgeform" novalidate>
+                                <div class="form-group">
+                                    <label for="InputFieldA">From</label>
+                                    <input type="date" ng-model="fromDate" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputFieldB">To</label>
+                                    <input type="date" ng-model="toDate" class="form-control" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" ng-click="getLedger(fromDate, toDate)">Show</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in ledgerData">
+                            <td class="text-left" title="'Group Name'" filter="{ GroupName: 'text'}" sortable="'GroupName'"><a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" ng-click="getDetailedReport(row)">{{row.GroupName}}</a></td>
+                            <td class="text-right" title="'Debit'" filter="{ Debit: 'number'}" sortable="'Debit'">{{row.Debit| currency}}</td>
+                            <td class="text-right" title="'Credit'" filter="{ Credit: 'number'}" sortable="'Credit'">{{row.Credit| currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" style="overflow-y: scroll;height: 600px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><strong>{{ Titlename }} Group</strong></h4>
+                </div>
+                <div class="modal-body">
+                     <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel1('#tableToExport1')"></span>
+                    <table ng-table="tableParams" id="tableToExport1" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in Ledgerdata1">
+                            <td class="text-left" title="'Ledger Name'" filter="{ LedgerName: 'text'}" sortable="'LedgerName'">{{row.LedgerName}}</td>
+                            <td class="text-right" title="'Debit'" filter="{ Debit: 'number'}" sortable="'Debit'">{{row.Debit| currency}}</td>
+                            <td class="text-right" title="'Credit'" filter="{ Credit: 'number'}" sortable="'Credit'">{{row.Credit| currency}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

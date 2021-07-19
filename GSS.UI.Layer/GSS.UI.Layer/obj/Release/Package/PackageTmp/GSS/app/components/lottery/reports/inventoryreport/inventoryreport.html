@@ -1,0 +1,36 @@
+﻿<style type="text/css">
+    .myGrid {
+        width: 500px;
+        height: 230px;
+    }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">LotteryReport</a></li>
+    <li><a href="#">InventoryReport</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Inventory Report</strong></h3>
+                   
+                </div>
+                <div class="panel-body">
+                    <span id="lotteryInventoryReport" class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tblInventoryReport')"></span>
+                    <table ng-table="tableParams" id="tblInventoryReport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="row in $data">
+                            <td title="'GameID'" filter="{ GameID: 'number'}" sortable="'GameID'">{{row.GameID | number}}</td>
+                            <td class="text-center" title="'GameDescription'" filter="{ GameDescription: 'text'}" sortable="'GameDescription'">{{row.GameDescription}}</td>
+                            <td class="text-right" title="'Received'" filter="{ Received: 'number'}" sortable="'Received'">{{row.Received| number}}</td>
+                            <td class="text-right" title="'Activated'" filter="{ Activated: 'number'}" sortable="'Activated'">{{row.Activated| number}}</td>
+                            <td class="text-right" title="'Total'" filter="{ Total: 'number'}" sortable="'Total'">{{row.Total| number}}</td>
+                            
+                        </tr>
+                    </table>
+</div>
+            </div>
+            </div>
+        </div>
+    </div>

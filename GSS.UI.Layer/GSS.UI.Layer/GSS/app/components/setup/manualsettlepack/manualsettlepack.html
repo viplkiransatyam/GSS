@@ -1,0 +1,56 @@
+﻿<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Setup</a></li>
+    <li><a href="#">Manual Settle Pack</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading ui-draggable-handle">
+                    <h3 class="panel-title"><strong>Manual Settle Pack</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <div class="form-inline">
+                                <label class="control-label">Scan/Enter Book Serial</label>
+                                <input type="text" class="form-control" name="gameNumber" id="gameNumber" ng-model="gameNumber">
+                                <button class="btn btn-primary" ng-click="addBook();">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <table class="table table-condensed table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Game No.</th>
+                                        <th>Pack No.</th>
+                                        <th>Book Amount</th>
+                                        <!-- <th>Settle Amount</th>  -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!gamesAdded.length">
+                                        <td colspan="8" class="text-center">No books has been received yet. Scan to add received books</td>
+                                    </tr>
+                                    <tr ng-repeat="gamee in gamesAdded track by $index">
+                                        <td>{{gamee.GameID}}</td>
+                                        <td>{{gamee.PackNo}}</td>
+                                        <td>{{gamee.BookAmount}}</td>                                                                             
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" ng-if="gamesAdded.length">
+                    <button class="btn btn-primary pull-right" ng-click="SaveSettlePacks()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

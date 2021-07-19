@@ -1,0 +1,51 @@
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Lottery Reports</a></li>
+    <li><a href="#">Profit Loss Report</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Profit & Loss Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="InputFieldB">Select Gas Types</label>
+                                <select class="form-control select2" name="gastype" id="gastype" ng-model="gastype" ng-required="Required"
+                                        ng-options="option.GasTypeName for option in GasTypeList  track by option.GasTypeID" required>
+                                    <option value="">Select Gas Type</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>From</label>
+                                <input type="date" ng-model="fromDate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>To</label>
+                                <input type="date" ng-model="toDate" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="gasProfitLossReport(gastype,fromDate,toDate)">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-share btn btn-default pull-right" style="background-color:#1caf9a;color:white;" title="Download Excel" ng-click="exportToExcel('#tableToExport')"></span>
+                    <table ng-table="tableParams" id="tableToExport" class="table table-condensed table-bordered table-striped">
+                        <tr ng-repeat="PLreport in $data">
+                            <td title="'Date'" filter="{ Date: 'text'}" sortable="'Date'">{{PLreport.Date | date:'dd-MMM-yyyy'}}</td>
+                            <td class="text-center" title="'OpenQty'" filter="{ OpenQty: 'number'}" sortable="'OpenQty'">{{PLreport.OpenQty}}</td>
+                            <td class="text-center" title="'InwardQty'" filter="{ InwardQty: 'number'}" sortable="'InwardQty'">{{PLreport.InwardQty}}</td>
+                            <td class="text-center" title="'SaleQty'" filter="{ SaleQty: 'number'}" sortable="'SaleQty'">{{PLreport.SaleQty | number:2}}</td>
+                            <td class="text-center" title="'ClosingQty'" filter="{ ClosingQty: 'number'}" sortable="'ClosingQty'">{{PLreport.ClosingQty}}</td>
+                            <td class="text-center" title="'SalePrice'" filter="{ SalePrice: 'number'}" sortable="'SalePrice'">{{PLreport.SalePrice | number:2}}</td>
+                            <td class="text-center" title="'PurchasePrice'" filter="{ PurchasePrice: 'number'}" sortable="'PurchasePrice'">{{PLreport.PurchasePrice | number:2}}</td>
+                            <td class="text-center" title="'ProfitLoss'" filter="{ ProfitLoss: 'number'}" sortable="'ProfitLoss'">{{PLreport.ProfitLoss | number:2}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

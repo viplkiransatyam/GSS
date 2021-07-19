@@ -1,0 +1,229 @@
+<style>
+.tdstyle{
+	width: 30%;
+}
+</style>
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Daily Closing Reading</a></li>
+</ul>
+<!-- END BREADCRUMB -->
+    <!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-8">
+                <form name="dailyClosingForm" class="form-horizontal" novalidate>
+                    <div class="panel panel-default">
+                        <div class="panel-heading ui-draggable-handle">
+                            <h3 class="panel-title"><strong>Lottery: Daily Closing Reading</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <label class="control-label">Scan/Enter Book Serial (3 digit)</label>
+                                        <input type="text" class="form-control" name="gameNumber" id="gameNumber" ng-model="dailyClosing.gameNumber_1">
+                                        <button class="btn btn-primary" ng-click="addBook();">
+                                            Add
+                                        </button>
+                                        <button class="btn btn-primary" ng-click="fillUnsavedData();">
+                                            Fill Unsaved Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <label class="control-label">Scan/Enter Book Serial (4 digit)</label>
+                                        <input type="text" class="form-control" name="gameNumber" id="gameNumber" ng-model="dailyClosing.gameNumber_2">
+                                        <!--<button class="btn btn-primary" ng-click="addBook();">
+                                            Add
+                                        </button>-->
+                                        <button class="btn btn-primary" ng-click="fillUnsavedData();">
+                                            Fill Unsaved Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12" style="overflow:scroll;height:300px;">
+                                    <table class="table table-condensed table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Game No.</th>
+                                                <th>Pack No.</th>
+                                                <th>No. of Tickets</th>
+                                                <th>Game Name</th>
+                                                <th>Box No.</th>
+                                                <th>Previous Ticket No.</th>
+                                                <th>Last Ticket No.</th>
+                                                <th ng-hide="true">Total Tickets Sold</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!LotteryClosingCount.length">
+                                                <td colspan="9" class="text-center">No books has been received yet. Scan to add received books</td>
+                                            </tr>
+                                            <tr ng-repeat="gamee in LotteryClosingCount track by $index">
+                                                <td>{{$index +1}}</td>
+                                                <td>{{gamee.GameID}}</td>
+                                                <td>{{gamee.PackNo}}</td>
+                                                <td>{{gamee.NoOfTickets}}</td>
+                                                <td>{{gamee.GameName}}</td>
+                                                <td>{{gamee.BoxID}}</td>
+                                                <td>{{gamee.PrevTicketNumber}}</td>
+                                                <td>
+                                                    {{gamee.LastTicketClosing}}
+                                                    <!--  <input type="number" style="text-align:right;" class="form-control" ng-model="gamee.LastTicketClosing" name="LastTicketClosing{{$index}}" ng-blur="getTicketsSold(gamee.LastTicketClosing)">     -->
+                                                </td>
+                                                <td ng-hide="true">
+                                                    {{gamee.TotalTicketssold}}
+                                                    <!--<input type="text" style="text-align:right;" class="form-control" ng-model="gamee.TotalTicketssold" name="TotalTicketssold{{$index}}" value="{{gamee.TotalTicketssold}}" ng-blur="getTicketsSold(LotteryClosingCount)">-->
+                                                </td>
+                                                <td>
+                                                    <i class="glyphicon glyphicon-trash" ng-click="removeDailyClosing($index, game)"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-6 col-md-offset-6">
+                                    <div class="boxtable" ng-hide="booksactive">
+                                        <input type="checkbox" id="boxcheck" /><strong>The below books were not scanned or all the tickets were soldg></strong>
+                                        <table class="table table-bordered" style="width:30%">
+                                            <thead><tr><th>BoxID</th><th>GameID</th><th>PackNo</th></tr></thead>
+                                            <tbody>
+                                                <tr ng-repeat="box in boxes">
+                                                    <td>{{box.BoxID}}</td>
+                                                    <td>{{box.GameID}}</td>
+                                                    <td>{{box.PackNo}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- <span isteven-multi-select
+                 input-model="boxes"
+                 output-model="BoxID"
+                 button-label="BoxID"
+                 item-label="BoxID"
+                 tick-property="ticked" ng-hide="booksactive">
+            </span>&nbsp;&nbsp;&nbsp;     -->
+                                    <button class="btn btn-primary" ng-click="confirmInstantSale()" style="float:right;" ng-if="LotteryClosingCount.length">Confirm Instant Sale</button>
+                                </div>
+                            </div>
+                            <div class="row form-group" ng-hide="hidetable">
+                                <div class="col-md-7 col-md-offset-5">
+                                    <table class="table table-responsive table-bordered">
+                                        <tr><td><strong>Opening Balance :</strong></td><td class="tdstyle"></td><td class="tdstyle text-right">{{dailyClosing.LotteryCashPhysicalOpeningBalance | currency}}</td></tr>
+                                        <tr><td><strong>Instant Sale :</strong></td><td class="tdstyle text-right">{{InstantSale | currency}}</td></tr>
+                                        <tr>
+                                            <td><strong>Online Sale :</strong></td>
+                                            <td>
+                                                <input type="text" class="form-control text-right" name="LotteryOnline" id="LotteryOnline" ng-model="dailyClosing.LotteryOnline" ng-blur="LotteryOnline()" required ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="dailyClosingForm.LotteryOnline.$invalid && dailyClosingForm.LotteryOnline.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                            <td class=" text-right">{{ TotalSale | currency}}</td>
+                                        </tr>
+                                        <tr></tr>
+                                        <tr><td><strong>Cash Transfer :</strong></td><td class="text-right">{{CashTransfer | currency}}</td></tr>
+                                        <tr>
+                                            <td><strong>Instant Paidout :</strong></td>
+                                            <td>
+                                                <input type="text" class="form-control text-right" name="LotteryCashInstantPaid" id="LotteryCashInstantPaid" ng-blur="cashInstantPaid()" ng-model="dailyClosing.LotteryCashInstantPaid" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="dailyClosingForm.LotteryCashInstantPaid.$invalid && dailyClosingForm.LotteryCashInstantPaid.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Online Paidout :</strong></td>
+                                            <td>
+                                                <input type="text" class="form-control text-right" name="LotteryCashOnlinePaid" id="LotteryCashOnlinePaid" ng-blur="cashOnlinePaid()" ng-model="dailyClosing.LotteryCashOnlinePaid" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="dailyClosingForm.LotteryCashOnlinePaid.$invalid && dailyClosingForm.LotteryCashOnlinePaid.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                            <td class="text-right">{{ TotalPaid | currency}}</td>
+                                        </tr>
+                                        <tr></tr>
+                                        <tr><td><strong>Closing Balance :</strong></td><td></td><td class="text-right">{{ LotteryCashPhysicalClosingBalance | currency}}</td></tr>
+                                        <tr>
+                                            <td><strong>Cash at Counter:</strong></td>200.00
+                                            <td></td>
+                                            <td>
+                                                <input type="text" class="form-control text-right" name="LotteryCashPhysicalClosingBalance" id="LotteryCashPhysicalClosingBalance" ng-blur="cashAtCounter()" ng-model="dailyClosing.LotteryCashPhysicalClosingBalance" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' step="0.01" placeholder="0.00">
+                                                <p class="help-block" ng-show="dailyClosingForm.LotteryCashPhysicalClosingBalance.$invalid && dailyClosingForm.LotteryCashPhysicalClosingBalance.$error.pattern" style="color:red;">*Not a valid number!</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer" ng-if="LotteryClosingCount.length" ng-hide="hidetable">
+                                <button class="btn btn-primary pull-right" ng-disabled="dailyclosingsave || dailyClosingForm.$invalid" ng-click="FinishDayClosing()">Finish Day Closing</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default" ng-hide="hideBelowTable">
+                    <div class="panel-heading ui-draggable-handle">
+                        <h3 class="panel-title"><strong>Daily Closed Readings for Date: {{myDate | date:'dd-MMM-yyyy'}}</strong></h3>
+                        <!--<div class="pull-right" ng-include="'components/lottery/shifts.html'"></div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SlNo</th>
+                                    <th>Game No.</th>
+                                    <th>Pack No.</th>
+                                    <th>Game Description</th>
+                                    <th>Box No</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!dailyClosedBooks.length">
+                                    <td colspan="5" class="text-center">No books has been received yet. Scan to add received books</td>
+                                </tr>
+                                <tr ng-repeat="gamee in dailyClosedBooks track by $index">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{gamee.GameID}}</td>
+                                    <td>{{gamee.PackNo}}</td>
+                                    <td>{{gamee.GameName}}</td>
+                                    <td>{{gamee.BoxID}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

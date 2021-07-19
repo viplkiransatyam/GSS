@@ -1,0 +1,314 @@
+﻿<style>
+    .daytab a{
+            background:#262a33  ;
+            color:white;
+    }
+    .daytab>li.active>a, .daytab>li.active>a:hover, .daytab>li.active>a:focus
+         {
+            background: #1CAF9A!important;
+        }
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Lottery</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="#">Day End</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Day End Report</strong></h3>
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <form id="returnbookFrm" novalidate>
+
+                                <div class="form-group">
+                                    <label for="InputFieldB">Day</label>
+                                    <input type="date" ng-model="dateOf" name="dateOf" class="form-control" />
+
+                                    <label for="InputFieldB">Shift</label>
+                                    <select class="form-control select2" name="shift" id="shift" ng-model="shift" ng-required="Required"
+                                            ng-options="option.ShiftCode for option in shiftList  track by option.ShiftCode" required>
+                                        <option value="">-- All --</option>
+                                    </select>
+
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" ng-click="GetDayEndReport()">Show</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    
+
+                        <ul class="nav  nav-justified daytab">
+                            <li class="active">
+                                
+                                <a  ng-click="ShowAbstractDetailsTabContent()" data-toggle="tab">Abstract Details</a>
+                            </li>
+                            <li><a  ng-click="DetailedTabContent()" data-toggle="tab">Detailed</a></li>
+                            <li><a ng-click="InventoryContent()"  data-toggle="tab">Inventory</a></li>
+                        </ul>
+                        <div class="tab-content clearfix">
+                            <div class="tab-pane active" id="AbstractDetailsTabContent" ng-if="showAbstDetails">
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Abstract Details</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Items
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Physical
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>OpeningBalance</td>
+                                                    <th class="text-right">{{AbstractSaleModel.OpeningBalance | currency}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sales</td>
+                                                    <th class="text-right">{{AbstractSaleModel.Sales | currency}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>CashTransfer</td>
+                                                    <th class="text-right">{{AbstractSaleModel.CashTransfer| currency}}</th>
+                                                </tr>
+                                                 <tr>
+                                                    <td>Paidout</td>
+                                                    <th class="text-right">{{AbstractSaleModel.Paidout | currency}}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>InsystemClosingBalance</td>
+                                                    <th class="text-right">{{AbstractSaleModel.InsystemClosingBalance | currency}}</th>
+                                                </tr> 
+                                                <tr>
+                                                    <td>PhysicalClosingBalance</td>
+                                                    <th class="text-right">{{AbstractSaleModel.PhysicalClosingBalance | currency}}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="DetailedTabContent" ng-if="showDetailed">
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Cash Balance</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Items
+                                                    </th>
+                                                    <th class="text-center">
+                                                        In System
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Physical
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Short / Over
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Opening Balance</td>
+                                                    <td class="text-right">{{BalanceModel.InsystemOpeningBalance| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.PhysicalOpeningBalance| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.OpeningBalanceShort| currency}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Closing Balance</td>
+                                                    <td class="text-right">{{BalanceModel.InsystemClosingBalance| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.PhysicalClosingBalance| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.ClosingBalanceShort| currency}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Cash Paidout</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Items
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Instant
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Online
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Paidout</td>
+                                                    <td class="text-right">{{BalanceModel.InsystemCashPaidOut| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.PhysicalCashPaidOut| currency}}</td>
+                                                    <td class="text-right">{{BalanceModel.TotalCashPaidOut| currency}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Cash Transfer</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Items
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Physical
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Bank Deposit</td>
+                                                    <td class="text-right">{{BalanceModel.BankDeposit| currency}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Transfer to Business Cash</td>
+                                                    <td class="text-right">{{BalanceModel.BusinessCash| currency}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Transfer to Gas Cash</td>
+                                                    <td class="text-right">{{BalanceModel.GasCash| currency}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                    
+                                    </div>
+                                    <div class="clearfix">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Sales</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        SlNo
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Game#
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Pack#
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Ticket Value
+                                                    </th>
+                                                    <th class="text-center">
+                                                        No of Tickets
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Amount Sold
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="instsale in InstantSaleModel track by $index">
+                                                    <td class="text-center">
+                                                        {{$index + 1}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{instsale.GameID}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{instsale.PackNo}}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {{instsale.TicketValue | currency}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{instsale.NoOfTickets}}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {{instsale.AmountSold | currency}}
+                                                    </td>
+                                                </tr>
+                                               <!--  <tr><td colspan="4" class="text-center">Online</td><td class="text-right">{{instsale.AmountSold | currency}}</td></tr>
+                                                <tr><td colspan="4" class="text-center">Total</td><td class="text-right">{{saleTotal | currency}}</td></tr> -->
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="InventoryContent" ng-if="showInventory">
+                                <div class="panel-body">
+                                    <div class="col-md-10">
+                                        <table class="table table-condensed table-bordered">
+                                            <caption class="text-center">Inventory</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Game#
+                                                    </th>
+                                                    <th class="text-center">
+                                                        No of books received
+                                                    </th>
+                                                    <th class="text-center">
+                                                        No of books activated
+                                                    </th>
+                                                    <th class="text-center">
+                                                        No of books returned from inventory
+                                                    </th>
+                                                    <th class="text-center">
+                                                        No of tickets returns from activation
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="inv in InventoryModel">
+                                                    <td class="text-center">{{inv.GameID}}</td>
+                                                    <td class="text-center">{{inv.NoOfBooksReceived}}</td>
+                                                    <td class="text-center">{{inv.NoOfBooksActivated}}</td>
+                                                    <td class="text-center">{{inv.NoOfBooksReturnFromInventory}}</td>
+                                                    <td class="text-center">{{inv.NoOfBooksReturnFromActive}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+</div>
+                </div>
+    </div>
+</div>
+</div>

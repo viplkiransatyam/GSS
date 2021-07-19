@@ -1,0 +1,109 @@
+<!-- <div ng-include="'shared/headerbar.html'"></div> -->
+<style>
+.form-control[readonly] {
+    color: #292828;
+}
+</style>
+<ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Common</a></li>
+    <li><a href="#">CardReceipts</a></li>
+</ul>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-highlight panel-info">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">Select Date</label>
+                            <input type="date" class="form-control" id="daily_date" ng-model="myDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Select Shift</label>
+                            <select class="form-control select2" name="repeatSelect" id="repeatSelect" ng-model="ShiftCode">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="shift in shifts" ng-selected="currentShift == shift.ShiftCode" value="{{shift.ShiftCode}}">{{shift.ShiftCode}}</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" ng-click="getDaySaleDetails(myDate,ShiftCode);">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-wrap">
+     <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <form name="cardForm" class="form-horizontal" novalidate>
+                    <div class="panel-heading ui-draggable-handle">
+                        <h4 class="panel-title">
+                            Card Receipts
+                        </h4>
+                    </div>
+                    <div class="panel-body" id="accOneColFour">
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label class="control-label">Card Name</label>
+                                <select class="form-control select2" name="CardTypeName" id="CardTypeName" ng-model="cardInput.CardTypeName">
+                                    <option value="">Select Card</option>
+                                    <option ng-repeat="gascards in GasReceipt" value="{{gascards.CardTypeID}}">{{gascards.CardTypeName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Amount</label>
+                                <input type="text" class="text-right form-control" name="cardAmount" ng-model="cardInput.CardAmount" ng-pattern='/^[0-9]+(\.[0-9]{1,2})?$/' ng-blur="getDecimals(cardInput.CardAmount)" step="0.01" placeholder="0.00" ng-required="getValidations" />
+                                <p class="help-block" ng-show="cardForm.cardAmount{{$index}}.$invalid && cardForm.cardAmount{{$index}}.$error.pattern" style="color:red;">*Not a valid number!</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <button class="btn btn-primary" type="button" ng-click="addCard(cardInput)">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-4">Card Name</th>
+                                            <th class="col-md-2">Amount</th>
+                                            <th class="col-md-2">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Item in GasReceipt1">
+                                            <td>{{Item.CardTypeName}}</td>
+                                            <td class="text-right">{{Item.CardAmount}}</td>
+                                            <td ng-hide="true">{{Item.CardTypeID}}</td>
+                                            <td>
+                                                <i class="glyphicon glyphicon-trash" ng-click="RemoveCard(Item)"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right"><label><strong>Grand Total</strong></label></td>
+                                            <td class="text-right"><label>$ {{gasCards.CardTotal}}</label></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right"><label><strong>Cash</strong></label></td>
+                                            <td class="text-right"><label>$ {{gasCards.Cash}}</label></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer" ng-if="GasReceipt1.length">
+                                    <button name="saveBank" class="btn btn-primary pull-right" ng-model="saveBank" ng-click="saveOnlineAmount()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
