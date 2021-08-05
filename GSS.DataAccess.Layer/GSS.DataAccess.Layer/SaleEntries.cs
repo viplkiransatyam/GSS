@@ -1532,7 +1532,7 @@ namespace GSS.DataAccess.Layer
                 _conTran = _conn.BeginTransaction();
                 DMLExecute dmlExecute = new DMLExecute();
 
-                #region Adding Account Transaction
+                #region Delete Account Transaction
                 int iVouID = 0;
 
                 foreach (AccountPaidReceivables objAccount in objAccountTran.PaymentAccounts)
@@ -1597,6 +1597,79 @@ namespace GSS.DataAccess.Layer
             }
         }
 
+        public bool DeleteJournalVoucher(JournalVoucher objEntry)
+        {
+            bool bResult = false;
+
+            string _sql = string.Empty;
+            try
+            {
+                _conn = new SqlConnection(DMLExecute.con);
+                _conn.Open();
+                long DayTranID = _SaleSupportEntries.DayTranID(objEntry.Date, objEntry.StoreID, objEntry.ShiftCode, _conn);
+
+                _conTran = _conn.BeginTransaction();
+                DMLExecute dmlExecute = new DMLExecute();
+
+                #region Delete Account Transaction
+                int iVouID = 0;
+
+
+                _sql = @"DELETE FROM STORE_BUSINESS_TRANS WHERE BUSINESS_STORE_ID = PARM_STORE_ID AND BUSINESS_SALE_DAY_TRAN_ID = PARM_DAY_TRAN_ID 
+                            AND BUSINESS_ACTLED_ID = PARM_ACTLED_ID AND BUSINESS_AMOUNT = PARM_AMOUNT";
+
+                        _sql = _sql.Replace("PARM_ACTLED_ID", objEntry.AccountLedgerID.ToString());
+                        _sql = _sql.Replace("PARM_AMOUNT", objEntry.Amount.ToString());
+                        _sql = _sql.Replace("PARM_STORE_ID", objEntry.StoreID.ToString());
+                        _sql = _sql.Replace("PARM_DAY_TRAN_ID", DayTranID.ToString());
+
+                        dmlExecute.ExecuteDMLSQL(_sql, _conn, _conTran);
+
+                        _sql = @"SELECT ACTTRN_ID  FROM ACTTRN_TRANS
+                                    WHERE(ACTTRN_STORE_ID = PARM_STORE_ID) AND(ACTTRN_ACTLED_ID = PARM_ACTLED_ID) AND(ACTTRN_AMOUNT = PARM_AMOUNT) 
+                                    AND (ACTTRN_SALE_DAY_TRAN_ID = PARM_DAY_TRAN_ID)";
+
+                        _sql = _sql.Replace("PARM_ACTLED_ID", objEntry.AccountLedgerID.ToString());
+                        _sql = _sql.Replace("PARM_AMOUNT", objEntry.Amount.ToString());
+                        _sql = _sql.Replace("PARM_STORE_ID", objEntry.StoreID.ToString());
+                        _sql = _sql.Replace("PARM_DAY_TRAN_ID", DayTranID.ToString());
+
+                        SqlCommand cmd = new SqlCommand(_sql, _conn, _conTran);
+                        SqlDataReader sdr = cmd.ExecuteReader();
+                        if (sdr.Read())
+                        {
+                            iVouID = Convert.ToInt16(sdr["ACTTRN_ID"]);
+                        }
+                        sdr.Close();
+
+                        _sql = @"DELETE FROM ACTTRN_TRANS WHERE (ACTTRN_STORE_ID = PARM_STORE_ID) AND (ACTTRN_ID = PARM_ACTTRN_ID) 
+                                    AND (ACTTRN_SALE_DAY_TRAN_ID = PARM_DAY_TRAN_ID)";
+
+                        _sql = _sql.Replace("PARM_ACTTRN_ID", iVouID.ToString());
+                        _sql = _sql.Replace("PARM_STORE_ID", objEntry.StoreID.ToString());
+                        _sql = _sql.Replace("PARM_DAY_TRAN_ID", DayTranID.ToString());
+
+                        dmlExecute.ExecuteDMLSQL(_sql, _conn, _conTran);
+
+                        _sql = @"DELETE FROM ACTCASH_TRAN WHERE (ACTCASH_STORE_ID = PARM_STORE_ID) AND (ACTCASH_VOUCHER_NO = PARM_ACTTRN_ID) 
+                                    AND (ACTCASH_SALE_PMT_DAY_TRAN_ID = PARM_DAY_TRAN_ID)";
+
+                        _sql = _sql.Replace("PARM_ACTTRN_ID", iVouID.ToString());
+                        _sql = _sql.Replace("PARM_STORE_ID", objEntry.StoreID.ToString());
+                        _sql = _sql.Replace("PARM_DAY_TRAN_ID", DayTranID.ToString());
+
+                        dmlExecute.ExecuteDMLSQL(_sql, _conn, _conTran);
+
+                _conTran.Commit();
+                #endregion
+                return bResult;
+            }
+            catch (Exception ex)
+            {
+                _conTran.Rollback();
+                throw ex;
+            }
+        }
 
         private bool AddBusinessDeposit(SaleMaster objAccountTran)
         {
@@ -1752,342 +1825,346 @@ namespace GSS.DataAccess.Layer
                 //return true;
                 #endregion
 
-                #region Send eMail
-                string sBody ;
-                string sBodyDeposits;
-                string sBodyGasSale;
-                string sBodyLottery;
-                float totalSale = 0;
+                if (objAccountTran.StoreID != 3)
+                {
+                    #region Send eMail
+                    string sBody;
+                    string sBodyDeposits;
+                    string sBodyGasSale;
+                    string sBodyLottery;
+                    float totalSale = 0;
 
-                EmailModel eMail = new EmailModel();
-                EmailService objEmailService = new EmailService();
+                    EmailModel eMail = new EmailModel();
+                    EmailService objEmailService = new EmailService();
 
-                if (objAccountTran.ModifiedUserName == null)
-                    objAccountTran.ModifiedUserName = "admin";
+                    if (objAccountTran.ModifiedUserName == null)
+                        objAccountTran.ModifiedUserName = "admin";
 
-                string sql = @"SELECT  EMAIL_ID
+                    string sql = @"SELECT  EMAIL_ID
                                 FROM            USER_LOGIN
                                 WHERE        (USER_ID = 'USERID')
                                 UNION 
                                 select EMAIL_ID FROM            USER_LOGIN WHERE USER_ACCESS_TYPE = 'G'";
-                sql = sql.Replace("USERID", objAccountTran.ModifiedUserName);
-                SqlCommand cmd = new SqlCommand(sql, _conn, _conTran);
-                SqlDataReader dr = cmd.ExecuteReader();
+                    sql = sql.Replace("USERID", objAccountTran.ModifiedUserName);
+                    SqlCommand cmd = new SqlCommand(sql, _conn, _conTran);
+                    SqlDataReader dr = cmd.ExecuteReader();
 
-                StoreMasterDal dalStoreMaster = new StoreMasterDal();
-                StoreMaster objStoreMaster = new StoreMaster();
-                objStoreMaster = dalStoreMaster.SelectRecord(objAccountTran.StoreID);
-                string sTemp = "";
+                    StoreMasterDal dalStoreMaster = new StoreMasterDal();
+                    StoreMaster objStoreMaster = new StoreMaster();
+                    objStoreMaster = dalStoreMaster.SelectRecord(objAccountTran.StoreID);
+                    string sTemp = "";
 
-                while(dr.Read())
-                {
-                    sTemp += dr["EMAIL_ID"].ToString() + ";";
-                }
-                dr.Close();
-                sTemp = sTemp.Substring(0, sTemp.Length - 1);
-                eMail.EmailTo = sTemp;
+                    while (dr.Read())
+                    {
+                        sTemp += dr["EMAIL_ID"].ToString() + ";";
+                    }
+                    dr.Close();
+                    sTemp = sTemp.Substring(0, sTemp.Length - 1);
+                    eMail.EmailTo = sTemp;
 
-                SaleMaster objSaleMaster = new SaleMaster();
-                objSaleMaster = GetSaleTransaction(objAccountTran.StoreID, objAccountTran.Date,objAccountTran.ShiftCode, "FINALIZE");
+                    SaleMaster objSaleMaster = new SaleMaster();
+                    objSaleMaster = GetSaleTransaction(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.ShiftCode, "FINALIZE");
 
-                #region Gas Sales
-                sBodyGasSale = "<strong><u>Gas Sale</u></strong>";
-                sBodyGasSale += "<br>";
+                    #region Gas Sales
+                    sBodyGasSale = "<strong><u>Gas Sale</u></strong>";
+                    sBodyGasSale += "<br>";
 
-                sBodyGasSale += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
-                sBodyGasSale += "<tr>";
-                sBodyGasSale += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Gallons</strong></td><td style='text-align: center'><strong>Sale</strong></td>";
-                sBodyGasSale += "</tr>";
-
-                foreach (GasSaleModel t in objSaleMaster.GasSale)
-                {
+                    sBodyGasSale += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
                     sBodyGasSale += "<tr>";
-                    sBodyGasSale += "<td>" + t.GasTypeName + "</td><td style='text-align: right'>" +  String.Format("{0:#,0.000}",t.SaleGallons) + "</td><td style='text-align: right'>" +  String.Format("{0:#,0.000}",t.SaleAmount) + "</td>";
+                    sBodyGasSale += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Gallons</strong></td><td style='text-align: center'><strong>Sale</strong></td>";
                     sBodyGasSale += "</tr>";
-                    totalSale += t.SaleAmount;
-                }
 
-                sBodyGasSale += "<tr>";
-                sBodyGasSale += "<td><strong>Total Sale</strong></td><td></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", totalSale) + "</strong></td>";
-                sBodyGasSale += "</tr></strong>";
-                sBodyGasSale += "</table>";
-                sBodyGasSale += "</br>";
-                sBodyGasSale += "</br>";
+                    foreach (GasSaleModel t in objSaleMaster.GasSale)
+                    {
+                        sBodyGasSale += "<tr>";
+                        sBodyGasSale += "<td>" + t.GasTypeName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SaleGallons) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SaleAmount) + "</td>";
+                        sBodyGasSale += "</tr>";
+                        totalSale += t.SaleAmount;
+                    }
 
-                sBodyGasSale += "<strong><u>Cards Received</u></strong>";
-                sBodyGasSale += "<br>";
-
-                sBodyGasSale += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
-
-                sBodyGasSale += "<tr>";
-                sBodyGasSale += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Amount</strong></td>";
-                sBodyGasSale += "</tr>";
-                totalSale = 0;
-                foreach (GasSaleReceipt t in objSaleMaster.GasReceipt)
-                {
                     sBodyGasSale += "<tr>";
-                    sBodyGasSale += "<td>" + t.CardName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.CardAmount) + "</td>";
+                    sBodyGasSale += "<td><strong>Total Sale</strong></td><td></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", totalSale) + "</strong></td>";
+                    sBodyGasSale += "</tr></strong>";
+                    sBodyGasSale += "</table>";
+                    sBodyGasSale += "</br>";
+                    sBodyGasSale += "</br>";
+
+                    sBodyGasSale += "<strong><u>Cards Received</u></strong>";
+                    sBodyGasSale += "<br>";
+
+                    sBodyGasSale += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
+
+                    sBodyGasSale += "<tr>";
+                    sBodyGasSale += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Amount</strong></td>";
                     sBodyGasSale += "</tr>";
-                    totalSale += t.CardAmount;
-                }
+                    totalSale = 0;
+                    foreach (GasSaleReceipt t in objSaleMaster.GasReceipt)
+                    {
+                        sBodyGasSale += "<tr>";
+                        sBodyGasSale += "<td>" + t.CardName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.CardAmount) + "</td>";
+                        sBodyGasSale += "</tr>";
+                        totalSale += t.CardAmount;
+                    }
 
 
-                sBodyGasSale += "<tr>";
-                sBodyGasSale += "<td><strong>Total Card</strong></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", totalSale) + "</strong></td>";
-                sBodyGasSale += "</tr></strong>";
+                    sBodyGasSale += "<tr>";
+                    sBodyGasSale += "<td><strong>Total Card</strong></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", totalSale) + "</strong></td>";
+                    sBodyGasSale += "</tr></strong>";
 
-                sBodyGasSale += "</table>";
+                    sBodyGasSale += "</table>";
 
-                totalSale = 0;
+                    totalSale = 0;
 
-                #endregion
+                    #endregion
 
-                #region Lotter Sales
-                sBodyLottery = "<strong><u>Lottery Sale</u></strong>";
-                sBodyLottery += "<br>";
+                    #region Lotter Sales
+                    sBodyLottery = "<strong><u>Lottery Sale</u></strong>";
+                    sBodyLottery += "<br>";
 
-                sBodyLottery += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyLottery += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
-                sBodyLottery += "</tr>";
+                    sBodyLottery += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyLottery += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
+                    sBodyLottery += "</tr>";
 
-                sBodyLottery += "<tr><td>Instant Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotterySale) + "</td></tr>";
-                sBodyLottery += "<tr><td>Online Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryOnline) + "</td></tr>";
-                sBodyLottery += "<tr><td><strong>Net Sale</strong></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", objSaleMaster.LotterySale + objSaleMaster.LotteryOnline) + "</strong></td></tr>";
+                    sBodyLottery += "<tr><td>Instant Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotterySale) + "</td></tr>";
+                    sBodyLottery += "<tr><td>Online Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryOnline) + "</td></tr>";
+                    sBodyLottery += "<tr><td><strong>Net Sale</strong></td><td style='text-align: right'><strong>" + String.Format("{0:#,0.000}", objSaleMaster.LotterySale + objSaleMaster.LotteryOnline) + "</strong></td></tr>";
 
-                sBodyLottery += "<tr><td>Instant Paid</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryCashInstantPaid) + "</td></tr>";
-                sBodyLottery += "<tr><td>Online Paid</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryCashOnlinePaid) + "</td></tr>";
+                    sBodyLottery += "<tr><td>Instant Paid</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryCashInstantPaid) + "</td></tr>";
+                    sBodyLottery += "<tr><td>Online Paid</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objSaleMaster.LotteryCashOnlinePaid) + "</td></tr>";
 
-                sBodyLottery += "</table>";
+                    sBodyLottery += "</table>";
 
-                #endregion
+                    #endregion
 
-                #region Bank Deposit Entries
-                BankDepositForm _bankDepositForm = _SaleSupportEntries.BankDepositDetails(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.ShiftCode);
+                    #region Bank Deposit Entries
+                    BankDepositForm _bankDepositForm = _SaleSupportEntries.BankDepositDetails(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.ShiftCode);
 
-                sBodyDeposits = "<strong><u>Sales and Deposits</u></strong><br>";
-                sBodyDeposits += "<table  border='1' style='width: 40%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyDeposits += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Received</strong></td>";
-                sBodyDeposits += "<td style='text-align: center'><strong>Paid Out</strong></td>";
-                sBodyDeposits += "<td style='text-align: center'><strong>Cash Balance</strong></td>";
-                sBodyDeposits += "<td style='text-align: center'><strong>Deposit</strong></td>";
-                sBodyDeposits += "</tr>";
-                foreach (BankDeposit t in _bankDepositForm.LedgerDetail)
-                {
-                    if (t.LedgerID == 9)
-                        t.LedgerName = "TOTAL BUSINESS COLLECTION";
-
-                    sBodyDeposits += "<tr>";
-                    sBodyDeposits += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.LedgerSale) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.LedgerPaid) + "</td>";
-                    sBodyDeposits += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Balance) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Deposit) + "</td>";
+                    sBodyDeposits = "<strong><u>Sales and Deposits</u></strong><br>";
+                    sBodyDeposits += "<table  border='1' style='width: 40%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyDeposits += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Received</strong></td>";
+                    sBodyDeposits += "<td style='text-align: center'><strong>Paid Out</strong></td>";
+                    sBodyDeposits += "<td style='text-align: center'><strong>Cash Balance</strong></td>";
+                    sBodyDeposits += "<td style='text-align: center'><strong>Deposit</strong></td>";
                     sBodyDeposits += "</tr>";
-                    string s = String.Format("{0:#,0.000}", t.Deposit);
-                }
-                sBodyDeposits += "</table>";
-                sBodyDeposits += "<br><br>";
-                sBodyDeposits += "<strong>Cash On Hand : " + String.Format("{0:#,0.000}", objSaleMaster.CashClosingBalance) + "</strong>";
+                    foreach (BankDeposit t in _bankDepositForm.LedgerDetail)
+                    {
+                        if (t.LedgerID == 9)
+                            t.LedgerName = "TOTAL BUSINESS COLLECTION";
+
+                        sBodyDeposits += "<tr>";
+                        sBodyDeposits += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.LedgerSale) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.LedgerPaid) + "</td>";
+                        sBodyDeposits += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Balance) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Deposit) + "</td>";
+                        sBodyDeposits += "</tr>";
+                        string s = String.Format("{0:#,0.000}", t.Deposit);
+                    }
+                    sBodyDeposits += "</table>";
+                    sBodyDeposits += "<br><br>";
+                    sBodyDeposits += "<strong>Cash On Hand : " + String.Format("{0:#,0.000}", objSaleMaster.CashClosingBalance) + "</strong>";
 
 
-                #endregion
+                    #endregion
 
-                #region Business Sales
-                string sBodyStore;
-                sBodyStore = "<strong><u>Store Sales</u></strong>";
-                sBodyStore += "<br>";
+                    #region Business Sales
+                    string sBodyStore;
+                    sBodyStore = "<strong><u>Store Sales</u></strong>";
+                    sBodyStore += "<br>";
 
-                sBodyStore += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyStore += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
-                sBodyStore += "</tr>";
-                totalSale = 0;
-                foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
-                {
-                    if ((t.DisplaySide == "BS") && (t.LedgerID != 8))
+                    sBodyStore += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyStore += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
+                    sBodyStore += "</tr>";
+                    totalSale = 0;
+                    foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
+                    {
+                        if ((t.DisplaySide == "BS") && (t.LedgerID != 8))
+                        {
+                            sBodyStore += "<tr>";
+                            sBodyStore += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
+                            sBodyStore += "</tr>";
+                            totalSale += t.Amount;
+                        }
+                    }
+
+                    if (totalSale > 0)
                     {
                         sBodyStore += "<tr>";
-                        sBodyStore += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
+                        sBodyStore += "<td>Total Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", totalSale) + "</td>";
                         sBodyStore += "</tr>";
-                        totalSale += t.Amount;
                     }
-                }
+                    sBodyStore += "</table>";
 
-                if (totalSale > 0)
-                {
-                    sBodyStore += "<tr>";
-                    sBodyStore += "<td>Total Sale</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", totalSale) + "</td>";
-                    sBodyStore += "</tr>";
-                }
-                sBodyStore += "</table>";
+                    #endregion
 
-                #endregion
+                    #region Tax Collected
+                    string sBodyStoreTaxCollected;
+                    sBodyStoreTaxCollected = "<strong><u>Sale Tax</u></strong>";
+                    sBodyStoreTaxCollected += "<br>";
 
-                #region Tax Collected
-                string sBodyStoreTaxCollected;
-                sBodyStoreTaxCollected = "<strong><u>Sale Tax</u></strong>";
-                sBodyStoreTaxCollected += "<br>";
-
-                sBodyStoreTaxCollected += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyStoreTaxCollected += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
-                sBodyStoreTaxCollected += "</tr>";
-                totalSale = 0;
-                foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
-                {
-                    if ((t.DisplaySide == "BS") && (t.LedgerID == 8))
+                    sBodyStoreTaxCollected += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyStoreTaxCollected += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
+                    sBodyStoreTaxCollected += "</tr>";
+                    totalSale = 0;
+                    foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
                     {
-                        sBodyStoreTaxCollected += "<tr>";
-                        sBodyStoreTaxCollected += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
-                        sBodyStoreTaxCollected += "</tr>";
-                        totalSale += t.Amount;
+                        if ((t.DisplaySide == "BS") && (t.LedgerID == 8))
+                        {
+                            sBodyStoreTaxCollected += "<tr>";
+                            sBodyStoreTaxCollected += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
+                            sBodyStoreTaxCollected += "</tr>";
+                            totalSale += t.Amount;
+                        }
                     }
-                }
-                sBodyStoreTaxCollected += "</table>";
+                    sBodyStoreTaxCollected += "</table>";
 
-                #endregion
+                    #endregion
 
-                #region Business Paid
-                string sBodyStoreCashPaid;
-                sBodyStoreCashPaid = "<strong><u>Cash Paid</u></strong>";
-                sBodyStoreCashPaid += "<br>";
+                    #region Business Paid
+                    string sBodyStoreCashPaid;
+                    sBodyStoreCashPaid = "<strong><u>Cash Paid</u></strong>";
+                    sBodyStoreCashPaid += "<br>";
 
-                sBodyStoreCashPaid += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyStoreCashPaid += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
-                sBodyStoreCashPaid += "</tr>";
-                totalSale = 0;
-                foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
-                {
-                    if ((t.DisplaySide == "BP") && (t.PaymentType == "CS"))
+                    sBodyStoreCashPaid += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyStoreCashPaid += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
+                    sBodyStoreCashPaid += "</tr>";
+                    totalSale = 0;
+                    foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
                     {
-                        sBodyStoreCashPaid += "<tr>";
-                        sBodyStoreCashPaid += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
-                        sBodyStoreCashPaid += "</tr>";
-                        totalSale += t.Amount;
+                        if ((t.DisplaySide == "BP") && (t.PaymentType == "CS"))
+                        {
+                            sBodyStoreCashPaid += "<tr>";
+                            sBodyStoreCashPaid += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
+                            sBodyStoreCashPaid += "</tr>";
+                            totalSale += t.Amount;
+                        }
                     }
-                }
-                sBodyStoreCashPaid += "</table>";
+                    sBodyStoreCashPaid += "</table>";
 
-                #endregion
+                    #endregion
 
-                #region Business Paid Cheque
-                string sBodyStoreChequePaid;
-                sBodyStoreChequePaid = "<strong><u>Cheque Paid</u></strong>";
-                sBodyStoreChequePaid += "<br>";
+                    #region Business Paid Cheque
+                    string sBodyStoreChequePaid;
+                    sBodyStoreChequePaid = "<strong><u>Cheque Paid</u></strong>";
+                    sBodyStoreChequePaid += "<br>";
 
-                sBodyStoreChequePaid += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                sBodyStoreChequePaid += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
-                sBodyStoreChequePaid += "</tr>";
-                totalSale = 0;
-                foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
-                {
-                    if ((t.DisplaySide == "BP") && (t.PaymentType == "CQ"))
+                    sBodyStoreChequePaid += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    sBodyStoreChequePaid += "<td><strong>Particulars</strong></td><td style='text-align: right'><strong>Amount</strong></td>";
+                    sBodyStoreChequePaid += "</tr>";
+                    totalSale = 0;
+                    foreach (AccountModel t in objSaleMaster.BusinessSaleCollection)
                     {
-                        sBodyStoreChequePaid += "<tr>";
-                        sBodyStoreChequePaid += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
-                        sBodyStoreChequePaid += "</tr>";
-                        totalSale += t.Amount;
+                        if ((t.DisplaySide == "BP") && (t.PaymentType == "CQ"))
+                        {
+                            sBodyStoreChequePaid += "<tr>";
+                            sBodyStoreChequePaid += "<td>" + t.LedgerName + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.Amount) + "</td>";
+                            sBodyStoreChequePaid += "</tr>";
+                            totalSale += t.Amount;
+                        }
                     }
-                }
-                sBodyStoreChequePaid += "</table>";
+                    sBodyStoreChequePaid += "</table>";
 
-                #endregion
+                    #endregion
 
-                #region Gas Stocks
-                DayEndModel objDayEndModel ;
-                ReportGas objReportGas = new ReportGas();
-                string sBodyGasStock;
-                objDayEndModel = objReportGas.DayEndReport(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.ShiftCode);
-                sBodyGasStock = "<strong><u>Gas Stocks</u></strong>";
-                sBodyGasStock += "<br>";
+                    #region Gas Stocks
+                    DayEndModel objDayEndModel;
+                    ReportGas objReportGas = new ReportGas();
+                    string sBodyGasStock;
+                    objDayEndModel = objReportGas.DayEndReport(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.ShiftCode);
+                    sBodyGasStock = "<strong><u>Gas Stocks</u></strong>";
+                    sBodyGasStock += "<br>";
 
-                sBodyGasStock += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
-                sBodyGasStock += "<tr>";
-                sBodyGasStock += "<td width='40%'><strong>Particulars</strong></td><td style='text-align: center'><strong>Opening</strong></td><td style='text-align: center'><strong>ReceivingGallon</strong></td><td style='text-align: center'><strong>Consumption</strong></td><td style='text-align: center'><strong>Closing Balance</strong></td><td style='text-align: center'><strong>Tank Reading</strong></td>";
-                sBodyGasStock += "</tr>";
-
-                foreach (DayStock t in objDayEndModel.DayStocks)
-                {
+                    sBodyGasStock += "<table border='1' style='width: 25%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'>";
                     sBodyGasStock += "<tr>";
-                    sBodyGasStock += "<td>" + t.GasType + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.OpenQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.InwardQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SaleQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SystemClosingQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.ClosingQty) + "</td>";
+                    sBodyGasStock += "<td width='40%'><strong>Particulars</strong></td><td style='text-align: center'><strong>Opening</strong></td><td style='text-align: center'><strong>ReceivingGallon</strong></td><td style='text-align: center'><strong>Consumption</strong></td><td style='text-align: center'><strong>Closing Balance</strong></td><td style='text-align: center'><strong>Tank Reading</strong></td>";
                     sBodyGasStock += "</tr>";
+
+                    foreach (DayStock t in objDayEndModel.DayStocks)
+                    {
+                        sBodyGasStock += "<tr>";
+                        sBodyGasStock += "<td>" + t.GasType + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.OpenQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.InwardQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SaleQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.SystemClosingQty) + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", t.ClosingQty) + "</td>";
+                        sBodyGasStock += "</tr>";
+                    }
+
+                    sBodyGasStock += "</table>";
+                    #endregion
+
+                    sBody = sBodyGasSale;
+                    sBody += "<br>";
+
+                    sBody += sBodyLottery;
+                    sBody += "<br>";
+
+                    sBody += sBodyStore;
+                    sBody += "<br>";
+
+                    sBody += sBodyStoreTaxCollected;
+                    sBody += "<br>";
+
+                    sBody += sBodyStoreCashPaid;
+                    sBody += "<br>";
+                    sBody += sBodyStoreChequePaid;
+                    sBody += "<br>";
+
+                    sBody += sBodyDeposits;
+                    sBody += "<br>";
+
+                    sBody += sBodyGasStock;
+                    sBody += "<br>";
+
+                    sBody += "<strong><u>Cash at Counter</u></strong>";
+                    sBody += objAccountTran.CashPhysicalAtStore;
+                    sBody += "<br>";
+
+
+                    //eMail.BodyInfo = "";
+
+                    #region Adding Gas Profit and Loss Account
+
+                    //ReportGasBalanceSheet objGasBS = new ReportGasBalanceSheet();
+                    //ReportBSGas objBS = new ReportBSGas();
+                    //objGasBS = objBS.GetBalanceSheet(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.Date.AddDays(1));
+                    //string sGasBS;
+
+                    //sGasBS = "<table>";
+                    //sGasBS = "<strong><u>Profit and Loss Account - Gas</u></strong><br>";
+                    //sGasBS += "<table  border='1' style='width: 40%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
+                    //sGasBS += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Amount</strong></td>";
+                    //sGasBS += "<td style='text-align: center'><strong>Particulars</strong></td>";
+                    //sGasBS += "<td style='text-align: center'><strong>Amount</strong></td>";
+                    //sGasBS += "</tr>";
+
+                    //sGasBS += "<tr>";
+                    //sGasBS += "<td>Opening Stock" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.OpeningStock) + "</td><td>Sales</td>";
+                    //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.Sales) + "</td>";
+                    //sGasBS += "</tr>";
+
+                    //sGasBS += "<tr>";
+                    //sGasBS += "<td>Purchases" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.Purchase) + "</td><td>Closing Stock</td>";
+                    //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.ClosingStock) + "</td>";
+                    //sGasBS += "</tr>";
+
+                    //sGasBS += "<tr>";
+                    //sGasBS += "<td>Gross Profit" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.GrossProfit) + "</td><td>Gross Loss</td>";
+                    //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.GrossLoss) + "</td>";
+                    //sGasBS += "</tr>";
+
+                    //sGasBS += "<tr>";
+                    //sGasBS += "<td>Total" + "</td><td style='text-align: right'><b>" + String.Format("{0:#,0.000}", objGasBS.Total) + "</b></td><td>Total</td>";
+                    //sGasBS += "<td style='text-align: right'><b>" + String.Format("{0:#,0.000}", objGasBS.Total) + "</b></td>";
+                    //sGasBS += "</tr>";
+
+                    //sGasBS += "</table>";
+                    //sGasBS += "<br><br>";
+
+                    #endregion
+
+                    //sBody += sGasBS;
+
+                    eMail.Subject = "Sales for the date of " + objAccountTran.Date + " for " + objStoreMaster.StoreName;
+                    eMail.BodyInfo = sBody;
+                    objEmailService.SendEmail(eMail);
+
+                    #endregion
                 }
 
-                sBodyGasStock += "</table>";
-                #endregion
-
-                sBody = sBodyGasSale;
-                sBody += "<br>";
-
-                sBody += sBodyLottery;
-                sBody += "<br>";
-
-                sBody += sBodyStore;
-                sBody += "<br>";
-
-                sBody += sBodyStoreTaxCollected;
-                sBody += "<br>";
-
-                sBody += sBodyStoreCashPaid;
-                sBody += "<br>";
-                sBody += sBodyStoreChequePaid;
-                sBody += "<br>";
-
-                sBody += sBodyDeposits;
-                sBody += "<br>";
-                
-                sBody += sBodyGasStock;
-                sBody += "<br>";
-
-                sBody += "<strong><u>Cash at Counter</u></strong>";
-                sBody += objAccountTran.CashPhysicalAtStore;
-                sBody += "<br>";
-
-
-                //eMail.BodyInfo = "";
-
-                #region Adding Gas Profit and Loss Account
-
-                //ReportGasBalanceSheet objGasBS = new ReportGasBalanceSheet();
-                //ReportBSGas objBS = new ReportBSGas();
-                //objGasBS = objBS.GetBalanceSheet(objAccountTran.StoreID, objAccountTran.Date, objAccountTran.Date.AddDays(1));
-                //string sGasBS;
-
-                //sGasBS = "<table>";
-                //sGasBS = "<strong><u>Profit and Loss Account - Gas</u></strong><br>";
-                //sGasBS += "<table  border='1' style='width: 40%; table-layout: auto; border-collapse: separate; border-spacing: 1px; caption-side: top;'><tr>";
-                //sGasBS += "<td><strong>Particulars</strong></td><td style='text-align: center'><strong>Amount</strong></td>";
-                //sGasBS += "<td style='text-align: center'><strong>Particulars</strong></td>";
-                //sGasBS += "<td style='text-align: center'><strong>Amount</strong></td>";
-                //sGasBS += "</tr>";
-
-                //sGasBS += "<tr>";
-                //sGasBS += "<td>Opening Stock" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.OpeningStock) + "</td><td>Sales</td>";
-                //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.Sales) + "</td>";
-                //sGasBS += "</tr>";
-
-                //sGasBS += "<tr>";
-                //sGasBS += "<td>Purchases" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.Purchase) + "</td><td>Closing Stock</td>";
-                //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.ClosingStock) + "</td>";
-                //sGasBS += "</tr>";
-
-                //sGasBS += "<tr>";
-                //sGasBS += "<td>Gross Profit" + "</td><td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.GrossProfit) + "</td><td>Gross Loss</td>";
-                //sGasBS += "<td style='text-align: right'>" + String.Format("{0:#,0.000}", objGasBS.GrossLoss) + "</td>";
-                //sGasBS += "</tr>";
-
-                //sGasBS += "<tr>";
-                //sGasBS += "<td>Total" + "</td><td style='text-align: right'><b>" + String.Format("{0:#,0.000}", objGasBS.Total) + "</b></td><td>Total</td>";
-                //sGasBS += "<td style='text-align: right'><b>" + String.Format("{0:#,0.000}", objGasBS.Total) + "</b></td>";
-                //sGasBS += "</tr>";
-
-                //sGasBS += "</table>";
-                //sGasBS += "<br><br>";
-
-                #endregion
-
-                //sBody += sGasBS;
-
-                eMail.Subject = "Sales for the date of " + objAccountTran.Date + " for " + objStoreMaster.StoreName;
-                eMail.BodyInfo = sBody;
-                objEmailService.SendEmail(eMail);
-
-                #endregion
                 bResult = true;
                 return bResult;
             }

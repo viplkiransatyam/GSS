@@ -404,7 +404,6 @@ namespace GSS.UI.Layer.Controllers
 
         }
 
-
         #endregion
 
         #region Business Sale Transaction
@@ -433,12 +432,12 @@ namespace GSS.UI.Layer.Controllers
 
         // Option is added by Kiran but to be tested for delete payment
         [HttpPost]
-        public HttpResponseMessage DeletePaymentOrReceipt(SaleMaster objAccount)
+        public HttpResponseMessage DeletePaymentOrReceipt(JournalVoucher objEntry)
         {
             try
             {
                 SaleEntries _dalSaleEntries = new SaleEntries();
-                _dalSaleEntries.DeletePayment(objAccount);
+                _dalSaleEntries.DeleteJournalVoucher(objEntry);
 
                 var tmp = new HttpResponseMessage(HttpStatusCode.Created);
                 return tmp;

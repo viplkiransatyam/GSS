@@ -134,16 +134,61 @@ angular.module('GasApp').controller("PaymentVoucherController", ['$scope', '$roo
             }
         }        
     }
-    $scope.removePayments = function (game) {
-        var index = $scope.paymentsTable.indexOf(game);
+    $scope.removePayments = function (index) {
+        //var index = $scope.paymentsTable.indexOf(index);
+        
+        if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
+            var result = {};
+            result.StoreID = storeID;
+            result.Date = $filter('date')($scope.myDate, 'dd-MMM-yyyy');
+            result.ShiftCode = $scope.ShiftCode;
+            result.VoucherType = "PAYMENT";
+            result.CreatedUserName = $rootScope.UserName;
+            result.AccountLedgerID = $scope.paymentsTable[index].AccountLedgerID;
+            result.AccountTranType = $scope.paymentsTable[index].AccountTranType;
+            result.Amount = $scope.paymentsTable[index].Amount;
+
+            var PaymentsPostData = angular.toJson(result);
+            PaymentsPostData = JSON.parse(PaymentsPostData);
+            businessService.deleteRecords(PaymentsPostData).success(function (response) {
+                sweetAlert("Success", "Payment Voucher deleted Successfully", "success");
+                $scope.payments = [];
+                getPaymentsData($filter('date')($scope.myDate, 'dd-MMM-yyyy'), $scope.ShiftCode);
+            }).error(function (response) {
+                sweetAlert("Error!!", response, "error");
+            });
+        }
+
         $scope.paymentsTable.splice(game, 1);
         if (index >= 0) {
             array.splice(index, 1);
         }
     }
 
-    $scope.removeReceipts = function (game) {
-        var index = $scope.receiptsTable.indexOf(game);
+    $scope.removeReceipts = function (index) {
+
+        if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
+            var result = {};
+            result.StoreID = storeID;
+            result.Date = $filter('date')($scope.myDate, 'dd-MMM-yyyy');
+            result.ShiftCode = $scope.ShiftCode;
+            result.VoucherType = "RECEIPT";
+            result.CreatedUserName = $rootScope.UserName;
+            result.AccountLedgerID = $scope.receiptsTable[index].AccountLedgerID;
+            result.AccountTranType = $scope.receiptsTable[index].AccountTranType;
+            result.Amount = $scope.receiptsTable[index].Amount;
+
+            var PaymentsPostData = angular.toJson(result);
+            PaymentsPostData = JSON.parse(PaymentsPostData);
+            businessService.deleteRecords(PaymentsPostData).success(function (response) {
+                sweetAlert("Success", "Payment Voucher deleted Successfully", "success");
+                $scope.payments = [];
+                getPaymentsData($filter('date')($scope.myDate, 'dd-MMM-yyyy'), $scope.ShiftCode);
+            }).error(function (response) {
+                sweetAlert("Error!!", response, "error");
+            });
+        }
+
         $scope.receiptsTable.splice(game, 1);
         if (index >= 0) {
             array.splice(index, 1);
@@ -242,80 +287,80 @@ angular.module('GasApp').controller("PaymentVoucherController", ['$scope', '$roo
         });
     }
 
-    // $scope.savePayments = function () {
-    //     $scope.allPayments = [];
-    //     if ($scope.myDate != null) {
-    //         $scope.ShiftCode = $("#repeatSelect").val();
-    //         if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
-    //             if ($scope.paymentsTable.length > 0) {
-    //                 for (var i = 0; i < $scope.paymentsTable.length; i++) {
-    //                     $scope.allPayments.push({
-    //                         "StoreID": storeID,
-    //                         "DisplayName": $scope.paymentsTable[i].DisplayName,
-    //                         "PaymentRemarks": $scope.paymentsTable[i].PaymentRemarks,
-    //                         "Date": $filter('date')($scope.myDate, 'dd-MMM-yyyy'),
-    //                         "ShiftCode": $scope.ShiftCode,
-    //                         "VoucherType":"PAYMENT",
-    //                         "AccountLedgerID": $scope.paymentsTable[i].AccountLedgerID,
-    //                         "AccountTranType": $scope.paymentsTable[i].AccountTranType,
-    //                         "CreatedUserName": $rootScope.UserName,
-    //                         "ModifiedUserName": $rootScope.UserName
-    //                     });
-    //                 }                   
-    //                 var PaymentsPostData = angular.toJson($scope.allPayments);
-    //                 PaymentsPostData = JSON.parse(PaymentsPostData);
-    //                 console.log(PaymentsPostData);
-    //                 businessService.saveRecords(PaymentsPostData).success(function (response) {
-    //                     sweetAlert("Success", "Payments Saved Successfully", "success");
-    //                 }).error(function (response) {
-    //                     sweetAlert("Error!!", response, "error");
-    //                     $scope.allPayments = [];
-    //                 });
-    //             }
-    //         } else {
-    //             sweetAlert("Error!!", 'Please Select Shift Code', "error");
-    //         }
-    //     } else {
-    //         sweetAlert("Error!!", 'Please Select Date', "error");
-    //     }
-    // }
+     $scope.savePayments = function () {
+         $scope.allPayments = [];
+         if ($scope.myDate != null) {
+             $scope.ShiftCode = $("#repeatSelect").val();
+             if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
+                 if ($scope.paymentsTable.length > 0) {
+                     for (var i = 0; i < $scope.paymentsTable.length; i++) {
+                         $scope.allPayments.push({
+                             "StoreID": storeID,
+                             "DisplayName": $scope.paymentsTable[i].DisplayName,
+                             "PaymentRemarks": $scope.paymentsTable[i].PaymentRemarks,
+                             "Date": $filter('date')($scope.myDate, 'dd-MMM-yyyy'),
+                             "ShiftCode": $scope.ShiftCode,
+                             "VoucherType":"PAYMENT",
+                             "AccountLedgerID": $scope.paymentsTable[i].AccountLedgerID,
+                             "AccountTranType": $scope.paymentsTable[i].AccountTranType,
+                             "CreatedUserName": $rootScope.UserName,
+                             "ModifiedUserName": $rootScope.UserName
+                         });
+                     }                   
+                     var PaymentsPostData = angular.toJson($scope.allPayments);
+                     PaymentsPostData = JSON.parse(PaymentsPostData);
+                     console.log(PaymentsPostData);
+                     businessService.saveRecords(PaymentsPostData).success(function (response) {
+                         sweetAlert("Success", "Payments Saved Successfully", "success");
+                     }).error(function (response) {
+                         sweetAlert("Error!!", response, "error");
+                         $scope.allPayments = [];
+                     });
+                 }
+             } else {
+                 sweetAlert("Error!!", 'Please Select Shift Code', "error");
+             }
+         } else {
+             sweetAlert("Error!!", 'Please Select Date', "error");
+         }
+     }
 
 
-    // $scope.saveReceipts = function () {
-    //     $scope.allReceipts = [];
-    //     if ($scope.myDate != null) {
-    //         $scope.ShiftCode = $("#repeatSelect").val();
-    //         if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
-    //             if ($scope.receiptsTable.length > 0) {
-    //                 for (var i = 0; i < $scope.receiptsTable.length; i++) {
-    //                     $scope.allReceipts.push({
-    //                         "StoreID": storeID,
-    //                         "DisplayName": $scope.receiptsTable[i].DisplayName,
-    //                         "PaymentRemarks": $scope.receiptsTable[i].PaymentRemarks,
-    //                         "Date": $filter('date')($scope.myDate, 'dd-MMM-yyyy'),
-    //                         "ShiftCode": $scope.ShiftCode,
-    //                         "VoucherType":"RECEIPT",
-    //                         "AccountLedgerID": $scope.receiptsTable[i].AccountLedgerID,
-    //                         "AccountTranType": $scope.receiptsTable[i].AccountTranType,
-    //                         "CreatedUserName": $rootScope.UserName,
-    //                         "ModifiedUserName": $rootScope.UserName
-    //                     });
-    //                 }                   
-    //                 var ReceiptsPostData = angular.toJson($scope.allReceipts);
-    //                 ReceiptsPostData = JSON.parse(ReceiptsPostData);
-    //                 businessService.saveRecords(ReceiptsPostData).success(function (response) {
-    //                     sweetAlert("Success", "Receipts Saved Successfully", "success");
-    //                 }).error(function (response) {
-    //                     sweetAlert("Error!!", response, "error");
-    //                     $scope.allReceipts = [];
-    //                 });
-    //             }
-    //         } else {
-    //             sweetAlert("Error!!", 'Please Select Shift Code', "error");
-    //         }
-    //     } else {
-    //         sweetAlert("Error!!", 'Please Select Date', "error");
-    //     }
-    // }
+     $scope.saveReceipts = function () {
+         $scope.allReceipts = [];
+         if ($scope.myDate != null) {
+             $scope.ShiftCode = $("#repeatSelect").val();
+             if ($scope.ShiftCode != "" && $scope.ShiftCode != null && !angular.isUndefined($scope.ShiftCode)) {
+                 if ($scope.receiptsTable.length > 0) {
+                     for (var i = 0; i < $scope.receiptsTable.length; i++) {
+                         $scope.allReceipts.push({
+                             "StoreID": storeID,
+                             "DisplayName": $scope.receiptsTable[i].DisplayName,
+                             "PaymentRemarks": $scope.receiptsTable[i].PaymentRemarks,
+                             "Date": $filter('date')($scope.myDate, 'dd-MMM-yyyy'),
+                             "ShiftCode": $scope.ShiftCode,
+                             "VoucherType":"RECEIPT",
+                             "AccountLedgerID": $scope.receiptsTable[i].AccountLedgerID,
+                             "AccountTranType": $scope.receiptsTable[i].AccountTranType,
+                             "CreatedUserName": $rootScope.UserName,
+                             "ModifiedUserName": $rootScope.UserName
+                         });
+                     }                   
+                     var ReceiptsPostData = angular.toJson($scope.allReceipts);
+                     ReceiptsPostData = JSON.parse(ReceiptsPostData);
+                     businessService.saveRecords(ReceiptsPostData).success(function (response) {
+                         sweetAlert("Success", "Receipts Saved Successfully", "success");
+                     }).error(function (response) {
+                         sweetAlert("Error!!", response, "error");
+                         $scope.allReceipts = [];
+                     });
+                 }
+             } else {
+                 sweetAlert("Error!!", 'Please Select Shift Code', "error");
+             }
+         } else {
+             sweetAlert("Error!!", 'Please Select Date', "error");
+         }
+     }
 
 }]);

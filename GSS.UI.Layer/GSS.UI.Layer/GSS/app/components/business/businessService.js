@@ -4,6 +4,7 @@ angular.module('GasApp').factory('businessService', function ($http, $state, $co
     const getAccountLedgersURL = "/Api/AccoutMaster/GetAccounts";   
     const getAccountCommonURL = "/Api/AccoutMaster/GetCommonAccounts";   
     const saveRecordsURL = "/Api/Sale/SaveJournalVoucher";
+    const deleteRecordsURL = "/Api/Sale/DeletePaymentOrReceipt";
     const GetDaySaleTransURL = "/Api/Sale/GetDaySale";
     const GetGroupSaleURL = "/Api/AccoutMaster/GetBusinessSalesGroups";
     const GetGropuPaidURL = "/Api/AccoutMaster/GetBusinessPaidGroups";
@@ -61,6 +62,17 @@ angular.module('GasApp').factory('businessService', function ($http, $state, $co
         return $http({
             method: 'POST',
             url: saveRecordsURL,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: postData
+        });
+    }
+
+    businessService.deleteRecords = function (postData) {
+        return $http({
+            method: 'POST',
+            url: deleteRecordsURL,
             headers: {
                 'Content-Type': 'application/json'
             },
